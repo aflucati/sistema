@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Gestor de Prazos Magalog - Vertical</title>
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+<style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; padding: 10px; background-color: #f0f2f5; font-size: 13px; }
+        
+        /* Topo Otimizado */
+        .top-bar { 
+            display: flex; align-items: center; justify-content: space-between; 
+            background: #0056b3; color: white; padding: 8px 15px; border-radius: 4px; margin-bottom: 10px;
+        }
+        .top-bar h2 { margin: 0; font-size: 16px; }
+        .top-bar p { margin: 0; font-size: 12px; opacity: 0.9; }
+        
+        .btn-export { 
+            background-color: #28a745; color: white; border: none; padding: 6px 12px; 
+            cursor: pointer; border-radius: 4px; font-size: 12px; font-weight: bold;
+        }
+        .btn-export:hover { background-color: #218838; }
+
+        /* Tabela Ultra Otimizada */
+        .table-container { background: white; padding: 5px; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        
+        table.dataTable { width: 100% !important; margin: 0 !important; border-collapse: collapse !important; }
+        table.dataTable thead th { 
+            background-color: #e9ecef !important; color: #495057 !important; 
+            font-size: 10px !important; padding: 8px 5px !important; border-bottom: 2px solid #dee2e6 !important;
+        }
+        
+        /* Remover ícones de ordenação padrão e mostrar só no ativo */
+        table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:after,
+        table.dataTable thead .sorting:before, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:before {
+            display: none !important;
+        }
+        table.dataTable thead .sorting_asc { background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAJUlEQVR42mNgAIL///8zEAnA5JlAgsgC6IIwSboEshS6ArIisgAAXTM9+Wf9f38AAAAASUVORK5CYII=') !important; background-repeat: no-repeat !important; background-position: center right 2px !important; }
+        table.dataTable thead .sorting_desc { background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAHCAYAAADEUlfTAAAAJUlEQVR42mNgAIL///8zEAnA5JlAgsgC6IIwSboEshS6ArIisgAAXTM9+Wf9f38AAAAASUVORK5CYII=') !important; background-repeat: no-repeat !important; background-position: center right 2px !important; transform: rotate(180deg); }
+
+        .ok { background-color: #d4edda !important; color: #155724 !important; font-weight: bold; }
+        .nok { background-color: #f8d7da !important; color: #721c24 !important; }
+        
+        /* Ajuste de largura e padding das células */
+        table.dataTable tbody td { padding: 4px 5px !important; border-bottom: 1px solid #f1f1f1 !important; }
+        
+        /* Estilo da barra de busca */
+        .dataTables_filter input { border: 1px solid #ddd; padding: 4px 8px; border-radius: 4px; margin-bottom: 5px; }
+    
+        .brand { display:flex; align-items:center; gap:10px; }
+        .logo { height:34px; width:auto; display:block; background:transparent; }
+        .brand-text { display:flex; flex-direction:column; gap:2px; }
+        .btns{ display:flex; gap:8px; align-items:center; }
+        .btn-csv{ background-color:#17a2b8; }
+        .btn-csv:hover{ background-color:#138496; }
+        .btn-copy{ background-color:#6f42c1; }
+        .btn-copy:hover{ background-color:#5a32a3; }
+
+        /* Centralizar dados a partir da coluna D (4ª coluna) */
+        table.dataTable tbody td:nth-child(n+4){ text-align:center !important; }
+        table.dataTable thead th:nth-child(n+4){ text-align:center !important; }
+
+/* Tooltip hover (datas) */
+#hoverTip {
+  position: fixed;
+  z-index: 99999;
+  display: none;
+  padding: 8px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  line-height: 1.25;
+  box-shadow: 0 8px 24px rgba(0,0,0,.18);
+  background: #111827;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.12);
+  pointer-events: none;
+  white-space: nowrap;
+}
+#hoverTip .muted { opacity: .75; }
+
+    </style>
+</head>
+<body>
+  <div class="top-bar">
+    <div class="brand">
+      <img class="logo" src="https://drive.google.com/thumbnail?id=1HHemQkun56pGxwcZdlEQFRTu1ejTDx85&sz=w200" alt="Magalog" />
+      <div class="brand-text">
+        <h2>Gestor de Prazos Magalog</h2>
+        <p>criado por Adriano Lucati</p>
+      </div>
+    </div>
+    <div class="btns">
+      <button class="btn-export" onclick="exportFilteredXlsx()">📥 Excel (.xlsx)</button>
+      <button class="btn-export btn-csv" onclick="exportFilteredCsv()">📄 CSV</button>
+      <button class="btn-export btn-copy" onclick="copyFiltered()">📋 Copiar</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <table id="tabela-prazos" class="display">
+      <thead>
+        <tr><th>filial_saida</th><th>Loja</th><th>dia_da_semana_numero</th><th>dia_da_semana_nome</th><th>prazo_atual</th><th>prazo_sugerido</th><th>horario_de_corte_site</th><th>horario_de_corte_site_sugerido</th><th>semana</th><th>modal</th><th>prazo_cd</th><th>prazo_tr</th><th>dia_producao</th><th>dia_entrega_real</th><th>dia_prazo_ofertado</th></tr>
+      </thead>
+      <tbody>
+        <!--DATA_ROWS_START-->
+        <!--DATA_ROWS_END-->
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Modal -->
+  <div id="modal" class="modal-overlay" style="display:none;">
+    <div class="modal-box">
+      <div class="modal-title">Detalhes do Prazo Dinâmico</div>
+      <div id="modalContent" class="modal-content"></div>
+      <div class="modal-actions">
+        <button class="btn-ok" onclick="hideModal()">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="hoverTip"></div>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+  <script>
+  function showModal(text) {
+    const cleanText = text.replace(/\\n/g, '\n');
+    document.getElementById('modal-text').innerText = cleanText;
+    navigator.clipboard.writeText(cleanText);
+    document.getElementById('custom-modal').style.display = 'block';
+}
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  function exportFilteredXlsx() {
+        var matrix = getFilteredMatrix();
+        if(matrix.length <= 1){ alert('Nada para exportar (sem linhas após o filtro).'); return; }
+        var ws = XLSX.utils.aoa_to_sheet(matrix);
+        var wb = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Prazo');
+        XLSX.writeFile(wb, 'gestor_prazos_magalog.xlsx');
+    }
+
+    function exportFilteredCsv() {
+        var matrix = getFilteredMatrix();
+        if(matrix.length <= 1){ alert('Nada para exportar (sem linhas após o filtro).'); return; }
+        // CSV com separador ; (mais amigável no Excel PT-BR)
+        var csv = matrix.map(function(r){
+            return r.map(function(v){
+                var s = (v === null || v === undefined) ? '' : String(v);
+                s = s.replace(/"/g, '""');
+                return '"' + s + '"';
+            }).join(';');
+        }).join('\n');
+
+        var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'gestor_prazos_magalog.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function copyFiltered() {
+        var matrix = getFilteredMatrix();
+        if(matrix.length <= 1){ alert('Nada para copiar (sem linhas após o filtro).'); return; }
+        // TSV (TAB) para colar no Excel
+        var tsv = matrix.map(function(r){ return r.join('\t'); }).join('\n');
+
+        if(navigator.clipboard && navigator.clipboard.writeText){
+            navigator.clipboard.writeText(tsv).then(function(){
+                alert('Copiado! (apenas o que está filtrado)');
+            }).catch(function(){ fallbackCopy(tsv); });
+        }else{
+            fallbackCopy(tsv);
+        }
+    }
+
+    function fallbackCopy(text){
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        alert('Copiado! (apenas o que está filtrado)');
+    }
+</script>
+
+
+<style>
+    #custom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+    .modal-content { background-color: #fff; margin: 15% auto; padding: 25px; border-radius: 12px; width: 350px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.3); font-family: sans-serif; }
+    .modal-header { font-weight: bold; color: #0056b3; margin-bottom: 15px; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+    .modal-body { color: #333; margin-bottom: 20px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; text-align: left; background: #f9f9f9; padding: 10px; border-radius: 6px; }
+    .modal-btn { background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .modal-btn:hover { background: #0056b3; }
+</style>
+<div id="custom-modal"><div class="modal-content"><div class="modal-header">Detalhes do Prazo Dinâmico</div><div id="modal-text" class="modal-body"></div><p style="font-size:12px; color:green;">Copiado para a área de transferência!</p><button class="modal-btn" onclick="closeModal()">OK</button></div></div>
+
+<script>
+
+
+  function exportFilteredCsv() {
+        var matrix = getFilteredMatrix();
+        if(matrix.length <= 1){ alert('Nada para exportar (sem linhas após o filtro).'); return; }
+        // CSV com separador ; (mais amigável no Excel PT-BR)
+        var csv = matrix.map(function(r){
+            return r.map(function(v){
+                var s = (v === null || v === undefined) ? '' : String(v);
+                s = s.replace(/"/g, '""');
+                return '"' + s + '"';
+            }).join(';');
+        }).join('\n');
+
+        var blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = 'gestor_prazos_magalog.csv';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    }
+
+    function copyFiltered() {
+        var matrix = getFilteredMatrix();
+        if(matrix.length <= 1){ alert('Nada para copiar (sem linhas após o filtro).'); return; }
+        // TSV (TAB) para colar no Excel
+        var tsv = matrix.map(function(r){ return r.join('\t'); }).join('\n');
+
+        if(navigator.clipboard && navigator.clipboard.writeText){
+            navigator.clipboard.writeText(tsv).then(function(){
+                alert('Copiado! (apenas o que está filtrado)');
+            }).catch(function(){ fallbackCopy(tsv); });
+        }else{
+            fallbackCopy(tsv);
+        }
+    }
+
+    function fallbackCopy(text){
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        alert('Copiado! (apenas o que está filtrado)');
+    }
+</script>
+
+
+<style>
+    #custom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+    .modal-content { background-color: #fff; margin: 15% auto; padding: 25px; border-radius: 12px; width: 350px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.3); font-family: sans-serif; }
+    .modal-header { font-weight: bold; color: #0056b3; margin-bottom: 15px; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+    .modal-body { color: #333; margin-bottom: 20px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; text-align: left; background: #f9f9f9; padding: 10px; border-radius: 6px; }
+    .modal-btn { background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .modal-btn:hover { background: #0056b3; }
+</style>
+<div id="custom-modal"><div class="modal-content"><div class="modal-header">Detalhes do Prazo Dinâmico</div><div id="modal-text" class="modal-body"></div><p style="font-size:12px; color:green;">Copiado para a área de transferência!</p><button class="modal-btn" onclick="closeModal()">OK</button></div></div>
+
+<script>
+
+
+  function copyFiltered() {
+        var matrix = getFilteredMatrix();
+        if(matrix.length <= 1){ alert('Nada para copiar (sem linhas após o filtro).'); return; }
+        // TSV (TAB) para colar no Excel
+        var tsv = matrix.map(function(r){ return r.join('\t'); }).join('\n');
+
+        if(navigator.clipboard && navigator.clipboard.writeText){
+            navigator.clipboard.writeText(tsv).then(function(){
+                alert('Copiado! (apenas o que está filtrado)');
+            }).catch(function(){ fallbackCopy(tsv); });
+        }else{
+            fallbackCopy(tsv);
+        }
+    }
+
+    function fallbackCopy(text){
+        var ta = document.createElement('textarea');
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        alert('Copiado! (apenas o que está filtrado)');
+    }
+</script>
+
+
+<style>
+    #custom-modal { display: none; position: fixed; z-index: 10000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); }
+    .modal-content { background-color: #fff; margin: 15% auto; padding: 25px; border-radius: 12px; width: 350px; text-align: center; box-shadow: 0 5px 20px rgba(0,0,0,0.3); font-family: sans-serif; }
+    .modal-header { font-weight: bold; color: #0056b3; margin-bottom: 15px; font-size: 18px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+    .modal-body { color: #333; margin-bottom: 20px; font-size: 14px; line-height: 1.6; white-space: pre-wrap; text-align: left; background: #f9f9f9; padding: 10px; border-radius: 6px; }
+    .modal-btn { background: #007bff; color: white; border: none; padding: 10px 25px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .modal-btn:hover { background: #0056b3; }
+</style>
+<div id="custom-modal"><div class="modal-content"><div class="modal-header">Detalhes do Prazo Dinâmico</div><div id="modal-text" class="modal-body"></div><p style="font-size:12px; color:green;">Copiado para a área de transferência!</p><button class="modal-btn" onclick="closeModal()">OK</button></div></div>
+
+<script>
+
+
+  // Inicialização DataTables
+  $(document).ready(function(){
+    if($.fn.DataTable.isDataTable('#tabela-prazos')) {
+      $('#tabela-prazos').DataTable().destroy();
+    }
+    $('#tabela-prazos').DataTable({
+      paging: true,
+      pageLength: 25,
+      order: [],
+      scrollX: false,
+      language: {
+        search: "Search:",
+        zeroRecords: "Nenhum registro encontrado",
+        info: "Mostrando _START_ a _END_ de _TOTAL_ linhas",
+        infoEmpty: "Mostrando 0 a 0 de 0 linhas",
+        lengthMenu: "Mostrar _MENU_ linhas",
+      },
+    });
+  });
+
+  // Regra: tooltip/modal/cópia de detalhes ficam na coluna prazo_sugerido (7ª coluna)
+  // O agente deve colocar onclick/title apenas nessa coluna quando houver detalhe.
+
+  </script>
+</body>
+</html>

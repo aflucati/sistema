@@ -1,0 +1,76 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.ensureLocalEnvLoaded = ensureLocalEnvLoaded;
+exports.getSupabaseConfig = getSupabaseConfig;
+exports.assertSupabaseServiceRole = assertSupabaseServiceRole;
+const fs_1 = __importDefault(require("fs"));
+const path_1 = __importDefault(require("path"));
+let envLoaded = false;
+function parseEnvLine(line) {
+    const trimmed = line.trim();
+    if (!trimmed || trimmed.startsWith('#')) {
+        return null;
+    }
+    const separatorIndex = trimmed.indexOf('=');
+    if (separatorIndex <= 0) {
+        return null;
+    }
+    const key = trimmed.slice(0, separatorIndex).trim();
+    let value = trimmed.slice(separatorIndex + 1).trim();
+    if ((value.startsWith('"') && value.endsWith('"')) ||
+        (value.startsWith("'") && value.endsWith("'"))) {
+        value = value.slice(1, -1);
+    }
+    return [key, value];
+}
+function loadEnvFile(filePath) {
+    if (!fs_1.default.existsSync(filePath)) {
+        return;
+    }
+    const content = fs_1.default.readFileSync(filePath, 'utf8');
+    content.split(/\r?\n/).forEach((line) => {
+        const parsed = parseEnvLine(line);
+        if (!parsed) {
+            return;
+        }
+        const [key, value] = parsed;
+        if (process.env[key] === undefined) {
+            process.env[key] = value;
+        }
+    });
+}
+function ensureLocalEnvLoaded() {
+    if (envLoaded) {
+        return;
+    }
+    const rootDir = path_1.default.resolve(__dirname, '..');
+    loadEnvFile(path_1.default.join(rootDir, '.env'));
+    loadEnvFile(path_1.default.join(rootDir, '.env.local'));
+    envLoaded = true;
+}
+function getSupabaseConfig() {
+    ensureLocalEnvLoaded();
+    return {
+        url: process.env.SUPABASE_URL?.trim() ?? '',
+        anonKey: process.env.SUPABASE_ANON_KEY?.trim() ?? '',
+        serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() ?? '',
+        dbHost: process.env.SUPABASE_DB_HOST?.trim() ?? '',
+        dbPort: process.env.SUPABASE_DB_PORT?.trim() ?? '',
+        dbName: process.env.SUPABASE_DB_NAME?.trim() ?? '',
+        dbUser: process.env.SUPABASE_DB_USER?.trim() ?? '',
+        dbPassword: process.env.SUPABASE_DB_PASSWORD?.trim() ?? '',
+    };
+}
+function assertSupabaseServiceRole() {
+    const config = getSupabaseConfig();
+    if (!config.url) {
+        throw new Error('SUPABASE_URL nao configurada no backend.');
+    }
+    if (!config.serviceRoleKey) {
+        throw new Error('SUPABASE_SERVICE_ROLE_KEY nao configurada. Para gravar e consultar o banco com seguranca, adicione a service role key no backend.');
+    }
+    return config;
+}
