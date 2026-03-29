@@ -52,6 +52,36 @@ function normalizeToken(value) {
 function normalizeRecord(record) {
     return Object.fromEntries(Object.entries(record).map(([key, value]) => [String(key).trim(), value]));
 }
+function decodeCsvBuffer(buffer) {
+    const utf8 = buffer.toString('utf8');
+    const latin1 = buffer.toString('latin1');
+    if (utf8.includes('\uFFFD')) {
+        return latin1;
+    }
+    const score = (text) => {
+        const normalized = normalizeToken(text.slice(0, 1200));
+        let total = 0;
+        if (normalized.includes('localizacaocomercial'))
+            total += 4;
+        if (normalized.includes('metododeofertaprazocd'))
+            total += 4;
+        if (normalized.includes('metododeofertaprazotr'))
+            total += 4;
+        if (normalized.includes('prazocliente'))
+            total += 4;
+        if (normalized.includes('horarioinicial'))
+            total += 4;
+        if (normalized.includes('horariofinal'))
+            total += 4;
+        const replacementMatches = (text.match(/\uFFFD/g) || []).length;
+        total -= replacementMatches * 3;
+        if (/[ÃÂ]/.test(text)) {
+            total -= 8;
+        }
+        return total;
+    };
+    return score(latin1) > score(utf8) ? latin1 : utf8;
+}
 function getFieldExact(record, aliases) {
     const normalizedAliases = aliases.map((alias) => normalizeToken(alias));
     const match = Object.entries(record).find(([key]) => normalizedAliases.includes(normalizeToken(key)));
@@ -81,6 +111,7 @@ function toInt(value) {
 function toWindowRow(rawRecord) {
     const record = normalizeRecord(rawRecord);
     const dayDetails = Object.fromEntries(DAY_KEYS.map((dayKey) => [dayKey, null]));
+    const dayEventDetails = Object.fromEntries(DAY_KEYS.map((dayKey) => [dayKey, null]));
     const cd = getFieldExact(record, ['CD']) || getField(record, ['codigo'], 0);
     const modal = getFieldExact(record, ['Modal']) || getField(record, ['agrupamentomodal'], 1);
     const geography = getFieldExact(record, ['Geografia']) || getField(record, ['geotipo', 'geografia', 'geotipoloja'], 2);
@@ -117,6 +148,7 @@ function toWindowRow(rawRecord) {
         sabado: toOkFlag(getFieldExact(record, ['Sabado']) || getField(record, ['sabado'], 18)),
         domingo: toOkFlag(getFieldExact(record, ['Domingo']) || getField(record, ['domingo'], 19)),
         dayDetails,
+        dayEventDetails,
     };
 }
 function detectSpreadsheetType(filePath, sourceName) {
@@ -137,17 +169,21 @@ function detectSpreadsheetType(filePath, sourceName) {
 function parseCsv(filePath) {
     return new Promise((resolve, reject) => {
         const rows = [];
-        fs_1.default.createReadStream(filePath)
-            .pipe((0, csv_parse_1.parse)({
+        const content = decodeCsvBuffer(fs_1.default.readFileSync(filePath));
+        (0, csv_parse_1.parse)(content, {
             delimiter: ';',
             columns: true,
             bom: true,
             trim: true,
             skip_empty_lines: true,
-        }))
-            .on('data', (row) => rows.push(row))
-            .on('end', () => resolve(rows.map(toWindowRow)))
-            .on('error', reject);
+        }, (error, records) => {
+            if (error) {
+                reject(error);
+                return;
+            }
+            rows.push(...records);
+            resolve(rows.map(toWindowRow));
+        });
     });
 }
 function parseXlsx(filePath) {

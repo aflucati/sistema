@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.saveDeadlineDataset = saveDeadlineDataset;
 exports.queryValidDeadlineRows = queryValidDeadlineRows;
 exports.queryDeadlineHistory = queryDeadlineHistory;
+exports.queryDeadlineRowsByVersion = queryDeadlineRowsByVersion;
 exports.buildStandardReplacementPreview = buildStandardReplacementPreview;
 const env_1 = require("./env");
 const pg_1 = require("pg");
@@ -175,6 +176,8 @@ async function callDatabaseFunction(sql, values) {
     const client = createDatabaseClient();
     try {
         await client.connect();
+        await client.query("set statement_timeout = '0'");
+        await client.query("set lock_timeout = '0'");
         const result = await client.query(sql, values);
         return (result.rows[0]?.payload ?? result.rows);
     }
@@ -215,6 +218,12 @@ async function queryDeadlineHistory(filters) {
         filters.geography?.trim() || null,
         filters.modal?.trim() || null,
     ]);
+}
+async function queryDeadlineRowsByVersion(routeVersionId) {
+    if (!routeVersionId?.trim()) {
+        throw new Error('Informe o identificador da versao de prazo.');
+    }
+    return callDatabaseFunction('select * from public.prazos_get_rows_by_route_version($1::uuid)', [routeVersionId.trim()]);
 }
 function buildStandardReplacementPreview(validFrom) {
     return {

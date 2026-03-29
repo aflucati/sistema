@@ -20,6 +20,38 @@ function normalizeRecord(record: ParsedRecord): ParsedRecord {
   return Object.fromEntries(Object.entries(record).map(([key, value]) => [String(key).trim(), value]));
 }
 
+function decodeCsvBuffer(buffer: Buffer): string {
+  const utf8 = buffer.toString('utf8');
+  const latin1 = buffer.toString('latin1');
+
+  if (utf8.includes('\uFFFD')) {
+    return latin1;
+  }
+
+  const score = (text: string) => {
+    const normalized = normalizeToken(text.slice(0, 1200));
+    let total = 0;
+
+    if (normalized.includes('localizacaocomercial')) total += 4;
+    if (normalized.includes('metododeofertaprazocd')) total += 4;
+    if (normalized.includes('metododeofertaprazotr')) total += 4;
+    if (normalized.includes('prazocliente')) total += 4;
+    if (normalized.includes('horarioinicial')) total += 4;
+    if (normalized.includes('horariofinal')) total += 4;
+
+    const replacementMatches = (text.match(/\uFFFD/g) || []).length;
+    total -= replacementMatches * 3;
+
+    if (/[ÃÂ]/.test(text)) {
+      total -= 8;
+    }
+
+    return total;
+  };
+
+  return score(latin1) > score(utf8) ? latin1 : utf8;
+}
+
 function getFieldExact(record: ParsedRecord, aliases: string[]): string {
   const normalizedAliases = aliases.map((alias) => normalizeToken(alias));
   const match = Object.entries(record).find(([key]) => normalizedAliases.includes(normalizeToken(key)));
@@ -58,6 +90,9 @@ function toWindowRow(rawRecord: ParsedRecord): WindowRow {
   const dayDetails = Object.fromEntries(
     DAY_KEYS.map((dayKey) => [dayKey, null]),
   ) as Record<string, string | null>;
+  const dayEventDetails = Object.fromEntries(
+    DAY_KEYS.map((dayKey) => [dayKey, null]),
+  ) as Record<string, null>;
 
   const cd = getFieldExact(record, ['CD']) || getField(record, ['codigo'], 0);
   const modal = getFieldExact(record, ['Modal']) || getField(record, ['agrupamentomodal'], 1);
@@ -104,6 +139,7 @@ function toWindowRow(rawRecord: ParsedRecord): WindowRow {
     sabado: toOkFlag(getFieldExact(record, ['Sabado']) || getField(record, ['sabado'], 18)),
     domingo: toOkFlag(getFieldExact(record, ['Domingo']) || getField(record, ['domingo'], 19)),
     dayDetails,
+    dayEventDetails,
   };
 }
 
@@ -129,19 +165,27 @@ function detectSpreadsheetType(filePath: string, sourceName?: string): '.csv' | 
 function parseCsv(filePath: string): Promise<WindowRow[]> {
   return new Promise((resolve, reject) => {
     const rows: ParsedRecord[] = [];
-    fs.createReadStream(filePath)
-      .pipe(
-        parse({
-          delimiter: ';',
-          columns: true,
-          bom: true,
-          trim: true,
-          skip_empty_lines: true,
-        }),
-      )
-      .on('data', (row: ParsedRecord) => rows.push(row))
-      .on('end', () => resolve(rows.map(toWindowRow)))
-      .on('error', reject);
+    const content = decodeCsvBuffer(fs.readFileSync(filePath));
+
+    parse(
+      content,
+      {
+        delimiter: ';',
+        columns: true,
+        bom: true,
+        trim: true,
+        skip_empty_lines: true,
+      },
+      (error, records: ParsedRecord[]) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+
+        rows.push(...records);
+        resolve(rows.map(toWindowRow));
+      },
+    );
   });
 }
 

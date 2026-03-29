@@ -15,6 +15,9 @@ interface CanonicalRecord {
   deliveryDay: string;
   frequency: string;
   routeDestination: string;
+  transportPlan: string;
+  alignmentCode: string;
+  alignmentName: string;
 }
 
 function normalizeToken(value: string): string {
@@ -27,6 +30,41 @@ function normalizeToken(value: string): string {
 
 function normalizeRecord(record: ParsedRecord): ParsedRecord {
   return Object.fromEntries(Object.entries(record).map(([key, value]) => [String(key).trim(), value]));
+}
+
+function decodeCsvBuffer(buffer: Buffer): string {
+  const utf8 = buffer.toString('utf8');
+  const latin1 = buffer.toString('latin1');
+
+  if (utf8.includes('\uFFFD')) {
+    return latin1;
+  }
+
+  const score = (text: string) => {
+    const normalized = normalizeToken(text.slice(0, 1200));
+    let total = 0;
+
+    if (normalized.includes('agrupamentomodal')) total += 4;
+    if (normalized.includes('geografiatipoloja')) total += 4;
+    if (normalized.includes('localizacaoloja') || normalized.includes('localizaoloja')) total += 4;
+    if (normalized.includes('diadaproducao') || normalized.includes('diadaproduo')) total += 4;
+    if (normalized.includes('horariofinaldecorteparaproducao') || normalized.includes('horriofinaldecorteparaproduo')) total += 4;
+    if (normalized.includes('diaentregareal')) total += 4;
+    if (normalized.includes('frequenciadeentrega') || normalized.includes('freqnciadeentrega')) total += 4;
+    if (normalized.includes('rotadestino')) total += 4;
+    if (normalized.includes('planodetransporte')) total += 4;
+
+    const replacementMatches = (text.match(/\uFFFD/g) || []).length;
+    total -= replacementMatches * 3;
+
+    if (/[ÃÂ]/.test(text)) {
+      total -= 8;
+    }
+
+    return total;
+  };
+
+  return score(latin1) > score(utf8) ? latin1 : utf8;
 }
 
 function getField(record: ParsedRecord, predicates: string[], fallbackIndex: number): string {
@@ -45,6 +83,8 @@ function getField(record: ParsedRecord, predicates: string[], fallbackIndex: num
 
 function toCanonicalRecord(rawRecord: ParsedRecord): CanonicalRecord {
   const record = normalizeRecord(rawRecord);
+  const transportPlan = getField(record, ['planodetransporte', 'alinhamento', 'codigonomealinhamento'], 8);
+  const [alignmentCodeRaw, ...alignmentNameParts] = transportPlan.split('-');
 
   return {
     modal: getField(record, ['agrupamentomodal'], 0),
@@ -55,6 +95,9 @@ function toCanonicalRecord(rawRecord: ParsedRecord): CanonicalRecord {
     deliveryDay: getField(record, ['diaentregareal'], 5),
     frequency: getField(record, ['frequenciadeentrega', 'freqnciadeentrega'], 6) || 'SEMANAL',
     routeDestination: getField(record, ['rotadestino'], 7),
+    transportPlan,
+    alignmentCode: alignmentCodeRaw?.trim() || '',
+    alignmentName: alignmentNameParts.join('-').trim() || transportPlan.trim(),
   };
 }
 
@@ -73,6 +116,9 @@ function groupRecords(records: ParsedRecord[]): RouteInput[] {
       geography: record.geography,
       commercialLocation: record.commercialLocation,
       routeDestination: record.routeDestination,
+      transportPlan: record.transportPlan,
+      alignmentCode: record.alignmentCode,
+      alignmentName: record.alignmentName,
       events: [],
     };
 
@@ -92,19 +138,27 @@ function groupRecords(records: ParsedRecord[]): RouteInput[] {
 function parseCsv(filePath: string): Promise<RouteInput[]> {
   return new Promise((resolve, reject) => {
     const rows: ParsedRecord[] = [];
-    fs.createReadStream(filePath)
-      .pipe(
-        parse({
-          delimiter: ';',
-          columns: true,
-          bom: true,
-          trim: true,
-          skip_empty_lines: true,
-        }),
-      )
-      .on('data', (row: ParsedRecord) => rows.push(row))
-      .on('end', () => resolve(groupRecords(rows)))
-      .on('error', reject);
+    const content = decodeCsvBuffer(fs.readFileSync(filePath));
+
+    parse(
+      content,
+      {
+        delimiter: ';',
+        columns: true,
+        bom: true,
+        trim: true,
+        skip_empty_lines: true,
+      },
+      (error, records: ParsedRecord[]) => {
+        if (error) {
+          reject(error);
+          return;
+        }
+
+        rows.push(...records);
+        resolve(groupRecords(rows));
+      },
+    );
   });
 }
 

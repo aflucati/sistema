@@ -51,6 +51,42 @@ function normalizeToken(value) {
 function normalizeRecord(record) {
     return Object.fromEntries(Object.entries(record).map(([key, value]) => [String(key).trim(), value]));
 }
+function decodeCsvBuffer(buffer) {
+    const utf8 = buffer.toString('utf8');
+    const latin1 = buffer.toString('latin1');
+    if (utf8.includes('\uFFFD')) {
+        return latin1;
+    }
+    const score = (text) => {
+        const normalized = normalizeToken(text.slice(0, 1200));
+        let total = 0;
+        if (normalized.includes('agrupamentomodal'))
+            total += 4;
+        if (normalized.includes('geografiatipoloja'))
+            total += 4;
+        if (normalized.includes('localizacaoloja') || normalized.includes('localizaoloja'))
+            total += 4;
+        if (normalized.includes('diadaproducao') || normalized.includes('diadaproduo'))
+            total += 4;
+        if (normalized.includes('horariofinaldecorteparaproducao') || normalized.includes('horriofinaldecorteparaproduo'))
+            total += 4;
+        if (normalized.includes('diaentregareal'))
+            total += 4;
+        if (normalized.includes('frequenciadeentrega') || normalized.includes('freqnciadeentrega'))
+            total += 4;
+        if (normalized.includes('rotadestino'))
+            total += 4;
+        if (normalized.includes('planodetransporte'))
+            total += 4;
+        const replacementMatches = (text.match(/\uFFFD/g) || []).length;
+        total -= replacementMatches * 3;
+        if (/[ÃÂ]/.test(text)) {
+            total -= 8;
+        }
+        return total;
+    };
+    return score(latin1) > score(utf8) ? latin1 : utf8;
+}
 function getField(record, predicates, fallbackIndex) {
     const entries = Object.entries(record);
     const match = entries.find(([key]) => {
@@ -64,6 +100,8 @@ function getField(record, predicates, fallbackIndex) {
 }
 function toCanonicalRecord(rawRecord) {
     const record = normalizeRecord(rawRecord);
+    const transportPlan = getField(record, ['planodetransporte', 'alinhamento', 'codigonomealinhamento'], 8);
+    const [alignmentCodeRaw, ...alignmentNameParts] = transportPlan.split('-');
     return {
         modal: getField(record, ['agrupamentomodal'], 0),
         geography: getField(record, ['geografiatipoloja'], 1),
@@ -73,6 +111,9 @@ function toCanonicalRecord(rawRecord) {
         deliveryDay: getField(record, ['diaentregareal'], 5),
         frequency: getField(record, ['frequenciadeentrega', 'freqnciadeentrega'], 6) || 'SEMANAL',
         routeDestination: getField(record, ['rotadestino'], 7),
+        transportPlan,
+        alignmentCode: alignmentCodeRaw?.trim() || '',
+        alignmentName: alignmentNameParts.join('-').trim() || transportPlan.trim(),
     };
 }
 function groupRecords(records) {
@@ -88,6 +129,9 @@ function groupRecords(records) {
             geography: record.geography,
             commercialLocation: record.commercialLocation,
             routeDestination: record.routeDestination,
+            transportPlan: record.transportPlan,
+            alignmentCode: record.alignmentCode,
+            alignmentName: record.alignmentName,
             events: [],
         };
         current.events.push({
@@ -103,17 +147,21 @@ function groupRecords(records) {
 function parseCsv(filePath) {
     return new Promise((resolve, reject) => {
         const rows = [];
-        fs_1.default.createReadStream(filePath)
-            .pipe((0, csv_parse_1.parse)({
+        const content = decodeCsvBuffer(fs_1.default.readFileSync(filePath));
+        (0, csv_parse_1.parse)(content, {
             delimiter: ';',
             columns: true,
             bom: true,
             trim: true,
             skip_empty_lines: true,
-        }))
-            .on('data', (row) => rows.push(row))
-            .on('end', () => resolve(groupRecords(rows)))
-            .on('error', reject);
+        }, (error, records) => {
+            if (error) {
+                reject(error);
+                return;
+            }
+            rows.push(...records);
+            resolve(groupRecords(rows));
+        });
     });
 }
 function parseXlsx(filePath) {

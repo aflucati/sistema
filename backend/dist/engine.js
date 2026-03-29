@@ -237,6 +237,32 @@ function splitModalValues(modal) {
         .filter(Boolean);
     return parts.length > 0 ? Array.from(new Set(parts)) : [String(modal).trim()];
 }
+function buildDayEventDetail(orderDayIndex, startHour, endHour, chargeDayNumber, selectedEvent, realDeliveryDayNumber, offeredDayNumber, prazoCd, prazoTr, prazoCliente) {
+    return {
+        orderDay: dayIndexToLabel(orderDayIndex),
+        windowStartHour: startHour,
+        windowEndHour: endHour,
+        chargeDay: dayNumberToLabel(chargeDayNumber),
+        cutoffHour: selectedEvent.cutoffHour,
+        realDeliveryDay: dayNumberToLabel(realDeliveryDayNumber),
+        offeredDeliveryDay: dayNumberToLabel(offeredDayNumber),
+        frequency: selectedEvent.frequency,
+        prazoCd,
+        prazoTr,
+        prazoCliente,
+    };
+}
+function buildDayEventDetailText(routeName, detail) {
+    return [
+        routeName,
+        `Dia do Pedido: ${detail.orderDay} | Janela: ${detail.windowStartHour}-${detail.windowEndHour}`,
+        `Dia de Produção/Carga: ${detail.chargeDay}`,
+        `Dia de Entrega Real: ${detail.realDeliveryDay}`,
+        `Dia do Prazo Ofertado: ${detail.offeredDeliveryDay}`,
+        `Frequência: ${detail.frequency}`,
+        `CD ${detail.prazoCd} | TR ${detail.prazoTr} | CLIENTE ${detail.prazoCliente}`,
+    ].join('\n');
+}
 function buildDetails(routeName, orderDayIndex, startHour, endHour, chargeDayNumber, realDeliveryDayNumber, offeredDayNumber, prazoCd, prazoTr, prazoCliente) {
     return [
         routeName,
@@ -272,7 +298,10 @@ function createBaseRow(event, startHour, endHour, orderDayNumber, cargasPorSeman
     }
     const prazoCliente = prazoCd + prazoTr;
     const dayDetails = Object.fromEntries(DAY_KEYS.map((key) => [key, null]));
-    dayDetails[DAY_KEYS[orderDayIndex]] = buildDetails(event.routeName, orderDayIndex, startHour, endHour, chargeDayNumber, realDeliveryDayNumber, offeredDayNumber, prazoCd, prazoTr, prazoCliente);
+    const dayEventDetails = Object.fromEntries(DAY_KEYS.map((key) => [key, null]));
+    const detail = buildDayEventDetail(orderDayIndex, startHour, endHour, chargeDayNumber, selectedEvent, realDeliveryDayNumber, offeredDayNumber, prazoCd, prazoTr, prazoCliente);
+    dayDetails[DAY_KEYS[orderDayIndex]] = buildDayEventDetailText(event.routeName, detail);
+    dayEventDetails[DAY_KEYS[orderDayIndex]] = [detail];
     return {
         cd: event.cd,
         modal: event.modal,
@@ -295,6 +324,7 @@ function createBaseRow(event, startHour, endHour, orderDayNumber, cargasPorSeman
         sabado: 'NOK',
         domingo: 'NOK',
         dayDetails,
+        dayEventDetails,
     };
 }
 function mergeRows(rows) {
@@ -321,6 +351,7 @@ function mergeRows(rows) {
         }
         DAY_KEYS.forEach((dayKey) => {
             const value = row.dayDetails[dayKey];
+            const detailEntries = row.dayEventDetails[dayKey];
             if (!value) {
                 return;
             }
@@ -328,6 +359,10 @@ function mergeRows(rows) {
             current.dayDetails[dayKey] = current.dayDetails[dayKey]
                 ? `${current.dayDetails[dayKey]}\n\n${value}`
                 : value;
+            current.dayEventDetails[dayKey] = [
+                ...(current.dayEventDetails[dayKey] ?? []),
+                ...(detailEntries ?? []),
+            ];
         });
     }
     return Array.from(grouped.values()).map((row) => {
@@ -427,6 +462,10 @@ function expandRowsByModal(rows) {
         ...row,
         modal,
         dayDetails: { ...row.dayDetails },
+        dayEventDetails: Object.fromEntries(Object.entries(row.dayEventDetails).map(([dayKey, details]) => [
+            dayKey,
+            details ? details.map((detail) => ({ ...detail })) : null,
+        ])),
     })));
 }
 function calculateDeadlines(routes) {

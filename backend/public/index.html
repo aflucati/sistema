@@ -178,18 +178,6 @@
         gap: 18px;
       }
 
-      .search-shell {
-        position: relative;
-      }
-
-      .search-shell input {
-        width: 100%;
-        padding: 14px 18px;
-        border-radius: 8px;
-        border: 1px solid #cfe0ea;
-        background: var(--surface-soft);
-      }
-
       .hero-info-grid {
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -775,6 +763,56 @@
         font-size: 0.88rem;
       }
 
+      .job-progress {
+        display: grid;
+        gap: 8px;
+        margin-top: 12px;
+      }
+
+      .job-progress.hidden {
+        display: none;
+      }
+
+      .job-progress-meta {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 0.88rem;
+        color: var(--muted);
+      }
+
+      .job-progress-track {
+        position: relative;
+        width: 100%;
+        height: 10px;
+        border-radius: 999px;
+        background: #dbe8f1;
+        overflow: hidden;
+      }
+
+      .job-progress-fill {
+        position: absolute;
+        inset: 0 auto 0 0;
+        width: 0%;
+        border-radius: inherit;
+        background: linear-gradient(90deg, #0083ca 0%, #00a8e0 100%);
+        transition: width 0.35s ease;
+      }
+
+      .job-progress-stage {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+
+      .job-progress-stage strong {
+        color: var(--magalog-blue);
+      }
+
       .db-status.is-error {
         color: #ad3f37;
       }
@@ -826,6 +864,42 @@
 
       .db-table {
         min-width: 1120px;
+      }
+
+      .db-operational-details {
+        width: 1%;
+        min-width: max-content;
+        white-space: nowrap;
+      }
+
+      .db-operational-day {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        padding: 7px 0;
+        border-bottom: 1px solid #e7eef4;
+        white-space: nowrap;
+      }
+
+      .db-operational-day:last-child {
+        border-bottom: none;
+      }
+
+      .db-operational-day strong {
+        color: var(--magalog-blue);
+        font-size: 0.8rem;
+      }
+
+      .db-operational-day span {
+        color: var(--muted);
+        font-size: 0.82rem;
+        line-height: 1.4;
+        white-space: nowrap;
+      }
+
+      .db-operational-separator {
+        color: #91a6b6;
+        margin: 0 6px;
       }
 
       .db-filters {
@@ -1115,6 +1189,394 @@
           grid-template-columns: repeat(3, minmax(0, 1fr));
         }
       }
+
+      :root {
+        --magalog-blue: #0b5cab;
+        --magalog-blue-dark: #08498a;
+        --magalog-yellow: #f3c400;
+        --bg: #edf2f7;
+        --surface: #ffffff;
+        --surface-soft: #f8fafc;
+        --border: #d9e2ea;
+        --text: #1f2d3a;
+        --muted: #6a7885;
+        --shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
+        --radius: 14px;
+      }
+
+      body {
+        background: linear-gradient(180deg, #eef3f7 0%, #f5f7fb 36%, #edf2f7 100%);
+        font-family: "Segoe UI Variable Text", "Segoe UI", Arial, Helvetica, sans-serif;
+      }
+
+      .strip {
+        height: 4px;
+        background: linear-gradient(90deg, #0b5cab 0%, #3d88d1 46%, #f3c400 100%);
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        background: rgba(255, 255, 255, 0.94);
+        color: var(--text);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
+        backdrop-filter: blur(14px);
+      }
+
+      .topbar-inner {
+        min-height: 62px;
+      }
+
+      .brand-mark {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #0b5cab 0%, #2b78c8 100%);
+        color: #fff;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      }
+
+      .brand-title {
+        color: #122231;
+        font-size: 1rem;
+        letter-spacing: 0.01em;
+      }
+
+      .brand-subtitle {
+        color: var(--muted);
+        opacity: 1;
+      }
+
+      .topbar-pill {
+        background: #f7f9fc;
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 8px 12px;
+        font-size: 0.84rem;
+        font-weight: 600;
+      }
+
+      .segment {
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+      }
+
+      .hero-main,
+      .hero-search,
+      .panel,
+      .preview-panel {
+        padding: 20px;
+      }
+
+      .section-tag,
+      .mode-badge {
+        border-radius: 999px;
+        background: #eef4fb;
+        color: var(--magalog-blue);
+        border: 1px solid #d8e5f3;
+      }
+
+      .panel-title {
+        color: #16324a;
+        font-weight: 700;
+      }
+
+      .panel-subtitle,
+      .lead {
+        color: var(--muted);
+      }
+
+      .hero-main {
+        background: linear-gradient(135deg, #17344d 0%, #214c74 72%, #295b89 100%);
+        border-color: transparent;
+        color: #fff;
+      }
+
+      .hero-main h1,
+      .hero-main .panel-title,
+      .hero-main .lead {
+        color: #fff;
+      }
+
+      .hero-main .lead {
+        opacity: 0.9;
+      }
+
+      .hero-main .section-tag {
+        background: rgba(255, 255, 255, 0.08);
+        border-color: rgba(255, 255, 255, 0.12);
+        color: #fff;
+      }
+
+      .hero-search,
+      .db-card,
+      .event-card,
+      .summary-card,
+      .hero-info,
+      .db-summary-card,
+      .history-card,
+      .task-switcher,
+      .mode-card {
+        background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+      }
+
+      .hero-info,
+      .event-card,
+      .summary-card,
+      .db-summary-card,
+      .history-card,
+      .mode-card,
+      .db-card {
+        border-color: #e1e8ef;
+      }
+
+      .button-primary,
+      .button-secondary {
+        border-radius: 10px;
+        padding: 10px 14px;
+        font-size: 0.92rem;
+        font-weight: 700;
+      }
+
+      .button-primary {
+        background: linear-gradient(180deg, #0b5cab 0%, #08498a 100%);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      }
+
+      .button-secondary {
+        background: #fff;
+        border: 1px solid var(--border);
+        color: #24415a;
+      }
+
+      input,
+      select,
+      textarea {
+        border-radius: 10px;
+        border-color: #cfd8e2;
+        background: #fcfdff;
+        padding: 10px 12px;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        outline: 2px solid rgba(11, 92, 171, 0.12);
+        border-color: var(--magalog-blue);
+      }
+
+      .task-switcher {
+        border-color: #dce5ee;
+      }
+
+      .task-switcher-header {
+        gap: 10px;
+      }
+
+      .task-card {
+        position: relative;
+        gap: 6px;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        background: transparent;
+        box-shadow: none;
+        padding: 14px 14px 14px 16px;
+      }
+
+      .task-card::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 10px;
+        bottom: 10px;
+        width: 4px;
+        border-radius: 999px;
+        background: transparent;
+      }
+
+      .task-card:hover {
+        background: #f7faff;
+        border-color: #dbe6f0;
+        box-shadow: none;
+        transform: none;
+      }
+
+      .task-card.is-active {
+        background: #eef5fc;
+        border-color: #d8e5f2;
+      }
+
+      .task-card.is-active::before {
+        background: linear-gradient(180deg, #0b5cab 0%, #3d88d1 100%);
+      }
+
+      .task-card strong {
+        font-size: 0.95rem;
+        color: #17324a;
+      }
+
+      .task-card small {
+        display: none;
+      }
+
+      .panel-subtitle {
+        display: none;
+      }
+
+      .title-with-help {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .title-with-help .panel-title,
+      .title-with-help h3 {
+        margin-bottom: 0;
+      }
+
+      .task-card-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .task-help {
+        position: relative;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 auto;
+        width: 22px;
+        height: 22px;
+        border-radius: 999px;
+        border: 1px solid #cfdceb;
+        background: #fff;
+        color: var(--magalog-blue);
+        font-size: 0.8rem;
+        font-weight: 800;
+        cursor: help;
+      }
+
+      .task-help-tooltip {
+        position: absolute;
+        left: calc(100% + 10px);
+        top: 50%;
+        transform: translateY(-50%);
+        width: 260px;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid #d7e2ed;
+        background: #1f3142;
+        color: #fff;
+        font-size: 0.82rem;
+        font-weight: 500;
+        line-height: 1.45;
+        text-transform: none;
+        letter-spacing: 0;
+        box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18);
+        opacity: 0;
+        pointer-events: none;
+        visibility: hidden;
+        transition: opacity 0.16s ease;
+        z-index: 20;
+      }
+
+      .task-help:hover .task-help-tooltip,
+      .task-help:focus-visible .task-help-tooltip {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .task-help:focus-visible {
+        outline: 2px solid rgba(11, 92, 171, 0.22);
+        outline-offset: 2px;
+      }
+
+      .mode-card {
+        border-radius: 14px;
+        padding: 16px;
+      }
+
+      .mode-card.is-active {
+        background: #eef5fc;
+        border-color: #cfe0ef;
+        box-shadow: inset 0 0 0 1px rgba(11, 92, 171, 0.08);
+      }
+
+      .results-toolbar {
+        top: 78px;
+        padding: 14px;
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        background: rgba(255, 255, 255, 0.94);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+      }
+
+      table {
+        min-width: 1200px;
+      }
+
+      th,
+      td {
+        padding: 11px 12px;
+        font-size: 0.88rem;
+      }
+
+      th {
+        background: #f6f9fc;
+        color: #50606f;
+        font-size: 0.75rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+      }
+
+      .table-shell,
+      .db-table-shell {
+        border-radius: 14px;
+      }
+
+      .preview-frame {
+        border-radius: 14px;
+      }
+
+      @media (min-width: 1180px) {
+        .page {
+          width: min(100% - 32px, 1480px);
+          display: grid;
+          grid-template-columns: 300px minmax(0, 1fr);
+          align-items: start;
+          gap: 20px;
+        }
+
+        .page > .task-switcher {
+          grid-column: 1;
+          position: sticky;
+          top: 84px;
+          margin-bottom: 0;
+        }
+
+        .page > section:not(.task-switcher) {
+          grid-column: 2;
+        }
+
+        .task-switcher-grid {
+          grid-template-columns: 1fr !important;
+        }
+
+        .hero {
+          grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.82fr);
+        }
+
+        .workspace {
+          grid-template-columns: minmax(0, 1.22fr) minmax(380px, 0.78fr);
+        }
+      }
     </style>
   </head>
   <body>
@@ -1140,7 +1602,13 @@
         <div class="task-switcher-header">
           <div>
             <span class="section-tag">Fluxo de Trabalho</span>
-            <h2 class="panel-title" style="margin-top: 14px">Escolha a tarefa</h2>
+            <div class="title-with-help">
+              <h2 class="panel-title" style="margin-top: 14px">Escolha a tarefa</h2>
+              <span class="task-help" aria-label="Ajuda da etapa Escolha a tarefa" tabindex="0">
+                ?
+                <span class="task-help-tooltip">A navegacao foi separada por etapa para deixar o uso mais claro no desktop. Abra apenas a tarefa que deseja executar agora.</span>
+              </span>
+            </div>
             <p class="panel-subtitle">
               A navegação foi separada por etapa para deixar o uso mais claro no desktop. Abra apenas a tarefa que deseja executar agora.
             </p>
@@ -1150,27 +1618,51 @@
 
         <div class="task-switcher-grid">
           <button class="task-card is-active" data-task="calculate" type="button">
-            <span class="mode-badge">Calcular</span>
-            <strong>Simular prazo da rota</strong>
-            <small>Digite a rota ou processe a planilha do PCP para gerar a tabela operacional e o HTML oficial.</small>
+            <span class="mode-badge">Etapa 1</span>
+            <div class="task-card-head">
+              <strong>Planejamento logistico</strong>
+              <span class="task-help" aria-label="Ajuda da etapa Planejamento logistico" tabindex="0">
+                ?
+                <span class="task-help-tooltip">Digite a rota ou processe a planilha do PCP para montar o plano real de carga, corte, entrega e frequencia.</span>
+              </span>
+            </div>
+            <small>Digite a rota ou processe a planilha do PCP para montar o plano real de carga, corte, entrega e frequência.</small>
           </button>
 
           <button class="task-card" data-task="save" type="button">
-            <span class="mode-badge">Salvar</span>
-            <strong>Registrar calculo atual</strong>
-            <small>Grave no banco o resultado calculado com vigencia padrao ou pontual.</small>
+            <span class="mode-badge">Etapa 2</span>
+            <div class="task-card-head">
+              <strong>Definicao dos prazos</strong>
+              <span class="task-help" aria-label="Ajuda da etapa Definicao dos prazos" tabindex="0">
+                ?
+                <span class="task-help-tooltip">Salve o planejamento vigente e deixe o sistema recalcular e publicar o prazo padrao derivado dele.</span>
+              </span>
+            </div>
+            <small>Salve o planejamento vigente e deixe o sistema recalcular e publicar o prazo padrao derivado dele.</small>
           </button>
 
           <button class="task-card" data-task="import" type="button">
-            <span class="mode-badge">Importar</span>
-            <strong>Subir prazos validados</strong>
-            <small>Envie a planilha final ja conferida para transformar esse conjunto em vigencia oficial.</small>
+            <span class="mode-badge">Etapa 3</span>
+            <div class="task-card-head">
+              <strong>Ajuste pontual do plano</strong>
+              <span class="task-help" aria-label="Ajuda da etapa Ajuste pontual do plano" tabindex="0">
+                ?
+                <span class="task-help-tooltip">Suba um plano temporario com vigencia definida para feriados, paralisacoes ou mudancas operacionais.</span>
+              </span>
+            </div>
+            <small>Suba um plano temporario com vigência definida para feriados, paralisações ou mudanças operacionais.</small>
           </button>
 
           <button class="task-card" data-task="consult" type="button">
-            <span class="mode-badge">Consultar</span>
-            <strong>Ver prazo e historico</strong>
-            <small>Consulte o prazo vigente por data e recupere as versoes anteriores da rota.</small>
+            <span class="mode-badge">Etapa 4</span>
+            <div class="task-card-head">
+              <strong>Consulta</strong>
+              <span class="task-help" aria-label="Ajuda da etapa Consulta" tabindex="0">
+                ?
+                <span class="task-help-tooltip">Consulte o plano e o prazo validos em qualquer data, recuperando passado, presente e futuro da rota.</span>
+              </span>
+            </div>
+            <small>Consulte o plano e o prazo válidos em qualquer data, recuperando passado, presente e futuro da rota.</small>
           </button>
         </div>
       </section>
@@ -1187,11 +1679,17 @@
 
         <div class="segment hero-search">
           <div>
-            <span class="section-tag">Atalho</span>
-            <h3 style="margin: 14px 0 10px; color: var(--magalog-blue)">Busca rapida</h3>
-            <div class="search-shell">
-              <input id="global-search" placeholder="Busque por rota, CD, cidade ou modal..." type="text" />
+            <span class="section-tag">Resumo</span>
+            <div class="title-with-help">
+              <h3 style="margin: 14px 0 10px; color: var(--magalog-blue)">Como usar esta etapa</h3>
+              <span class="task-help" aria-label="Ajuda da etapa Como usar esta etapa" tabindex="0">
+                ?
+                <span class="task-help-tooltip">Escolha o modo de entrada, gere o resultado e use o filtro da tabela apenas depois do calculo, quando as linhas ja estiverem disponiveis.</span>
+              </span>
             </div>
+            <p class="panel-subtitle" style="margin-bottom: 0">
+              Escolha o modo de entrada, gere o resultado e use o filtro da tabela apenas depois do cálculo, quando as linhas já estiverem disponíveis.
+            </p>
           </div>
           <div class="hero-info-grid">
             <div class="hero-info">
@@ -1210,7 +1708,13 @@
         <div class="segment panel">
           <div class="panel-header">
             <div>
-              <h2 class="panel-title">Escolha o modo de entrada</h2>
+              <div class="title-with-help">
+                <h2 class="panel-title">Escolha o modo de entrada</h2>
+                <span class="task-help" aria-label="Ajuda da etapa Escolha o modo de entrada" tabindex="0">
+                  ?
+                  <span class="task-help-tooltip">Os formularios ficam recolhidos por padrao. Escolha abaixo se deseja digitar os dados ou importar uma planilha.</span>
+                </span>
+              </div>
               <p class="panel-subtitle">
                 Os formulrios ficam recolhidos por padrao. Escolha abaixo se deseja digitar os dados ou importar uma planilha.
               </p>
@@ -1235,7 +1739,13 @@
         <div id="manual-panel" class="segment panel">
           <div class="panel-header">
             <div>
-              <h2 class="panel-title">Simulacao manual da rota</h2>
+              <div class="title-with-help">
+                <h2 class="panel-title">Simulacao manual da rota</h2>
+                <span class="task-help" aria-label="Ajuda da etapa Simulacao manual da rota" tabindex="0">
+                  ?
+                  <span class="task-help-tooltip">Preencha a rota e os eventos de carga para validar o prazo ofertado por janela.</span>
+                </span>
+              </div>
               <p class="panel-subtitle">Preencha a rota e os eventos de carga para validar o prazo ofertado por janela.</p>
             </div>
             <button class="button-secondary" id="clear-route" type="button">Limpar</button>
@@ -1248,11 +1758,20 @@
             <label>Localidade <input id="locality" /></label>
             <label>CD <input id="cd" /></label>
             <label>Rota / Destino <input id="routeDestination" /></label>
+            <label>Plano de Transporte <input id="transportPlan" placeholder="1884 - 81/ 141/ 1013 DOURADOS/ MARACAJU" /></label>
+            <label>Codigo do Alinhamento <input id="alignmentCode" placeholder="1884" /></label>
+            <label style="grid-column: 1 / -1">Nome do Alinhamento <input id="alignmentName" placeholder="81/ 141/ 1013 DOURADOS/ MARACAJU" /></label>
           </div>
 
           <div class="events-header">
             <div>
-              <h3 class="panel-title" style="margin-bottom: 6px">Eventos de carga</h3>
+              <div class="title-with-help">
+                <h3 class="panel-title" style="margin-bottom: 6px">Eventos de carga</h3>
+                <span class="task-help" aria-label="Ajuda da etapa Eventos de carga" tabindex="0">
+                  ?
+                  <span class="task-help-tooltip">Cada evento representa dia de carga, corte final, entrega real e frequencia.</span>
+                </span>
+              </div>
               <p class="panel-subtitle">Cada evento representa dia de carga, corte final, entrega real e frequencia.</p>
             </div>
             <button class="button-primary" id="add-event" type="button">Adicionar evento</button>
@@ -1265,7 +1784,13 @@
         <div id="upload-panel" class="segment panel hidden">
           <div class="panel-header">
             <div>
-              <h2 class="panel-title">Carga por planilha</h2>
+              <div class="title-with-help">
+                <h2 class="panel-title">Carga por planilha</h2>
+                <span class="task-help" aria-label="Ajuda da etapa Carga por planilha" tabindex="0">
+                  ?
+                  <span class="task-help-tooltip">Envie a planilha padrao do PCP para gerar a tabela operacional e o HTML oficial.</span>
+                </span>
+              </div>
               <p class="panel-subtitle">Envie a planilha padrao do PCP para gerar a tabela operacional e o HTML oficial.</p>
             </div>
           </div>
@@ -1327,9 +1852,15 @@
           <div class="panel-header">
             <div>
               <span class="section-tag">Banco</span>
-              <h2 class="panel-title" style="margin-top: 14px">Salvar calculo atual</h2>
+              <div class="title-with-help">
+                <h2 class="panel-title" style="margin-top: 14px">Salvar planejamento e recalcular prazos</h2>
+                <span class="task-help" aria-label="Ajuda da etapa Salvar planejamento e recalcular prazos" tabindex="0">
+                  ?
+                  <span class="task-help-tooltip">Use esta tela depois de validar o planejamento na simulacao. O sistema grava a vigencia do plano logistico e atualiza automaticamente o prazo vigente dessas rotas.</span>
+                </span>
+              </div>
               <p class="panel-subtitle">
-                Use esta tela depois de validar o resultado na simulacao. O sistema grava a vigencia e registra o calculo atual como referencia historica.
+                Use esta tela depois de validar o planejamento na simulacao. O sistema grava a vigencia do plano logístico e atualiza automaticamente o prazo vigente dessas rotas.
               </p>
             </div>
             <button class="button-secondary" data-task-link="calculate" type="button">Abrir calculo</button>
@@ -1352,17 +1883,50 @@
                 Fim da vigencia
                 <input id="save-current-valid-to" type="date" />
               </label>
+              <label>
+                Tipo de ajuste
+                <select id="save-current-change-type">
+                  <option value="PADRAO">PADRAO</option>
+                  <option value="PONTUAL">PONTUAL</option>
+                  <option value="FERIADO">FERIADO</option>
+                  <option value="PARALISACAO">PARALISACAO</option>
+                  <option value="DEMANDA">DEMANDA</option>
+                  <option value="ALTERACAO_DEFINITIVA">ALTERACAO_DEFINITIVA</option>
+                </select>
+              </label>
+              <label>
+                Escopo do ajuste
+                <select id="save-current-scope-type">
+                  <option value="ROTA">ROTA</option>
+                  <option value="ALINHAMENTO">ALINHAMENTO</option>
+                  <option value="CD">CD</option>
+                  <option value="EMPRESA">EMPRESA</option>
+                </select>
+              </label>
             </div>
 
             <label>
               Observacao
-              <textarea id="save-current-observation" placeholder="Ex.: Feriado municipal, alteracao temporaria de operacao ou nova malha padrao."></textarea>
-            </label>
+                <textarea id="save-current-observation" placeholder="Ex.: Nova malha padrão, alteração definitiva do dia de carga ou revisão operacional do CD."></textarea>
+              </label>
 
-            <div class="db-actions">
-              <button class="button-primary" id="save-current-db" type="button">Salvar calculo no banco</button>
+              <div class="db-actions">
+              <button class="button-primary" id="save-current-db" type="button">Salvar planejamento e prazos</button>
               <span id="save-current-status" class="db-status" aria-live="polite"></span>
-            </div>
+              </div>
+              <div id="save-current-progress" class="job-progress hidden" aria-hidden="true">
+                <div class="job-progress-meta">
+                  <span id="save-current-progress-label">Preparando rotina...</span>
+                  <strong id="save-current-progress-value">0%</strong>
+                </div>
+                <div class="job-progress-track">
+                  <div id="save-current-progress-fill" class="job-progress-fill"></div>
+                </div>
+                <div class="job-progress-stage">
+                  <strong id="save-current-progress-stage">Etapa 1/5 · Preparacao</strong>
+                  <span id="save-current-progress-detail">Aguardando envio...</span>
+                </div>
+              </div>
           </div>
         </div>
       </section>
@@ -1372,9 +1936,15 @@
           <div class="panel-header">
             <div>
               <span class="section-tag">Banco</span>
-              <h2 class="panel-title" style="margin-top: 14px">Importar prazos validados</h2>
+              <div class="title-with-help">
+                <h2 class="panel-title" style="margin-top: 14px">Importar ajuste pontual do planejamento</h2>
+                <span class="task-help" aria-label="Ajuda da etapa Importar ajuste pontual do planejamento" tabindex="0">
+                  ?
+                  <span class="task-help-tooltip">Use esta rotina quando for preciso subir uma programacao temporaria para um periodo especifico, como feriados, paralisacoes ou mudanca operacional.</span>
+                </span>
+              </div>
               <p class="panel-subtitle">
-                Use esta rotina quando a planilha ja estiver conferida e pronta para virar vigencia oficial no banco.
+                Use esta rotina quando for preciso subir uma programação temporária para um período específico, como feriados, paralisações ou mudança operacional.
               </p>
             </div>
             <button class="button-secondary" data-task-link="consult" type="button">Ir para consulta</button>
@@ -1401,30 +1971,50 @@
                 Identificacao do lote
                 <input id="validated-source-name" placeholder="Ex.: Feriado Corpus Christi 2026" />
               </label>
+              <label>
+                Tipo de ajuste
+                <select id="validated-change-type">
+                  <option value="PADRAO">PADRAO</option>
+                  <option value="PONTUAL">PONTUAL</option>
+                  <option value="FERIADO">FERIADO</option>
+                  <option value="PARALISACAO">PARALISACAO</option>
+                  <option value="DEMANDA">DEMANDA</option>
+                  <option value="ALTERACAO_DEFINITIVA">ALTERACAO_DEFINITIVA</option>
+                </select>
+              </label>
+              <label>
+                Escopo do ajuste
+                <select id="validated-scope-type">
+                  <option value="ROTA">ROTA</option>
+                  <option value="ALINHAMENTO">ALINHAMENTO</option>
+                  <option value="CD">CD</option>
+                  <option value="EMPRESA">EMPRESA</option>
+                </select>
+              </label>
             </div>
 
             <label>
               Observacao
-              <textarea id="validated-observation" placeholder="Ex.: Prazo validado para cobertura de feriado ou revisao definitiva da rota."></textarea>
-            </label>
+              <textarea id="validated-observation" placeholder="Ex.: Feriado municipal, suspensão de coleta, reforço de prazo por alta demanda ou mudança temporária da carga."></textarea>
+              </label>
 
-            <div class="db-helper">
+              <div class="db-helper">
               <strong>Fluxo recomendado</strong>
               <ul>
-                <li>Escolha <code>PADRAO</code> quando a planilha passar a valer por tempo indeterminado.</li>
-                <li>Escolha <code>PONTUAL</code> quando a alteracao for temporaria, como feriados ou operacao excepcional.</li>
-                <li>Use a identificacao do lote para facilitar auditoria e consulta futura.</li>
+                <li>Escolha <code>PADRAO</code> quando o novo plano substituir definitivamente o que vinha sendo usado.</li>
+                <li>Escolha <code>PONTUAL</code> quando a alteração for temporária, como feriados, paralisações ou ajustes de demanda.</li>
+                <li>Use a identificação do lote para facilitar auditoria e consulta futura do plano vigente.</li>
               </ul>
-              <p id="validated-preview-note">Ao salvar um PADRAO, o sistema encerra o padrao anterior dessas mesmas rotas na vespera da nova vigencia.</p>
-            </div>
+              <p id="validated-preview-note">Ao salvar um PADRAO, o sistema encerra o plano anterior dessas mesmas rotas na véspera da nova vigência.</p>
+              </div>
 
-            <div
-              id="validated-upload-box"
-              class="upload-box db-upload-box"
-              role="button"
-              tabindex="0"
-              aria-label="Selecione uma planilha validada para salvar no banco"
-            >
+              <div
+                id="validated-upload-box"
+                class="upload-box db-upload-box"
+                role="button"
+                tabindex="0"
+                aria-label="Selecione uma planilha do planejamento para salvar no banco"
+              >
               <div class="upload-shell">
                 <div class="upload-head">
                   <div class="upload-icon-shell" aria-hidden="true">
@@ -1436,8 +2026,8 @@
                   </div>
 
                   <div class="upload-copy">
-                    <strong>Selecionar planilha validada</strong>
-                    <p>Clique aqui para escolher o CSV ou XLSX final com os prazos que vao virar vigencia no banco.</p>
+                    <strong>Selecionar planilha do planejamento</strong>
+                    <p>Clique aqui para escolher o CSV ou XLSX com a nova programação logística que deverá recalcular os prazos.</p>
                   </div>
                 </div>
               </div>
@@ -1447,8 +2037,21 @@
 
             <div class="db-actions">
               <button class="button-primary" id="trigger-validated-upload" type="button">Escolher arquivo</button>
-              <button class="button-secondary" id="import-validated-db" type="button">Importar para o banco</button>
+              <button class="button-secondary" id="import-validated-db" type="button">Importar plano e recalcular</button>
               <span id="validated-upload-status" class="db-status" aria-live="polite">Nenhum arquivo selecionado.</span>
+            </div>
+            <div id="validated-progress" class="job-progress hidden" aria-hidden="true">
+              <div class="job-progress-meta">
+                <span id="validated-progress-label">Preparando rotina...</span>
+                <strong id="validated-progress-value">0%</strong>
+              </div>
+              <div class="job-progress-track">
+                <div id="validated-progress-fill" class="job-progress-fill"></div>
+              </div>
+              <div class="job-progress-stage">
+                <strong id="validated-progress-stage">Etapa 1/5 · Preparacao</strong>
+                <span id="validated-progress-detail">Aguardando envio...</span>
+              </div>
             </div>
           </div>
         </div>
@@ -1459,9 +2062,15 @@
           <div class="panel-header">
             <div>
               <span class="section-tag">Consulta</span>
-              <h2 class="panel-title" style="margin-top: 14px">Consultar prazo por data</h2>
+              <div class="title-with-help">
+                <h2 class="panel-title" style="margin-top: 14px">Consultar planejamento e prazo por data</h2>
+                <span class="task-help" aria-label="Ajuda da etapa Consultar planejamento e prazo por data" tabindex="0">
+                  ?
+                  <span class="task-help-tooltip">Informe a rota e a data desejada para recuperar o planejamento vigente, o prazo publicado nessa data e o historico das versoes registradas.</span>
+                </span>
+              </div>
               <p class="panel-subtitle">
-                Informe a rota e a data desejada para recuperar o prazo que estava vigente e o historico das versoes registradas.
+                Informe a rota e a data desejada para recuperar o planejamento vigente, o prazo publicado nessa data e o historico das versoes registradas.
               </p>
             </div>
             <button class="button-secondary" data-task-link="import" type="button">Importar vigencia</button>
@@ -1488,8 +2097,11 @@
             </div>
 
             <div class="db-actions">
+              <button class="button-primary" id="query-planning-db" type="button">Consultar planejamento vigente</button>
               <button class="button-primary" id="query-db" type="button">Consultar prazo vigente</button>
+              <button class="button-secondary" id="planning-history-db" type="button">Historico do planejamento</button>
               <button class="button-secondary" id="history-db" type="button">Ver historico</button>
+              <button class="button-secondary" id="compare-db" type="button">Comparar com anterior</button>
               <span id="query-db-status" class="db-status" aria-live="polite"></span>
             </div>
 
@@ -1514,6 +2126,11 @@
                     <option value="CALCULO_MANUAL">CALCULO_MANUAL</option>
                     <option value="PLANILHA_LOGISTICA">PLANILHA_LOGISTICA</option>
                     <option value="PLANILHA_VALIDADA">PLANILHA_VALIDADA</option>
+                    <option value="PLANEJAMENTO_MANUAL">PLANEJAMENTO_MANUAL</option>
+                    <option value="PLANEJAMENTO_UPLOAD">PLANEJAMENTO_UPLOAD</option>
+                    <option value="AJUSTE_PONTUAL">AJUSTE_PONTUAL</option>
+                    <option value="AJUSTE_CD">AJUSTE_CD</option>
+                    <option value="AJUSTE_EMPRESA">AJUSTE_EMPRESA</option>
                   </select>
                 </label>
                 <label>
@@ -1532,6 +2149,54 @@
             <p id="query-results-meta" class="table-note"></p>
 
             <div id="history-cards" class="history-card-grid hidden"></div>
+
+            <div id="comparison-results-shell" class="db-table-shell hidden">
+              <table class="db-table">
+                <thead>
+                  <tr>
+                    <th>Modal</th>
+                    <th>Geografia</th>
+                    <th>Localizacao Comercial</th>
+                    <th>H. Inicial</th>
+                    <th>H. Final</th>
+                    <th>Cliente Atual</th>
+                    <th>Cliente Anterior</th>
+                    <th>CD Atual</th>
+                    <th>CD Anterior</th>
+                    <th>TR Atual</th>
+                    <th>TR Anterior</th>
+                    <th>Dias OK</th>
+                  </tr>
+                </thead>
+                <tbody id="comparison-results-body"></tbody>
+              </table>
+            </div>
+
+            <div id="planning-results-shell" class="db-table-shell hidden">
+              <table class="db-table">
+                <thead>
+                  <tr>
+                    <th>Modal</th>
+                    <th>Geografia</th>
+                    <th>Localizacao Comercial</th>
+                    <th>Alinhamento</th>
+                    <th>Plano Transporte</th>
+                    <th>Destino</th>
+                    <th>Dia Carga</th>
+                    <th>Corte</th>
+                    <th>Entrega Real</th>
+                    <th>Entrega Ofertada</th>
+                    <th>Frequencia</th>
+                    <th>Tipo Ajuste</th>
+                    <th>Escopo</th>
+                    <th>Inicio</th>
+                    <th>Fim</th>
+                    <th>Obs</th>
+                  </tr>
+                </thead>
+                <tbody id="planning-results-body"></tbody>
+              </table>
+            </div>
 
             <div id="query-results-shell" class="db-table-shell hidden">
               <table class="db-table">
@@ -1557,9 +2222,35 @@
                     <th>Sex</th>
                     <th>Sab</th>
                     <th>Dom</th>
+                    <th>Detalhes Operacionais</th>
                   </tr>
                 </thead>
                 <tbody id="query-results-body"></tbody>
+              </table>
+            </div>
+
+            <div id="planning-history-results-shell" class="db-table-shell hidden">
+              <table class="db-table">
+                <thead>
+                  <tr>
+                    <th>Modal</th>
+                    <th>Geografia</th>
+                    <th>Localizacao Comercial</th>
+                    <th>Alinhamento</th>
+                    <th>Plano Transporte</th>
+                    <th>Destino</th>
+                    <th>Tipo</th>
+                    <th>Ajuste</th>
+                    <th>Escopo</th>
+                    <th>Inicio</th>
+                    <th>Fim</th>
+                    <th>Status</th>
+                    <th>Eventos</th>
+                    <th>Criado em</th>
+                    <th>Obs</th>
+                  </tr>
+                </thead>
+                <tbody id="planning-history-results-body"></tbody>
               </table>
             </div>
 
@@ -1709,13 +2400,19 @@
         <div class="segment preview-panel">
           <div class="panel-header">
             <div>
-              <h2 class="panel-title">Preview do HTML oficial</h2>
+              <div class="title-with-help">
+                <h2 class="panel-title">Preview do HTML oficial</h2>
+                <span class="task-help" aria-label="Ajuda da etapa Preview do HTML oficial" tabindex="0">
+                  ?
+                  <span class="task-help-tooltip">Visualizacao paginada do HTML oficial. O download exporta todas as linhas filtradas.</span>
+                </span>
+              </div>
               <p class="panel-subtitle">Visualizacao paginada do HTML oficial. O download exporta todas as linhas filtradas.</p>
             </div>
             <button class="button-secondary" data-task-link="save" type="button">Salvar no banco</button>
           </div>
           <p id="preview-meta" class="table-note"></p>
-          <iframe id="preview-frame" class="preview-frame" title="Preview do HTML gerado"></iframe>
+          <iframe id="preview-frame" class="preview-frame" sandbox="" title="Preview do HTML gerado"></iframe>
         </div>
       </section>
     </main>
@@ -1784,7 +2481,6 @@
       const resultsTableHead = document.getElementById('results-table-head');
       const resultsStickyHead = document.getElementById('results-sticky-head');
       const resultsStickyTable = document.getElementById('results-sticky-table');
-      const globalSearchInput = document.getElementById('global-search');
       const resultsFilterInput = document.getElementById('results-filter');
       const pageSizeSelect = document.getElementById('page-size');
       const prevPageButton = document.getElementById('prev-page');
@@ -1808,14 +2504,24 @@
       const saveCurrentValidFromInput = document.getElementById('save-current-valid-from');
       const saveCurrentValidToInput = document.getElementById('save-current-valid-to');
       const saveCurrentValidToWrap = document.getElementById('save-current-valid-to-wrap');
+      const saveCurrentChangeTypeSelect = document.getElementById('save-current-change-type');
+      const saveCurrentScopeTypeSelect = document.getElementById('save-current-scope-type');
       const saveCurrentObservationInput = document.getElementById('save-current-observation');
       const saveCurrentDbButton = document.getElementById('save-current-db');
       const saveCurrentStatus = document.getElementById('save-current-status');
+      const saveCurrentProgress = document.getElementById('save-current-progress');
+      const saveCurrentProgressLabel = document.getElementById('save-current-progress-label');
+      const saveCurrentProgressValue = document.getElementById('save-current-progress-value');
+      const saveCurrentProgressFill = document.getElementById('save-current-progress-fill');
+      const saveCurrentProgressStage = document.getElementById('save-current-progress-stage');
+      const saveCurrentProgressDetail = document.getElementById('save-current-progress-detail');
       const validatedValiditySelect = document.getElementById('validated-validity');
       const validatedValidFromInput = document.getElementById('validated-valid-from');
       const validatedValidToInput = document.getElementById('validated-valid-to');
       const validatedValidToWrap = document.getElementById('validated-valid-to-wrap');
       const validatedSourceNameInput = document.getElementById('validated-source-name');
+      const validatedChangeTypeSelect = document.getElementById('validated-change-type');
+      const validatedScopeTypeSelect = document.getElementById('validated-scope-type');
       const validatedObservationInput = document.getElementById('validated-observation');
       const validatedPreviewNote = document.getElementById('validated-preview-note');
       const validatedUploadBox = document.getElementById('validated-upload-box');
@@ -1823,12 +2529,21 @@
       const triggerValidatedUploadButton = document.getElementById('trigger-validated-upload');
       const importValidatedDbButton = document.getElementById('import-validated-db');
       const validatedUploadStatus = document.getElementById('validated-upload-status');
+      const validatedProgress = document.getElementById('validated-progress');
+      const validatedProgressLabel = document.getElementById('validated-progress-label');
+      const validatedProgressValue = document.getElementById('validated-progress-value');
+      const validatedProgressFill = document.getElementById('validated-progress-fill');
+      const validatedProgressStage = document.getElementById('validated-progress-stage');
+      const validatedProgressDetail = document.getElementById('validated-progress-detail');
       const queryReferenceDateInput = document.getElementById('query-reference-date');
       const queryCommercialLocationInput = document.getElementById('query-commercial-location');
       const queryGeographyInput = document.getElementById('query-geography');
       const queryModalInput = document.getElementById('query-modal');
+      const queryPlanningDbButton = document.getElementById('query-planning-db');
       const queryDbButton = document.getElementById('query-db');
+      const planningHistoryDbButton = document.getElementById('planning-history-db');
       const historyDbButton = document.getElementById('history-db');
+      const compareDbButton = document.getElementById('compare-db');
       const queryDbStatus = document.getElementById('query-db-status');
       const queryResultsFilterInput = document.getElementById('query-results-filter');
       const historyValidityFilter = document.getElementById('history-validity-filter');
@@ -1837,8 +2552,14 @@
       const dbSummaryGrid = document.getElementById('db-summary-grid');
       const queryResultsMeta = document.getElementById('query-results-meta');
       const historyCards = document.getElementById('history-cards');
+      const comparisonResultsShell = document.getElementById('comparison-results-shell');
+      const comparisonResultsBody = document.getElementById('comparison-results-body');
+      const planningResultsShell = document.getElementById('planning-results-shell');
+      const planningResultsBody = document.getElementById('planning-results-body');
       const queryResultsShell = document.getElementById('query-results-shell');
       const queryResultsBody = document.getElementById('query-results-body');
+      const planningHistoryResultsShell = document.getElementById('planning-history-results-shell');
+      const planningHistoryResultsBody = document.getElementById('planning-history-results-body');
       const historyResultsShell = document.getElementById('history-results-shell');
       const historyResultsBody = document.getElementById('history-results-body');
       const taskButtons = [...document.querySelectorAll('[data-task]')];
@@ -1868,7 +2589,8 @@
         { label: 'Sabado', key: 'sabado' },
         { label: 'Domingo', key: 'domingo' },
       ];
-      const APP_STATE_KEY = 'magalog-gestor-state-v5';
+      const DAY_LABELS_SHORT = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB', 'DOM'];
+      const APP_STATE_KEY = 'magalog-gestor-state-v6';
 
       let latestHtml = '';
       let latestHtmlTemplate = '';
@@ -1889,6 +2611,10 @@
       let selectedValidatedFile = null;
       let latestDbQueryRows = [];
       let latestDbHistoryRows = [];
+      let latestDbComparisonRows = [];
+      let latestDbPlanningRows = [];
+      let latestDbPlanningHistoryRows = [];
+      let activeDatabaseView = 'none';
 
       function escapeHtml(value) {
         return String(value)
@@ -1914,6 +2640,17 @@
         );
       }
 
+      function sanitizePreviewHtml(html) {
+        if (!html) {
+          return '';
+        }
+
+        return String(html)
+          .replace(/<script[\s\S]*?<\/script>/gi, '')
+          .replace(/\son\w+="[^"]*"/gi, '')
+          .replace(/\son\w+='[^']*'/gi, '');
+      }
+
       function toSlimRows(rows) {
         return rows.map((row) => {
           const { dayDetails, ...rest } = row;
@@ -1929,6 +2666,9 @@
           locality: document.getElementById('locality').value,
           cd: document.getElementById('cd').value,
           routeDestination: document.getElementById('routeDestination').value,
+          transportPlan: document.getElementById('transportPlan').value,
+          alignmentCode: document.getElementById('alignmentCode').value,
+          alignmentName: document.getElementById('alignmentName').value,
           events: [...document.querySelectorAll('.event-card')].map((card) => ({
             day: card.querySelector('.event-day').value,
             cutoffHour: card.querySelector('.event-cutoff').value,
@@ -1950,6 +2690,9 @@
         document.getElementById('locality').value = state.locality || '';
         document.getElementById('cd').value = state.cd || '';
         document.getElementById('routeDestination').value = state.routeDestination || '';
+        document.getElementById('transportPlan').value = state.transportPlan || '';
+        document.getElementById('alignmentCode').value = state.alignmentCode || '';
+        document.getElementById('alignmentName').value = state.alignmentName || '';
         eventsList.innerHTML = '';
 
         const events = Array.isArray(state.events) && state.events.length ? state.events : [{}];
@@ -2038,21 +2781,29 @@
         syncStickyHeaderScroll();
       }
 
-      function buildPersistedState() {
+      function buildPersistedState(options = {}) {
+        const omitCalculated = Boolean(options.omitCalculated);
+        const isLargeCalculatedState =
+          latestRows.length > 1200 ||
+          latestSourceRoutes.length > 300 ||
+          latestHtmlTemplate.length > 200000;
+        const shouldPersistCalculated = !omitCalculated && !isLargeCalculatedState;
+
         return {
           activeTask,
           activeMode,
           isUploadPanelCollapsed,
-          latestRows: toSlimRows(latestRows),
-          latestHtmlTemplate,
-          latestSourceRoutes,
+          latestRows: shouldPersistCalculated ? toSlimRows(latestRows) : [],
+          latestHtmlTemplate: shouldPersistCalculated ? latestHtmlTemplate : '',
+          latestSourceRoutes: shouldPersistCalculated ? latestSourceRoutes : [],
           latestSourceType,
           latestSourceFileName,
           currentPage,
           pageSize,
           searchQuery,
           resultTitle: resultTitle.textContent,
-          resultsVisible: !resultsSection.classList.contains('hidden'),
+          resultsVisible: shouldPersistCalculated && !resultsSection.classList.contains('hidden'),
+          calculatedStatePersisted: shouldPersistCalculated,
           manualForm: getManualFormState(),
           uploadStatus: uploadStatus.textContent,
         };
@@ -2062,7 +2813,11 @@
         try {
           sessionStorage.setItem(APP_STATE_KEY, JSON.stringify(buildPersistedState()));
         } catch (error) {
-          console.warn('Nao foi possivel persistir o estado da tela.', error);
+          try {
+            sessionStorage.setItem(APP_STATE_KEY, JSON.stringify(buildPersistedState({ omitCalculated: true })));
+          } catch (fallbackError) {
+            console.warn('Nao foi possivel persistir o estado da tela.', fallbackError);
+          }
         }
       }
 
@@ -2100,6 +2855,9 @@
         document.getElementById('locality').value = '';
         document.getElementById('cd').value = '';
         document.getElementById('routeDestination').value = '';
+        document.getElementById('transportPlan').value = '';
+        document.getElementById('alignmentCode').value = '';
+        document.getElementById('alignmentName').value = '';
         eventsList.innerHTML = '';
         addEventCard();
       }
@@ -2207,8 +2965,87 @@
         uploadSpreadsheet(file);
       }
 
+      function getBrazilDateParts(value = new Date()) {
+        const formatter = new Intl.DateTimeFormat('en-CA', {
+          timeZone: 'America/Sao_Paulo',
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+        });
+        const parts = formatter.formatToParts(value);
+        const year = parts.find((part) => part.type === 'year')?.value || '0000';
+        const month = parts.find((part) => part.type === 'month')?.value || '00';
+        const day = parts.find((part) => part.type === 'day')?.value || '00';
+        return { year, month, day };
+      }
+
       function todayIsoDate() {
-        return new Date().toISOString().slice(0, 10);
+        const { year, month, day } = getBrazilDateParts(new Date());
+        return `${year}-${month}-${day}`;
+      }
+
+      function shiftIsoDate(dateText, increment) {
+        const [year, month, day] = String(dateText || '')
+          .split('-')
+          .map((value) => parseInt(value, 10));
+
+        if (!year || !month || !day) {
+          return String(dateText || '');
+        }
+
+        const date = new Date(Date.UTC(year, month - 1, day, 12, 0, 0));
+        date.setUTCDate(date.getUTCDate() + increment);
+        const shiftedYear = date.getUTCFullYear();
+        const shiftedMonth = String(date.getUTCMonth() + 1).padStart(2, '0');
+        const shiftedDay = String(date.getUTCDate()).padStart(2, '0');
+        return `${shiftedYear}-${shiftedMonth}-${shiftedDay}`;
+      }
+
+      function formatBrazilDate(value) {
+        if (!value) {
+          return '';
+        }
+
+        const text = String(value).trim();
+        const dateOnlyMatch = text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (dateOnlyMatch) {
+          return `${dateOnlyMatch[3]}/${dateOnlyMatch[2]}/${dateOnlyMatch[1]}`;
+        }
+
+        const parsed = new Date(text);
+        if (Number.isNaN(parsed.getTime())) {
+          return text;
+        }
+
+        return new Intl.DateTimeFormat('pt-BR', {
+          timeZone: 'America/Sao_Paulo',
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+        }).format(parsed);
+      }
+
+      function formatBrazilDateTime(value) {
+        if (!value) {
+          return '';
+        }
+
+        const text = String(value).trim();
+        const parsed = new Date(text);
+        if (Number.isNaN(parsed.getTime())) {
+          return formatBrazilDate(text);
+        }
+
+        return new Intl.DateTimeFormat('pt-BR', {
+          timeZone: 'America/Sao_Paulo',
+          day: '2-digit',
+          month: '2-digit',
+          year: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+        }).format(parsed);
       }
 
       function setDbStatus(element, message, isError = false) {
@@ -2216,11 +3053,151 @@
         element.classList.toggle('is-error', isError);
       }
 
+      function getJobStageMeta(progress, label) {
+        const normalizedLabel = String(label || '').toLowerCase();
+
+        if (normalizedLabel.includes('falha')) {
+          return {
+            stage: 'Falha',
+            detail: 'A rotina encontrou um erro e foi interrompida.',
+            step: 'Etapa final',
+          };
+        }
+
+        if (normalizedLabel.includes('concluido')) {
+          return {
+            stage: 'Concluido',
+            detail: 'Lote finalizado e pronto para consulta.',
+            step: 'Etapa 5/5',
+          };
+        }
+
+        if (normalizedLabel.includes('lendo e validando')) {
+          return {
+            stage: 'Leitura da planilha',
+            detail: 'O sistema esta interpretando o arquivo enviado.',
+            step: 'Etapa 2/5',
+          };
+        }
+
+        if (normalizedLabel.includes('planilha lida')) {
+          return {
+            stage: 'Preparacao do lote',
+            detail: 'As rotas foram reconhecidas e o lote esta sendo montado.',
+            step: 'Etapa 2/5',
+          };
+        }
+
+        if (normalizedLabel.includes('salvando planejamento') || normalizedLabel.includes('recalculando prazos')) {
+          return {
+            stage: 'Persistencia e recalculo',
+            detail: 'O sistema esta gravando o planejamento e recalculando os prazos.',
+            step: 'Etapa 3/5',
+          };
+        }
+
+        if (normalizedLabel.includes('finalizando')) {
+          return {
+            stage: 'Finalizacao',
+            detail: 'Consolidando o lote e fechando os registros de vigencia.',
+            step: 'Etapa 4/5',
+          };
+        }
+
+        if (progress >= 90) {
+          return {
+            stage: 'Finalizacao',
+            detail: 'Consolidando os ultimos passos da rotina.',
+            step: 'Etapa 4/5',
+          };
+        }
+
+        return {
+          stage: 'Preparacao',
+          detail: 'Recebendo os dados e iniciando o processamento.',
+          step: 'Etapa 1/5',
+        };
+      }
+
+      function setJobProgress(elements, progress, label) {
+        if (!elements?.container) {
+          return;
+        }
+
+        const normalizedProgress = Math.max(0, Math.min(100, Math.round(Number(progress) || 0)));
+        const hasVisibleProgress = normalizedProgress > 0 && normalizedProgress < 100;
+        const stageMeta = getJobStageMeta(normalizedProgress, label);
+
+        elements.container.classList.toggle('hidden', !hasVisibleProgress);
+        elements.container.setAttribute('aria-hidden', hasVisibleProgress ? 'false' : 'true');
+        elements.label.textContent = label || 'Processando rotina...';
+        elements.value.textContent = `${normalizedProgress}%`;
+        elements.fill.style.width = `${normalizedProgress}%`;
+        elements.stage.textContent = `${stageMeta.step} · ${stageMeta.stage}`;
+        elements.detail.textContent = stageMeta.detail;
+      }
+
+      async function pollBackgroundJob(jobId, onUpdate) {
+        while (true) {
+          const response = await fetch(`/db/jobs/${jobId}`);
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error || 'Nao foi possivel consultar o andamento da rotina.');
+          }
+
+          const job = data.job || {};
+          if (typeof onUpdate === 'function') {
+            onUpdate(job);
+          }
+
+          if (job.status === 'COMPLETED') {
+            return job.result || {};
+          }
+
+          if (job.status === 'FAILED') {
+            throw new Error(job.error || 'A rotina em segundo plano falhou.');
+          }
+
+          await new Promise((resolve) => window.setTimeout(resolve, 2500));
+        }
+      }
+
+      const saveCurrentProgressElements = {
+        container: saveCurrentProgress,
+        label: saveCurrentProgressLabel,
+        value: saveCurrentProgressValue,
+        fill: saveCurrentProgressFill,
+        stage: saveCurrentProgressStage,
+        detail: saveCurrentProgressDetail,
+      };
+
+      const validatedProgressElements = {
+        container: validatedProgress,
+        label: validatedProgressLabel,
+        value: validatedProgressValue,
+        fill: validatedProgressFill,
+        stage: validatedProgressStage,
+        detail: validatedProgressDetail,
+      };
+
       function toggleValidityFields(selectElement, wrapElement, inputElement) {
         const isPontual = selectElement.value === 'PONTUAL';
         wrapElement.classList.toggle('hidden', !isPontual);
         if (!isPontual) {
           inputElement.value = '';
+        }
+      }
+
+      function syncChangeTypeWithValidity(validitySelect, changeTypeSelect) {
+        if (!changeTypeSelect) {
+          return;
+        }
+
+        if (validitySelect.value === 'PONTUAL' && ['PADRAO', 'PONTUAL'].includes(changeTypeSelect.value)) {
+          changeTypeSelect.value = 'PONTUAL';
+        } else if (validitySelect.value === 'PADRAO' && ['PADRAO', 'PONTUAL'].includes(changeTypeSelect.value)) {
+          changeTypeSelect.value = 'PADRAO';
         }
       }
 
@@ -2249,10 +3226,20 @@
       function clearDatabaseQueryTables() {
         latestDbQueryRows = [];
         latestDbHistoryRows = [];
+        latestDbComparisonRows = [];
+        latestDbPlanningRows = [];
+        latestDbPlanningHistoryRows = [];
+        activeDatabaseView = 'none';
         queryResultsBody.innerHTML = '';
         historyResultsBody.innerHTML = '';
+        comparisonResultsBody.innerHTML = '';
+        planningResultsBody.innerHTML = '';
+        planningHistoryResultsBody.innerHTML = '';
         queryResultsShell.classList.add('hidden');
         historyResultsShell.classList.add('hidden');
+        comparisonResultsShell.classList.add('hidden');
+        planningResultsShell.classList.add('hidden');
+        planningHistoryResultsShell.classList.add('hidden');
         historyCards.innerHTML = '';
         historyCards.classList.add('hidden');
         dbSummaryGrid.innerHTML = '';
@@ -2319,6 +3306,71 @@
         });
       }
 
+      function getFilteredPlanningRows(rows) {
+        const query = getDatabaseFilterQuery();
+        const validity = historyValidityFilter.value;
+        const source = historySourceFilter.value;
+
+        return rows.filter((row) => {
+          if (validity && row.validity_type !== validity) {
+            return false;
+          }
+          if (source && row.source_type !== source) {
+            return false;
+          }
+          return rowMatchesDatabaseFilter(row, query);
+        });
+      }
+
+      function getFilteredPlanningHistoryRows(history) {
+        const query = getDatabaseFilterQuery();
+        const validity = historyValidityFilter.value;
+        const source = historySourceFilter.value;
+        const status = historyStatusFilter.value;
+
+        return history.filter((row) => {
+          if (validity && row.validity_type !== validity) {
+            return false;
+          }
+          if (source && row.source_type !== source) {
+            return false;
+          }
+          if (status && row.status !== status) {
+            return false;
+          }
+          return rowMatchesDatabaseFilter(row, query);
+        });
+      }
+
+      function getFilteredComparisonRows(rows) {
+        const query = getDatabaseFilterQuery();
+        return rows.filter((row) => rowMatchesDatabaseFilter(row.current, query) || rowMatchesDatabaseFilter(row.previous || {}, query));
+      }
+
+      function summarizeOperationalDetails(row) {
+        const detailsByDay = row?.raw_row?.dayEventDetails;
+        if (!detailsByDay || typeof detailsByDay !== 'object') {
+          return '';
+        }
+
+        return DAY_KEYS.map((dayKey, index) => {
+          const details = detailsByDay[dayKey];
+          if (!Array.isArray(details) || !details.length) {
+            return null;
+          }
+
+          const lines = details
+            .map((detail) => {
+              return `carga ${escapeHtml(detail.chargeDay || '-')}, corte ${escapeHtml(detail.cutoffHour ?? '-')}, entrega ${escapeHtml(detail.realDeliveryDay || '-')}, oferta ${escapeHtml(detail.offeredDeliveryDay || '-')}, freq ${escapeHtml(detail.frequency || '-')}`;
+            })
+            .join('<span class="db-operational-separator">|</span>');
+
+          return `<div class="db-operational-day"><strong>${escapeHtml(DAY_LABELS_SHORT[index])}</strong><span>${lines}</span></div>`;
+        })
+          .filter(Boolean)
+          .join('');
+      }
+
       function renderDatabaseQueryRows(rows) {
         queryResultsBody.innerHTML = '';
 
@@ -2342,8 +3394,8 @@
             <td>${row.horario_inicial ?? ''}</td>
             <td>${row.horario_final ?? ''}</td>
             <td>${row.validity_type || ''}</td>
-            <td>${row.valid_from || ''}</td>
-            <td>${row.valid_to || 'Sem fim'}</td>
+            <td>${formatBrazilDate(row.valid_from) || ''}</td>
+            <td>${row.valid_to ? formatBrazilDate(row.valid_to) : 'Sem fim'}</td>
             <td>${row.observation || ''}</td>
             ${dayCell(row.segunda)}
             ${dayCell(row.terca)}
@@ -2352,6 +3404,7 @@
             ${dayCell(row.sexta)}
             ${dayCell(row.sabado)}
             ${dayCell(row.domingo)}
+            <td class="db-operational-details">${summarizeOperationalDetails(row)}</td>
           `;
           queryResultsBody.appendChild(tr);
         });
@@ -2365,6 +3418,49 @@
           ['Modais retornados', formatInteger(uniqueModals)],
         ]);
         queryResultsMeta.textContent = `${rows.length} linhas vigentes encontradas para a data consultada.`;
+      }
+
+      function renderPlanningQueryRows(rows) {
+        planningResultsBody.innerHTML = '';
+
+        if (!rows.length) {
+          planningResultsShell.classList.add('hidden');
+          queryResultsMeta.textContent = 'Nenhum planejamento encontrado para os filtros informados.';
+          return;
+        }
+
+        rows.forEach((row) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${row.modal || ''}</td>
+            <td>${row.geography || ''}</td>
+            <td>${row.commercial_location || ''}</td>
+            <td>${row.alignment_code ? `${row.alignment_code} - ${row.alignment_name || ''}` : row.alignment_name || ''}</td>
+            <td>${row.transport_plan || ''}</td>
+            <td>${row.route_destination || ''}</td>
+            <td>${row.event_day || ''}</td>
+            <td>${row.cutoff_hour ?? ''}</td>
+            <td>${row.delivery_day || ''}</td>
+            <td>${row.delivery_offered_day || ''}</td>
+            <td>${row.frequency || ''}</td>
+            <td>${row.change_type || ''}</td>
+            <td>${row.scope_type || ''}</td>
+            <td>${formatBrazilDate(row.valid_from) || ''}</td>
+            <td>${row.valid_to ? formatBrazilDate(row.valid_to) : 'Sem fim'}</td>
+            <td>${row.observation || ''}</td>
+          `;
+          planningResultsBody.appendChild(tr);
+        });
+
+        planningResultsShell.classList.remove('hidden');
+        const uniqueVersions = new Set(rows.map((row) => row.planning_route_version_id)).size;
+        const uniqueAlignments = new Set(rows.map((row) => `${row.alignment_code || ''}|${row.alignment_name || ''}`)).size;
+        renderDatabaseSummaryCards([
+          ['Eventos vigentes', formatInteger(rows.length)],
+          ['Versoes de plano', formatInteger(uniqueVersions)],
+          ['Alinhamentos', formatInteger(uniqueAlignments)],
+        ]);
+        queryResultsMeta.textContent = `${rows.length} eventos de planejamento encontrados para a data consultada.`;
       }
 
       function renderDatabaseHistoryRows(history) {
@@ -2386,11 +3482,11 @@
             <td>${row.route_identity_key ? row.route_identity_key.split('|||').slice(2).join('|||') : ''}</td>
             <td>${row.validity_type || ''}</td>
             <td>${row.source_type || ''}</td>
-            <td>${row.valid_from || ''}</td>
-            <td>${row.valid_to || 'Sem fim'}</td>
+            <td>${formatBrazilDate(row.valid_from) || ''}</td>
+            <td>${row.valid_to ? formatBrazilDate(row.valid_to) : 'Sem fim'}</td>
             <td>${row.status || ''}</td>
             <td>${row.row_count ?? ''}</td>
-            <td>${row.created_at ? String(row.created_at).replace('T', ' ').slice(0, 19) : ''}</td>
+            <td>${formatBrazilDateTime(row.created_at)}</td>
             <td>${row.observation || ''}</td>
           `;
           historyResultsBody.appendChild(tr);
@@ -2406,8 +3502,8 @@
             <h4 class="history-card-title">${row.route_identity_key ? row.route_identity_key.split('|||').slice(2).join('|||') : ''}</h4>
             <div class="history-card-meta">
               <div><strong>Modal/Geografia:</strong> ${(row.route_identity_key || '').split('|||')[0] || ''} | ${(row.route_identity_key || '').split('|||')[1] || ''}</div>
-              <div><strong>Vigencia:</strong> ${row.valid_from || ''} ate ${row.valid_to || 'Sem fim'}</div>
-              <div><strong>Linhas:</strong> ${row.row_count ?? 0} | <strong>Criado em:</strong> ${row.created_at ? String(row.created_at).replace('T', ' ').slice(0, 19) : ''}</div>
+              <div><strong>Vigencia:</strong> ${formatBrazilDate(row.valid_from) || ''} ate ${row.valid_to ? formatBrazilDate(row.valid_to) : 'Sem fim'}</div>
+              <div><strong>Linhas:</strong> ${row.row_count ?? 0} | <strong>Criado em:</strong> ${formatBrazilDateTime(row.created_at)}</div>
               <div><strong>Observacao:</strong> ${row.observation || 'Sem observacao.'}</div>
             </div>
           `;
@@ -2425,17 +3521,155 @@
         queryResultsMeta.textContent = `${history.length} versoes historicas encontradas para a rota informada.`;
       }
 
+      function renderPlanningHistoryRows(history) {
+        planningHistoryResultsBody.innerHTML = '';
+        historyCards.innerHTML = '';
+
+        if (!history.length) {
+          planningHistoryResultsShell.classList.add('hidden');
+          historyCards.classList.add('hidden');
+          queryResultsMeta.textContent = 'Nenhuma versao historica de planejamento encontrada para os filtros informados.';
+          return;
+        }
+
+        history.forEach((row) => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${row.modal || ''}</td>
+            <td>${row.geography || ''}</td>
+            <td>${row.commercial_location || ''}</td>
+            <td>${row.alignment_code ? `${row.alignment_code} - ${row.alignment_name || ''}` : row.alignment_name || ''}</td>
+            <td>${row.transport_plan || ''}</td>
+            <td>${row.route_destination || ''}</td>
+            <td>${row.validity_type || ''}</td>
+            <td>${row.change_type || ''}</td>
+            <td>${row.scope_type || ''}</td>
+            <td>${formatBrazilDate(row.valid_from) || ''}</td>
+            <td>${row.valid_to ? formatBrazilDate(row.valid_to) : 'Sem fim'}</td>
+            <td>${row.status || ''}</td>
+            <td>${row.event_count ?? ''}</td>
+            <td>${formatBrazilDateTime(row.created_at)}</td>
+            <td>${row.observation || ''}</td>
+          `;
+          planningHistoryResultsBody.appendChild(tr);
+
+          const card = document.createElement('article');
+          card.className = 'history-card';
+          card.innerHTML = `
+            <div class="history-card-top">
+              <span class="history-chip">${row.validity_type || ''}</span>
+              <span class="history-chip">${row.change_type || ''}</span>
+              <span class="history-chip">${row.status || ''}</span>
+            </div>
+            <h4 class="history-card-title">${row.commercial_location || ''}</h4>
+            <div class="history-card-meta">
+              <div><strong>Modal/Geografia:</strong> ${row.modal || ''} | ${row.geography || ''}</div>
+              <div><strong>Alinhamento:</strong> ${row.alignment_code ? `${row.alignment_code} - ${row.alignment_name || ''}` : row.alignment_name || 'Nao informado'}</div>
+              <div><strong>Vigencia:</strong> ${formatBrazilDate(row.valid_from) || ''} ate ${row.valid_to ? formatBrazilDate(row.valid_to) : 'Sem fim'}</div>
+              <div><strong>Destino/Eventos:</strong> ${row.route_destination || 'Sem destino'} | ${row.event_count ?? 0} eventos</div>
+              <div><strong>Observacao:</strong> ${row.observation || 'Sem observacao.'}</div>
+            </div>
+          `;
+          historyCards.appendChild(card);
+        });
+
+        planningHistoryResultsShell.classList.remove('hidden');
+        historyCards.classList.remove('hidden');
+        const activeCount = history.filter((row) => row.status === 'ATIVO').length;
+        renderDatabaseSummaryCards([
+          ['Versoes de plano', formatInteger(history.length)],
+          ['Versoes ativas', formatInteger(activeCount)],
+          ['Eventos historicos', formatInteger(history.reduce((total, row) => total + Number(row.event_count || 0), 0))],
+        ]);
+        queryResultsMeta.textContent = `${history.length} versoes historicas de planejamento encontradas para a rota informada.`;
+      }
+
+      function summarizeComparisonDays(currentRow) {
+        return ['segunda', 'terca', 'quarta', 'quinta', 'sexta', 'sabado', 'domingo']
+          .filter((dayKey) => currentRow?.[dayKey] === 'OK')
+          .map((dayKey) => dayKey.slice(0, 3).toUpperCase())
+          .join(', ');
+      }
+
+      function renderDeadlineComparisonRows(rows) {
+        comparisonResultsBody.innerHTML = '';
+
+        if (!rows.length) {
+          comparisonResultsShell.classList.add('hidden');
+          queryResultsMeta.textContent = 'Nenhuma divergencia encontrada entre o prazo vigente e o anterior para os filtros informados.';
+          return;
+        }
+
+        rows.forEach((entry) => {
+          const current = entry.current || {};
+          const previous = entry.previous || {};
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td>${current.modal || previous.modal || ''}</td>
+            <td>${current.geography || previous.geography || ''}</td>
+            <td>${current.commercial_location || previous.commercial_location || ''}</td>
+            <td>${current.horario_inicial ?? previous.horario_inicial ?? ''}</td>
+            <td>${current.horario_final ?? previous.horario_final ?? ''}</td>
+            <td>${current.prazo_cliente ?? ''}</td>
+            <td>${previous.prazo_cliente ?? '-'}</td>
+            <td>${current.prazo_cd ?? ''}</td>
+            <td>${previous.prazo_cd ?? '-'}</td>
+            <td>${current.prazo_tr ?? ''}</td>
+            <td>${previous.prazo_tr ?? '-'}</td>
+            <td>${summarizeComparisonDays(current)}</td>
+          `;
+          comparisonResultsBody.appendChild(tr);
+        });
+
+        comparisonResultsShell.classList.remove('hidden');
+        renderDatabaseSummaryCards([
+          ['Janelas alteradas', formatInteger(rows.length)],
+          ['Com prazo anterior', formatInteger(rows.filter((row) => row.previous).length)],
+          ['Sem equivalente anterior', formatInteger(rows.filter((row) => !row.previous).length)],
+        ]);
+        queryResultsMeta.textContent = `${rows.length} janelas com diferenca entre o prazo vigente e o anterior.`;
+      }
+
       function refreshRenderedDatabaseResults() {
         const filteredRows = getFilteredDatabaseRows(latestDbQueryRows);
         const filteredHistory = getFilteredHistoryRows(latestDbHistoryRows);
+        const filteredComparisonRows = getFilteredComparisonRows(latestDbComparisonRows);
+        const filteredPlanningRows = getFilteredPlanningRows(latestDbPlanningRows);
+        const filteredPlanningHistory = getFilteredPlanningHistoryRows(latestDbPlanningHistoryRows);
 
-        if (latestDbQueryRows.length) {
+        if (activeDatabaseView === 'deadline-query') {
           renderDatabaseQueryRows(filteredRows);
+          planningResultsShell.classList.add('hidden');
+          planningHistoryResultsShell.classList.add('hidden');
           historyResultsShell.classList.add('hidden');
           historyCards.classList.add('hidden');
-        } else if (latestDbHistoryRows.length) {
-          renderDatabaseHistoryRows(filteredHistory);
+          comparisonResultsShell.classList.add('hidden');
+        } else if (activeDatabaseView === 'planning-query') {
+          renderPlanningQueryRows(filteredPlanningRows);
           queryResultsShell.classList.add('hidden');
+          planningHistoryResultsShell.classList.add('hidden');
+          historyResultsShell.classList.add('hidden');
+          historyCards.classList.add('hidden');
+          comparisonResultsShell.classList.add('hidden');
+        } else if (activeDatabaseView === 'comparison') {
+          renderDeadlineComparisonRows(filteredComparisonRows);
+          planningResultsShell.classList.add('hidden');
+          queryResultsShell.classList.add('hidden');
+          planningHistoryResultsShell.classList.add('hidden');
+          historyResultsShell.classList.add('hidden');
+          historyCards.classList.add('hidden');
+        } else if (activeDatabaseView === 'deadline-history') {
+          renderDatabaseHistoryRows(filteredHistory);
+          planningResultsShell.classList.add('hidden');
+          queryResultsShell.classList.add('hidden');
+          planningHistoryResultsShell.classList.add('hidden');
+          comparisonResultsShell.classList.add('hidden');
+        } else if (activeDatabaseView === 'planning-history') {
+          renderPlanningHistoryRows(filteredPlanningHistory);
+          planningResultsShell.classList.add('hidden');
+          queryResultsShell.classList.add('hidden');
+          historyResultsShell.classList.add('hidden');
+          comparisonResultsShell.classList.add('hidden');
         } else {
           clearDatabaseQueryTables();
         }
@@ -2448,20 +3682,18 @@
 
         if (validity === 'PONTUAL') {
           validatedPreviewNote.textContent = validFrom
-            ? `Vigencia pontual: o prazo importado valera apenas no periodo informado e, ao final, o sistema volta a exibir o padrao ja registrado.`
-            : 'Vigencia pontual: informe inicio e fim para registrar um prazo temporario.';
+            ? `Vigencia pontual: o planejamento importado valera apenas no periodo informado e, ao final, o sistema volta a exibir o plano padrao ja registrado.`
+            : 'Vigencia pontual: informe inicio e fim para registrar um planejamento temporario.';
           return;
         }
 
         if (validFrom) {
-          const previousDate = new Date(`${validFrom}T00:00:00`);
-          previousDate.setDate(previousDate.getDate() - 1);
-          const previousLabel = previousDate.toISOString().slice(0, 10);
-          validatedPreviewNote.textContent = `Ao salvar este PADRAO${lote ? ` (${lote})` : ''}, o sistema encerra o padrao anterior das mesmas rotas em ${previousLabel}.`;
+          const previousLabel = formatBrazilDate(shiftIsoDate(validFrom, -1));
+          validatedPreviewNote.textContent = `Ao salvar este PADRAO${lote ? ` (${lote})` : ''}, o sistema encerra o plano padrao anterior dessas mesmas rotas em ${previousLabel}.`;
           return;
         }
 
-        validatedPreviewNote.textContent = 'Ao salvar um PADRAO, o sistema encerra o padrao anterior dessas mesmas rotas na vespera da nova vigencia.';
+        validatedPreviewNote.textContent = 'Ao salvar um PADRAO, o sistema encerra o plano padrao anterior dessas mesmas rotas na vespera da nova vigencia.';
       }
 
       async function refreshDatabaseStatus() {
@@ -2478,12 +3710,13 @@
 
       async function saveCurrentCalculationToDatabase() {
         if (!latestRows.length) {
-          setDbStatus(saveCurrentStatus, 'Calcule ou importe uma rota antes de salvar no banco.', true);
+          setDbStatus(saveCurrentStatus, 'Calcule ou importe um planejamento antes de salvar no banco.', true);
           return;
         }
 
         try {
-          setDbStatus(saveCurrentStatus, 'Salvando calculo no banco...');
+          setJobProgress(saveCurrentProgressElements, 6, 'Preparando envio...');
+          setDbStatus(saveCurrentStatus, 'Salvando planejamento e recalculando prazos...');
           const metadata = getValidityMetadata({
             validitySelect: saveCurrentValiditySelect,
             validFromInput: saveCurrentValidFromInput,
@@ -2491,37 +3724,50 @@
             observationInput: saveCurrentObservationInput,
           });
 
-          const response = await fetch('/db/save-current', {
+          const response = await fetch('/db/save-planning-current', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-              rows: latestRows,
+              rows: latestSourceRoutes.length ? [] : latestRows,
               routes: latestSourceRoutes,
-              sourceType: latestSourceType || 'CALCULO_MANUAL',
-              sourceName: resultTitle.textContent || 'Calculo atual',
+              sourceType: 'PLANEJAMENTO_MANUAL',
+              sourceName: resultTitle.textContent || 'Planejamento atual',
+              changeType: saveCurrentChangeTypeSelect.value,
+              scopeType: saveCurrentScopeTypeSelect.value,
               fileName: latestSourceFileName || null,
               ...metadata,
             }),
           });
 
           const data = await response.json();
-          if (!response.ok) {
-            throw new Error(data.error || 'Nao foi possivel salvar o calculo no banco.');
+          if (!response.ok && response.status !== 202) {
+            throw new Error(data.error || 'Nao foi possivel salvar o planejamento no banco.');
+          }
+
+          let finalData = data;
+          if (response.status === 202 && data.jobId) {
+            setDbStatus(saveCurrentStatus, data.message || 'Rotina enviada para processamento em segundo plano...');
+            finalData = await pollBackgroundJob(data.jobId, (job) => {
+              setDbStatus(saveCurrentStatus, job.message || 'Processando a rotina no servidor...');
+              setJobProgress(saveCurrentProgressElements, job.progress, job.message);
+            });
           }
 
           const previewText =
-            data.standardReplacementPreview && data.standardReplacementPreview.closesPreviousStandardOn
-              ? ` Padrao anterior encerrado em ${data.standardReplacementPreview.closesPreviousStandardOn}.`
+            finalData.standardReplacementPreview && finalData.standardReplacementPreview.closesPreviousStandardOn
+              ? ` Padrao anterior encerrado em ${formatBrazilDate(finalData.standardReplacementPreview.closesPreviousStandardOn)}.`
               : '';
           setDbStatus(
             saveCurrentStatus,
-            `Calculo salvo no banco. Lote ${data.batch_id || ''} com ${data.route_versions || 0} rotas e ${data.deadline_rows || 0} linhas.${previewText}`.trim(),
+            `Planejamento salvo. Lote de plano ${finalData.planning_batch_id || ''} com ${finalData.planning_route_versions || 0} rotas e ${finalData.planning_events || 0} eventos. Prazo recalculado em ${finalData.deadline_rows || 0} linhas.${previewText}`.trim(),
           );
+          setJobProgress(saveCurrentProgressElements, 100, 'Processamento concluido.');
           refreshDatabaseStatus();
         } catch (error) {
+          setJobProgress(saveCurrentProgressElements, 100, 'Falha na rotina.');
           setDbStatus(
             saveCurrentStatus,
-            error.message || 'Nao foi possivel salvar o calculo no banco.',
+            error.message || 'Nao foi possivel salvar o planejamento no banco.',
             true,
           );
         }
@@ -2537,11 +3783,12 @@
 
       async function importValidatedSpreadsheetToDatabase() {
         if (!selectedValidatedFile) {
-          setDbStatus(validatedUploadStatus, 'Selecione a planilha validada antes de importar.', true);
+          setDbStatus(validatedUploadStatus, 'Selecione a planilha do planejamento antes de importar.', true);
           return;
         }
 
         try {
+          setJobProgress(validatedProgressElements, 6, 'Preparando envio...');
           const metadata = getValidityMetadata({
             validitySelect: validatedValiditySelect,
             validFromInput: validatedValidFromInput,
@@ -2549,11 +3796,13 @@
             observationInput: validatedObservationInput,
           });
 
-          setDbStatus(validatedUploadStatus, 'Importando planilha validada para o banco...');
+          setDbStatus(validatedUploadStatus, 'Importando planejamento e recalculando prazos...');
           const formData = new FormData();
           formData.append('file', selectedValidatedFile);
-          formData.append('sourceType', 'PLANILHA_VALIDADA');
-          formData.append('sourceName', validatedSourceNameInput.value.trim() || 'Importacao de prazos validados');
+          formData.append('sourceType', 'PLANEJAMENTO_UPLOAD');
+          formData.append('sourceName', validatedSourceNameInput.value.trim() || 'Importacao de planejamento logistico');
+          formData.append('changeType', validatedChangeTypeSelect.value);
+          formData.append('scopeType', validatedScopeTypeSelect.value);
           formData.append('validityType', metadata.validityType);
           formData.append('validFrom', metadata.validFrom);
           if (metadata.validTo) {
@@ -2563,31 +3812,42 @@
             formData.append('observation', metadata.observation);
           }
 
-          const response = await fetch('/db/import-validated', {
+          const response = await fetch('/db/import-planning', {
             method: 'POST',
             body: formData,
           });
 
           const data = await response.json();
-          if (!response.ok) {
-            throw new Error(data.error || 'Nao foi possivel importar os prazos validados.');
+          if (!response.ok && response.status !== 202) {
+            throw new Error(data.error || 'Nao foi possivel importar o planejamento logistico.');
+          }
+
+          let finalData = data;
+          if (response.status === 202 && data.jobId) {
+            setDbStatus(validatedUploadStatus, data.message || 'Rotina enviada para processamento em segundo plano...');
+            finalData = await pollBackgroundJob(data.jobId, (job) => {
+              setDbStatus(validatedUploadStatus, job.message || 'Processando a rotina no servidor...');
+              setJobProgress(validatedProgressElements, job.progress, job.message);
+            });
           }
 
           const previewText =
-            data.standardReplacementPreview && data.standardReplacementPreview.closesPreviousStandardOn
-              ? ` Padrao anterior encerrado em ${data.standardReplacementPreview.closesPreviousStandardOn}.`
+            finalData.standardReplacementPreview && finalData.standardReplacementPreview.closesPreviousStandardOn
+              ? ` Padrao anterior encerrado em ${formatBrazilDate(finalData.standardReplacementPreview.closesPreviousStandardOn)}.`
               : '';
           setDbStatus(
             validatedUploadStatus,
-            `Importacao concluida. Lote ${data.batch_id || ''} com ${data.route_versions || 0} rotas, ${data.deadline_rows || 0} linhas e ${data.importedRows || 0} linhas processadas.${previewText}`.trim(),
+            `Importacao concluida. Lote de plano ${finalData.planning_batch_id || ''} com ${finalData.planning_route_versions || 0} rotas, ${finalData.planning_events || 0} eventos e ${finalData.deadline_rows || 0} linhas de prazo recalculadas.${previewText}`.trim(),
           );
+          setJobProgress(validatedProgressElements, 100, 'Processamento concluido.');
           selectedValidatedFile = null;
           validatedFileInput.value = '';
           refreshDatabaseStatus();
         } catch (error) {
+          setJobProgress(validatedProgressElements, 100, 'Falha na rotina.');
           setDbStatus(
             validatedUploadStatus,
-            error.message || 'Nao foi possivel importar a planilha validada.',
+            error.message || 'Nao foi possivel importar a planilha do planejamento.',
             true,
           );
         }
@@ -2616,10 +3876,48 @@
 
           latestDbQueryRows = Array.isArray(data.rows) ? data.rows : [];
           latestDbHistoryRows = [];
+          latestDbPlanningRows = [];
+          latestDbPlanningHistoryRows = [];
+          latestDbComparisonRows = [];
+          activeDatabaseView = 'deadline-query';
           refreshRenderedDatabaseResults();
           setDbStatus(queryDbStatus, `Consulta concluida com ${data.count || 0} linhas.`);
         } catch (error) {
           setDbStatus(queryDbStatus, error.message || 'Nao foi possivel consultar o banco.', true);
+        }
+      }
+
+      async function queryDatabasePlanning() {
+        try {
+          clearDatabaseQueryTables();
+          setDbStatus(queryDbStatus, 'Consultando planejamento vigente...');
+          const params = new URLSearchParams({
+            referenceDate: queryReferenceDateInput.value,
+            commercialLocation: queryCommercialLocationInput.value.trim(),
+          });
+          if (queryGeographyInput.value.trim()) {
+            params.set('geography', queryGeographyInput.value.trim());
+          }
+          if (queryModalInput.value.trim()) {
+            params.set('modal', queryModalInput.value.trim());
+          }
+
+          const response = await fetch(`/db/planning/query?${params.toString()}`);
+          const data = await response.json();
+          if (!response.ok) {
+            throw new Error(data.error || 'Nao foi possivel consultar o planejamento vigente.');
+          }
+
+          latestDbPlanningRows = Array.isArray(data.rows) ? data.rows : [];
+          latestDbQueryRows = [];
+          latestDbHistoryRows = [];
+          latestDbPlanningHistoryRows = [];
+          latestDbComparisonRows = [];
+          activeDatabaseView = 'planning-query';
+          refreshRenderedDatabaseResults();
+          setDbStatus(queryDbStatus, `Planejamento consultado com ${data.count || 0} eventos.`);
+        } catch (error) {
+          setDbStatus(queryDbStatus, error.message || 'Nao foi possivel consultar o planejamento.', true);
         }
       }
 
@@ -2645,10 +3943,84 @@
 
           latestDbHistoryRows = Array.isArray(data.history) ? data.history : [];
           latestDbQueryRows = [];
+          latestDbPlanningRows = [];
+          latestDbPlanningHistoryRows = [];
+          latestDbComparisonRows = [];
+          activeDatabaseView = 'deadline-history';
           refreshRenderedDatabaseResults();
           setDbStatus(queryDbStatus, `Historico consultado com ${data.count || 0} versoes.`);
         } catch (error) {
           setDbStatus(queryDbStatus, error.message || 'Nao foi possivel consultar o historico.', true);
+        }
+      }
+
+      async function queryPlanningHistory() {
+        try {
+          clearDatabaseQueryTables();
+          setDbStatus(queryDbStatus, 'Consultando historico do planejamento...');
+          const params = new URLSearchParams({
+            commercialLocation: queryCommercialLocationInput.value.trim(),
+          });
+          if (queryGeographyInput.value.trim()) {
+            params.set('geography', queryGeographyInput.value.trim());
+          }
+          if (queryModalInput.value.trim()) {
+            params.set('modal', queryModalInput.value.trim());
+          }
+
+          const response = await fetch(`/db/planning/history?${params.toString()}`);
+          const data = await response.json();
+          if (!response.ok) {
+            throw new Error(data.error || 'Nao foi possivel consultar o historico do planejamento.');
+          }
+
+          latestDbPlanningHistoryRows = Array.isArray(data.history) ? data.history : [];
+          latestDbPlanningRows = [];
+          latestDbQueryRows = [];
+          latestDbHistoryRows = [];
+          latestDbComparisonRows = [];
+          activeDatabaseView = 'planning-history';
+          refreshRenderedDatabaseResults();
+          setDbStatus(queryDbStatus, `Historico do planejamento consultado com ${data.count || 0} versoes.`);
+        } catch (error) {
+          setDbStatus(queryDbStatus, error.message || 'Nao foi possivel consultar o historico do planejamento.', true);
+        }
+      }
+
+      async function compareDatabaseDeadlines() {
+        try {
+          clearDatabaseQueryTables();
+          setDbStatus(queryDbStatus, 'Comparando prazo vigente com o anterior...');
+          const params = new URLSearchParams({
+            referenceDate: queryReferenceDateInput.value,
+            commercialLocation: queryCommercialLocationInput.value.trim(),
+          });
+          if (queryGeographyInput.value.trim()) {
+            params.set('geography', queryGeographyInput.value.trim());
+          }
+          if (queryModalInput.value.trim()) {
+            params.set('modal', queryModalInput.value.trim());
+          }
+
+          const response = await fetch(`/db/compare?${params.toString()}`);
+          const data = await response.json();
+          if (!response.ok) {
+            throw new Error(data.error || 'Nao foi possivel comparar os prazos.');
+          }
+
+          latestDbComparisonRows = Array.isArray(data.changedRows) ? data.changedRows : [];
+          latestDbQueryRows = [];
+          latestDbHistoryRows = [];
+          latestDbPlanningRows = [];
+          latestDbPlanningHistoryRows = [];
+          activeDatabaseView = 'comparison';
+          refreshRenderedDatabaseResults();
+          setDbStatus(
+            queryDbStatus,
+            `Comparacao concluida com ${data.summary?.changedRows || 0} janelas alteradas.`,
+          );
+        } catch (error) {
+          setDbStatus(queryDbStatus, error.message || 'Nao foi possivel comparar os prazos.', true);
         }
       }
 
@@ -2696,6 +4068,9 @@
               locality: document.getElementById('locality').value,
               cd: document.getElementById('cd').value,
               routeDestination: document.getElementById('routeDestination').value,
+              transportPlan: document.getElementById('transportPlan').value,
+              alignmentCode: document.getElementById('alignmentCode').value,
+              alignmentName: document.getElementById('alignmentName').value,
               events: [...document.querySelectorAll('.event-card')].map((card) => ({
                 day: card.querySelector('.event-day').value,
                 cutoffHour: card.querySelector('.event-cutoff').value,
@@ -2975,13 +4350,13 @@
         }
 
         if (!/<!--DATA_ROWS_START-->[\s\S]*<!--DATA_ROWS_END-->/.test(template)) {
-          return template;
+          return sanitizePreviewHtml(template);
         }
 
-        return template.replace(
+        return sanitizePreviewHtml(template.replace(
           /<!--DATA_ROWS_START-->[\s\S]*<!--DATA_ROWS_END-->/,
           `<!--DATA_ROWS_START-->\n${buildOfficialRows(rows)}\n<!--DATA_ROWS_END-->`,
-        );
+        ));
       }
 
       function getRowSearchText(row) {
@@ -3102,11 +4477,9 @@
       }
 
       function syncSearchInputs(value, source) {
-        [globalSearchInput, resultsFilterInput].forEach((input) => {
-          if (input && input !== source) {
-            input.value = value;
-          }
-        });
+        if (resultsFilterInput && resultsFilterInput !== source) {
+          resultsFilterInput.value = value;
+        }
       }
 
       function renderPaginatedViews() {
@@ -3190,7 +4563,6 @@
         filteredRows = [];
         currentPage = 1;
         searchQuery = '';
-        globalSearchInput.value = '';
         resultsFilterInput.value = '';
         pageSizeSelect.value = '50';
         pageSize = 50;
@@ -3234,6 +4606,9 @@
           latestSourceType = state.latestSourceType || '';
           latestSourceFileName = state.latestSourceFileName || '';
           resultTitle.textContent = state.resultTitle || 'Simulacao manual';
+          if (state.calculatedStatePersisted === false && !latestRows.length) {
+            setActionFeedback('O ultimo resultado foi grande demais para ficar salvo no navegador. Reimporte ou consulte no banco se precisar retomar.', true);
+          }
 
           if (state.resultsVisible && latestRows.length) {
             resultsSection.classList.remove('hidden');
@@ -3432,10 +4807,12 @@
 
       saveCurrentValiditySelect.addEventListener('change', () => {
         toggleValidityFields(saveCurrentValiditySelect, saveCurrentValidToWrap, saveCurrentValidToInput);
+        syncChangeTypeWithValidity(saveCurrentValiditySelect, saveCurrentChangeTypeSelect);
       });
 
       validatedValiditySelect.addEventListener('change', () => {
         toggleValidityFields(validatedValiditySelect, validatedValidToWrap, validatedValidToInput);
+        syncChangeTypeWithValidity(validatedValiditySelect, validatedChangeTypeSelect);
         updateValidatedPreviewNote();
       });
 
@@ -3457,4 +4834,124 @@
         if (event.key !== 'Enter' && event.key !== ' ') {
           return;
         }
-    
+        event.preventDefault();
+        validatedFileInput.click();
+      });
+
+      validatedFileInput.addEventListener('change', (event) => {
+        const file = event.target.files && event.target.files[0];
+        if (file && !isSupportedSpreadsheet(file)) {
+          setDbStatus(validatedUploadStatus, 'Formato invalido. Use CSV, XLSX ou XLS.', true);
+          event.target.value = '';
+          return;
+        }
+        setValidatedFile(file || null);
+      });
+
+      importValidatedDbButton.addEventListener('click', importValidatedSpreadsheetToDatabase);
+      queryPlanningDbButton.addEventListener('click', queryDatabasePlanning);
+      queryDbButton.addEventListener('click', queryDatabaseDeadlines);
+      planningHistoryDbButton.addEventListener('click', queryPlanningHistory);
+      historyDbButton.addEventListener('click', queryDatabaseHistory);
+      compareDbButton.addEventListener('click', compareDatabaseDeadlines);
+      [queryResultsFilterInput, historyValidityFilter, historySourceFilter, historyStatusFilter].forEach((input) => {
+        input.addEventListener('input', refreshRenderedDatabaseResults);
+        input.addEventListener('change', refreshRenderedDatabaseResults);
+      });
+
+      eventsList.addEventListener('click', (event) => {
+        const button = event.target.closest('.remove-event');
+        if (!button) {
+          return;
+        }
+        if (document.querySelectorAll('.event-card').length === 1) {
+          return;
+        }
+        button.closest('.event-card').remove();
+        refreshEventTitles();
+        scheduleSaveAppState();
+      });
+
+      taskButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          setActiveTask(button.dataset.task, { scroll: true, persist: true });
+        });
+      });
+
+      taskLinkButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          setActiveTask(button.dataset.taskLink, { scroll: true, persist: true });
+        });
+      });
+
+      modeButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          isUploadPanelCollapsed = false;
+          setActiveMode(button.dataset.mode);
+          scheduleSaveAppState();
+        });
+      });
+
+      manualPanel.addEventListener('input', () => {
+        scheduleSaveAppState();
+      });
+
+      manualPanel.addEventListener('change', () => {
+        scheduleSaveAppState();
+      });
+
+      [resultsFilterInput].forEach((input) => {
+        input.addEventListener('input', (event) => {
+          applySearch(event.target.value, event.target);
+        });
+      });
+
+      pageSizeSelect.addEventListener('change', (event) => {
+        pageSize = parseInt(event.target.value, 10) || 50;
+        currentPage = 1;
+        renderPaginatedViews();
+      });
+
+      prevPageButton.addEventListener('click', () => {
+        if (currentPage <= 1) {
+          return;
+        }
+        currentPage -= 1;
+        renderPaginatedViews();
+      });
+
+      nextPageButton.addEventListener('click', () => {
+        const totalPages = filteredRows.length === 0 ? 1 : Math.ceil(filteredRows.length / pageSize);
+        if (currentPage >= totalPages) {
+          return;
+        }
+        currentPage += 1;
+        renderPaginatedViews();
+      });
+
+      resultsTableShell.addEventListener('scroll', () => {
+        syncStickyHeaderScroll();
+      });
+
+      saveCurrentValidFromInput.value = saveCurrentValidFromInput.value || todayIsoDate();
+      validatedValidFromInput.value = validatedValidFromInput.value || todayIsoDate();
+      queryReferenceDateInput.value = queryReferenceDateInput.value || todayIsoDate();
+      toggleValidityFields(saveCurrentValiditySelect, saveCurrentValidToWrap, saveCurrentValidToInput);
+      toggleValidityFields(validatedValiditySelect, validatedValidToWrap, validatedValidToInput);
+      syncChangeTypeWithValidity(saveCurrentValiditySelect, saveCurrentChangeTypeSelect);
+      syncChangeTypeWithValidity(validatedValiditySelect, validatedChangeTypeSelect);
+      refreshDatabaseStatus();
+
+      pageSize = parseInt(pageSizeSelect.value, 10) || 50;
+      if (!restoreAppState()) {
+        setActiveTask('calculate');
+        setActiveMode('manual');
+        resetManualForm();
+        renderPaginatedViews();
+      }
+
+      window.addEventListener('resize', updateStickyOffsets);
+      window.addEventListener('scroll', updateStickyHeaderState, { passive: true });
+    </script>
+  </body>
+</html>

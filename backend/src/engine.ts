@@ -22,6 +22,9 @@ export interface RouteInput {
   locality?: string;
   cd?: string;
   routeDestination?: string;
+  transportPlan?: string;
+  alignmentCode?: string;
+  alignmentName?: string;
   events: RouteEventInput[];
 }
 
@@ -39,6 +42,20 @@ interface NormalizedEvent {
   cutoffHour: number;
   frequency: Frequency;
   timestamp: number;
+}
+
+export interface DayEventDetail {
+  orderDay: string;
+  windowStartHour: number;
+  windowEndHour: number;
+  chargeDay: string;
+  cutoffHour: number;
+  realDeliveryDay: string;
+  offeredDeliveryDay: string;
+  frequency: Frequency;
+  prazoCd: number;
+  prazoTr: number;
+  prazoCliente: number;
 }
 
 export interface WindowRow {
@@ -63,6 +80,7 @@ export interface WindowRow {
   sabado: string;
   domingo: string;
   dayDetails: Record<string, string | null>;
+  dayEventDetails: Record<string, DayEventDetail[] | null>;
 }
 
 interface RouteComputationResult {
@@ -356,6 +374,45 @@ function splitModalValues(modal: string): string[] {
   return parts.length > 0 ? Array.from(new Set(parts)) : [String(modal).trim()];
 }
 
+function buildDayEventDetail(
+  orderDayIndex: number,
+  startHour: number,
+  endHour: number,
+  chargeDayNumber: number,
+  selectedEvent: NormalizedEvent,
+  realDeliveryDayNumber: number,
+  offeredDayNumber: number,
+  prazoCd: number,
+  prazoTr: number,
+  prazoCliente: number,
+): DayEventDetail {
+  return {
+    orderDay: dayIndexToLabel(orderDayIndex),
+    windowStartHour: startHour,
+    windowEndHour: endHour,
+    chargeDay: dayNumberToLabel(chargeDayNumber),
+    cutoffHour: selectedEvent.cutoffHour,
+    realDeliveryDay: dayNumberToLabel(realDeliveryDayNumber),
+    offeredDeliveryDay: dayNumberToLabel(offeredDayNumber),
+    frequency: selectedEvent.frequency,
+    prazoCd,
+    prazoTr,
+    prazoCliente,
+  };
+}
+
+function buildDayEventDetailText(routeName: string, detail: DayEventDetail): string {
+  return [
+    routeName,
+    `Dia do Pedido: ${detail.orderDay} | Janela: ${detail.windowStartHour}-${detail.windowEndHour}`,
+    `Dia de Produção/Carga: ${detail.chargeDay}`,
+    `Dia de Entrega Real: ${detail.realDeliveryDay}`,
+    `Dia do Prazo Ofertado: ${detail.offeredDeliveryDay}`,
+    `Frequência: ${detail.frequency}`,
+    `CD ${detail.prazoCd} | TR ${detail.prazoTr} | CLIENTE ${detail.prazoCliente}`,
+  ].join('\n');
+}
+
 function buildDetails(
   routeName: string,
   orderDayIndex: number,
@@ -420,18 +477,23 @@ function createBaseRow(
   const dayDetails: Record<string, string | null> = Object.fromEntries(
     DAY_KEYS.map((key) => [key, null]),
   ) as Record<string, string | null>;
-  dayDetails[DAY_KEYS[orderDayIndex]] = buildDetails(
-    event.routeName,
+  const dayEventDetails: Record<string, DayEventDetail[] | null> = Object.fromEntries(
+    DAY_KEYS.map((key) => [key, null]),
+  ) as Record<string, DayEventDetail[] | null>;
+  const detail = buildDayEventDetail(
     orderDayIndex,
     startHour,
     endHour,
     chargeDayNumber,
+    selectedEvent,
     realDeliveryDayNumber,
     offeredDayNumber,
     prazoCd,
     prazoTr,
     prazoCliente,
   );
+  dayDetails[DAY_KEYS[orderDayIndex]] = buildDayEventDetailText(event.routeName, detail);
+  dayEventDetails[DAY_KEYS[orderDayIndex]] = [detail];
 
   return {
     cd: event.cd,
@@ -455,6 +517,7 @@ function createBaseRow(
     sabado: 'NOK',
     domingo: 'NOK',
     dayDetails,
+    dayEventDetails,
   };
 }
 
@@ -485,6 +548,7 @@ function mergeRows(rows: WindowRow[]): WindowRow[] {
 
     DAY_KEYS.forEach((dayKey) => {
       const value = row.dayDetails[dayKey];
+      const detailEntries = row.dayEventDetails[dayKey];
       if (!value) {
         return;
       }
@@ -493,6 +557,10 @@ function mergeRows(rows: WindowRow[]): WindowRow[] {
       current.dayDetails[dayKey] = current.dayDetails[dayKey]
         ? `${current.dayDetails[dayKey]}\n\n${value}`
         : value;
+      current.dayEventDetails[dayKey] = [
+        ...(current.dayEventDetails[dayKey] ?? []),
+        ...(detailEntries ?? []),
+      ];
     });
   }
 
@@ -624,6 +692,12 @@ function expandRowsByModal(rows: WindowRow[]): WindowRow[] {
       ...row,
       modal,
       dayDetails: { ...row.dayDetails },
+      dayEventDetails: Object.fromEntries(
+        Object.entries(row.dayEventDetails).map(([dayKey, details]) => [
+          dayKey,
+          details ? details.map((detail) => ({ ...detail })) : null,
+        ]),
+      ) as Record<string, DayEventDetail[] | null>,
     })),
   );
 }

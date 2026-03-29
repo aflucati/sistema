@@ -283,6 +283,8 @@ async function callDatabaseFunction<T>(sql: string, values: unknown[]): Promise<
 
   try {
     await client.connect();
+    await client.query("set statement_timeout = '0'");
+    await client.query("set lock_timeout = '0'");
     const result = await client.query(sql, values);
     return (result.rows[0]?.payload ?? result.rows) as T;
   } catch (error) {
@@ -343,6 +345,17 @@ export async function queryDeadlineHistory(
       filters.geography?.trim() || null,
       filters.modal?.trim() || null,
     ],
+  );
+}
+
+export async function queryDeadlineRowsByVersion(routeVersionId: string): Promise<Array<Record<string, unknown>>> {
+  if (!routeVersionId?.trim()) {
+    throw new Error('Informe o identificador da versao de prazo.');
+  }
+
+  return callDatabaseFunction<Array<Record<string, unknown>>>(
+    'select * from public.prazos_get_rows_by_route_version($1::uuid)',
+    [routeVersionId.trim()],
   );
 }
 
