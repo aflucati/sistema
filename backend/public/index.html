@@ -10,17 +10,17 @@
         --magalog-blue-dark: #006aa4;
         --magalog-yellow: #fcd000;
         --results-toolbar-height: 0px;
-        --bg: #f5f7fa;
+        --bg: #eceff3;
         --surface: #ffffff;
-        --surface-soft: #f9fbfd;
-        --border: #dbe4ec;
-        --text: #243746;
-        --muted: #64707d;
+        --surface-soft: #f7f9fb;
+        --border: #d7e0e8;
+        --text: #233546;
+        --muted: #6b7b8c;
         --ok-bg: #e6f6ea;
         --ok-text: #2d7a46;
         --nok-bg: #fdeceb;
         --nok-text: #b13d35;
-        --shadow: 0 12px 32px rgba(34, 63, 90, 0.08);
+        --shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
         --radius: 10px;
       }
 
@@ -276,7 +276,7 @@
       }
 
       .event-grid {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       }
 
       label {
@@ -1191,91 +1191,189 @@
       }
 
       :root {
-        --magalog-blue: #0b5cab;
-        --magalog-blue-dark: #08498a;
-        --magalog-yellow: #f3c400;
-        --bg: #edf2f7;
+        --magalog-blue: #1f7acb;
+        --magalog-blue-dark: #1766aa;
+        --magalog-yellow: #f5c400;
+        --bg: #eef1f4;
         --surface: #ffffff;
-        --surface-soft: #f8fafc;
-        --border: #d9e2ea;
-        --text: #1f2d3a;
-        --muted: #6a7885;
-        --shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
-        --radius: 14px;
+        --surface-soft: #f7f9fb;
+        --border: #dbe2e8;
+        --text: #233240;
+        --muted: #6d7c8a;
+        --shadow: 0 1px 2px rgba(15, 23, 42, 0.05), 0 10px 20px rgba(15, 23, 42, 0.04);
+        --radius: 8px;
       }
 
       body {
-        background: linear-gradient(180deg, #eef3f7 0%, #f5f7fb 36%, #edf2f7 100%);
-        font-family: "Segoe UI Variable Text", "Segoe UI", Arial, Helvetica, sans-serif;
+        background: var(--bg);
+        font-family: "Segoe UI", Arial, Helvetica, sans-serif;
       }
 
       .strip {
         height: 4px;
-        background: linear-gradient(90deg, #0b5cab 0%, #3d88d1 46%, #f3c400 100%);
+        background: linear-gradient(90deg, #fbe53b 0%, #ff4f01 17%, #ff14b3 35%, #8000ff 55%, #00c1ff 80%, #17f036 100%);
       }
 
       .topbar {
         position: sticky;
         top: 0;
         z-index: 60;
-        background: rgba(255, 255, 255, 0.94);
-        color: var(--text);
-        border-bottom: 1px solid var(--border);
-        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.05);
-        backdrop-filter: blur(14px);
+        background: #0f1822;
+        color: #ffffff;
+        border-bottom: 1px solid #1f2d3b;
+        box-shadow: none;
+        backdrop-filter: none;
       }
 
       .topbar-inner {
-        min-height: 62px;
+        min-height: 66px;
+        width: min(100% - 36px, 1500px);
       }
 
-      .brand-mark {
-        width: 38px;
-        height: 38px;
-        border-radius: 12px;
-        background: linear-gradient(135deg, #0b5cab 0%, #2b78c8 100%);
-        color: #fff;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+      .brand {
+        gap: 16px;
+      }
+
+      .brand-logo {
+        display: grid;
+        gap: 6px;
+      }
+
+      .brand-wordmark {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        min-width: 0;
+      }
+
+      .brand-bars {
+        display: grid;
+        gap: 8px;
+        flex: 0 0 auto;
+      }
+
+      .brand-bar {
+        width: 72px;
+        height: 12px;
+        border-radius: 999px;
+      }
+
+      .brand-bar-yellow {
+        background: linear-gradient(90deg, #ffd100 0%, #ff8a00 100%);
+      }
+
+      .brand-bar-pink {
+        background: linear-gradient(90deg, #ff3c74 0%, #d91cf3 100%);
+      }
+
+      .brand-bar-blue {
+        background: linear-gradient(90deg, #20c7ff 0%, #13d94e 100%);
+      }
+
+      .brand-word {
+        color: #ffffff;
+        font-size: 3rem;
+        line-height: 0.92;
+        font-weight: 900;
+        letter-spacing: -0.07em;
+        text-transform: lowercase;
       }
 
       .brand-title {
-        color: #122231;
-        font-size: 1rem;
+        color: #ffffff;
+        font-size: 1.05rem;
         letter-spacing: 0.01em;
       }
 
       .brand-subtitle {
-        color: var(--muted);
+        color: rgba(255, 255, 255, 0.72);
         opacity: 1;
+        font-size: 0.82rem;
       }
 
-      .topbar-pill {
-        background: #f7f9fc;
-        border: 1px solid var(--border);
-        color: var(--text);
-        padding: 8px 12px;
+      .topbar-actions {
+        gap: 12px;
+      }
+
+      .topbar-link {
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(255, 255, 255, 0.08);
+        color: #ffffff;
+        border-radius: 999px;
+        padding: 8px 16px;
         font-size: 0.84rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .topbar-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: 999px;
+        color: #ffffff;
+        background: transparent;
+        border: 1px solid transparent;
+      }
+
+      .topbar-icon svg {
+        width: 18px;
+        height: 18px;
+        fill: currentColor;
+      }
+
+      .topbar-user {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: #ffffff;
+        font-size: 0.98rem;
         font-weight: 600;
       }
 
+      .topbar-avatar {
+        display: inline-grid;
+        place-items: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 999px;
+        background: #2185d0;
+        color: #fff;
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+
+      .topbar-status {
+        background: rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        color: #ffffff;
+        padding: 8px 14px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        border-radius: 999px;
+      }
+
       .segment {
-        border-radius: 16px;
-        box-shadow: var(--shadow);
+        border-radius: 8px;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+        border-color: #dce4eb;
       }
 
       .hero-main,
       .hero-search,
       .panel,
       .preview-panel {
-        padding: 20px;
+        padding: 18px;
       }
 
       .section-tag,
       .mode-badge {
         border-radius: 999px;
-        background: #eef4fb;
+        background: #eef5fb;
         color: var(--magalog-blue);
-        border: 1px solid #d8e5f3;
+        border: 1px solid #d6e5f3;
       }
 
       .panel-title {
@@ -1289,25 +1387,20 @@
       }
 
       .hero-main {
-        background: linear-gradient(135deg, #17344d 0%, #214c74 72%, #295b89 100%);
-        border-color: transparent;
-        color: #fff;
+        background: #fff;
+        color: var(--text);
+        border-top: 3px solid #2185d0;
       }
 
-      .hero-main h1,
-      .hero-main .panel-title,
+      .hero-main h1 {
+        color: #153149;
+        font-size: 1.6rem;
+        margin: 14px 0 8px;
+      }
+
       .hero-main .lead {
-        color: #fff;
-      }
-
-      .hero-main .lead {
-        opacity: 0.9;
-      }
-
-      .hero-main .section-tag {
-        background: rgba(255, 255, 255, 0.08);
-        border-color: rgba(255, 255, 255, 0.12);
-        color: #fff;
+        color: var(--muted);
+        opacity: 1;
       }
 
       .hero-search,
@@ -1317,9 +1410,8 @@
       .hero-info,
       .db-summary-card,
       .history-card,
-      .task-switcher,
       .mode-card {
-        background: linear-gradient(180deg, #ffffff 0%, #fbfcfe 100%);
+        background: #fff;
       }
 
       .hero-info,
@@ -1334,29 +1426,30 @@
 
       .button-primary,
       .button-secondary {
-        border-radius: 10px;
+        border-radius: 6px;
         padding: 10px 14px;
-        font-size: 0.92rem;
+        font-size: 0.9rem;
         font-weight: 700;
       }
 
       .button-primary {
-        background: linear-gradient(180deg, #0b5cab 0%, #08498a 100%);
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14);
+        background: linear-gradient(180deg, #2185d0 0%, #1b74b6 100%);
+        border: 1px solid #1a69a2;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.12);
       }
 
       .button-secondary {
         background: #fff;
-        border: 1px solid var(--border);
-        color: #24415a;
+        border: 1px solid #cfd8df;
+        color: #30495f;
       }
 
       input,
       select,
       textarea {
-        border-radius: 10px;
-        border-color: #cfd8e2;
-        background: #fcfdff;
+        border-radius: 6px;
+        border-color: #ced7df;
+        background: #fff;
         padding: 10px 12px;
       }
 
@@ -1368,21 +1461,27 @@
       }
 
       .task-switcher {
-        border-color: #dce5ee;
+        background: #fff;
+        border-color: #dce5ec;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
       }
 
       .task-switcher-header {
         gap: 10px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid #e8edf2;
       }
 
       .task-card {
         position: relative;
         gap: 6px;
-        border-radius: 12px;
-        border: 1px solid transparent;
-        background: transparent;
+        border-radius: 8px;
+        border: 1px solid #dfe6ed;
+        background: #fff;
         box-shadow: none;
-        padding: 14px 14px 14px 16px;
+        padding: 14px 14px 14px 18px;
+        color: var(--text);
+        text-align: left;
       }
 
       .task-card::before {
@@ -1397,24 +1496,48 @@
       }
 
       .task-card:hover {
-        background: #f7faff;
-        border-color: #dbe6f0;
+        background: #f9fbfd;
+        border-color: #d3dfe9;
         box-shadow: none;
         transform: none;
       }
 
       .task-card.is-active {
-        background: #eef5fc;
-        border-color: #d8e5f2;
+        background: #ffffff;
+        border-color: #1f7acb;
+        box-shadow: inset 0 0 0 1px rgba(31, 122, 203, 0.08);
       }
 
       .task-card.is-active::before {
-        background: linear-gradient(180deg, #0b5cab 0%, #3d88d1 100%);
+        background: linear-gradient(180deg, #1f7acb 0%, #53a2eb 100%);
       }
 
       .task-card strong {
         font-size: 0.95rem;
         color: #17324a;
+      }
+
+      .task-card-copy {
+        margin: 0;
+        color: var(--muted);
+        font-size: 0.89rem;
+        line-height: 1.55;
+      }
+
+      .task-card-foot {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-top: 6px;
+        color: var(--magalog-blue);
+        font-size: 0.82rem;
+        font-weight: 800;
+      }
+
+      .task-card .mode-badge {
+        background: #eef5fb;
+        border-color: #d7e4f2;
+        color: var(--magalog-blue);
       }
 
       .task-card small {
@@ -1453,12 +1576,20 @@
         width: 22px;
         height: 22px;
         border-radius: 999px;
-        border: 1px solid #cfdceb;
-        background: #fff;
-        color: var(--magalog-blue);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.08);
+        color: #fff;
         font-size: 0.8rem;
         font-weight: 800;
         cursor: help;
+      }
+
+      .task-card.is-active .task-help,
+      .task-card .task-help,
+      .title-with-help .task-help {
+        border-color: #cfdceb;
+        background: #fff;
+        color: var(--magalog-blue);
       }
 
       .task-help-tooltip {
@@ -1497,24 +1628,202 @@
       }
 
       .mode-card {
-        border-radius: 14px;
+        border-radius: 8px;
         padding: 16px;
       }
 
       .mode-card.is-active {
         background: #eef5fc;
-        border-color: #cfe0ef;
+        border-color: #c9dcec;
         box-shadow: inset 0 0 0 1px rgba(11, 92, 171, 0.08);
       }
 
+      .panel-header,
+      .events-header,
+      .results-header {
+        padding-bottom: 12px;
+        border-bottom: 1px solid #edf1f4;
+      }
+
+      .home-overview {
+        display: grid;
+        gap: 18px;
+        margin-bottom: 18px;
+      }
+
+      .home-grid {
+        display: grid;
+        gap: 18px;
+        grid-template-columns: 1fr;
+      }
+
+      .home-card {
+        padding: 18px;
+      }
+
+      .home-card h3 {
+        margin-bottom: 10px;
+        color: #17324a;
+      }
+
+      .home-card p {
+        color: var(--muted);
+        line-height: 1.6;
+      }
+
+      .home-list {
+        margin: 0;
+        padding-left: 18px;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .home-list strong {
+        color: #17324a;
+      }
+
+      .home-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 14px;
+      }
+
+      .home-step-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .home-step {
+        border: 1px solid #e2e8ef;
+        border-radius: 8px;
+        background: #fafcfd;
+        padding: 14px;
+      }
+
+      .home-step span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        background: #eaf4fd;
+        color: var(--magalog-blue);
+        font-size: 0.82rem;
+        font-weight: 800;
+        margin-bottom: 10px;
+      }
+
+      .home-step strong {
+        display: block;
+        margin-bottom: 6px;
+        color: #17324a;
+      }
+
+      .home-step p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.55;
+      }
+
+      .choice-group {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding: 4px 0;
+      }
+
+      .choice-chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        min-height: 42px;
+        padding: 0 14px;
+        border: 1px solid #cfd8df;
+        border-radius: 8px;
+        background: #fff;
+        color: #30495f;
+        font-size: 0.9rem;
+        font-weight: 700;
+      }
+
+      .choice-chip input {
+        width: 16px;
+        height: 16px;
+        margin: 0;
+      }
+
+      .transport-config {
+        display: grid;
+        gap: 12px;
+        margin-bottom: 18px;
+      }
+
+      .toggle-button-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .toggle-button.is-active {
+        background: #eef5fc;
+        border-color: #c9dcec;
+        color: #1f7acb;
+      }
+
+      .app-rail {
+        display: none;
+      }
+
+      .rail-item {
+        display: inline-grid;
+        place-items: center;
+        width: 40px;
+        height: 40px;
+        border: none;
+        border-radius: 12px;
+        background: transparent;
+        color: #7a8794;
+      }
+
+      .rail-item svg {
+        width: 21px;
+        height: 21px;
+        fill: currentColor;
+      }
+
+      .rail-item.is-active {
+        color: #1f7acb;
+        background: #edf5fd;
+      }
+
+      .rail-footer {
+        margin-top: auto;
+        font-size: 0.8rem;
+        font-weight: 700;
+        color: #8793a0;
+      }
+
+      .db-card,
+      .preview-panel,
+      .panel,
+      .event-card,
+      .summary-card,
+      .db-summary-card,
+      .history-card {
+        border-top: 2px solid #edf2f6;
+      }
+
       .results-toolbar {
-        top: 78px;
+        top: 74px;
         padding: 14px;
         border: 1px solid var(--border);
-        border-radius: 14px;
-        background: rgba(255, 255, 255, 0.94);
-        backdrop-filter: blur(10px);
-        box-shadow: 0 8px 20px rgba(15, 23, 42, 0.05);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: none;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
       }
 
       table {
@@ -1528,53 +1837,452 @@
       }
 
       th {
-        background: #f6f9fc;
-        color: #50606f;
+        background: #f7f9fb;
+        color: #536474;
         font-size: 0.75rem;
         font-weight: 800;
         letter-spacing: 0.04em;
         text-transform: uppercase;
       }
 
+      tbody tr:hover td {
+        background: #fafcfd;
+      }
+
       .table-shell,
       .db-table-shell {
-        border-radius: 14px;
+        border-radius: 8px;
       }
 
       .preview-frame {
-        border-radius: 14px;
+        border-radius: 8px;
+      }
+
+      .upload-box {
+        border-width: 1px;
+        border-style: dashed;
+        border-color: #2185d0;
+        border-radius: 8px;
+        padding: 24px 20px;
+        background: #f4f8fb;
+        box-shadow: none;
+        transform: none;
+      }
+
+      .upload-box:hover,
+      .upload-box:focus-within {
+        border-color: var(--magalog-blue);
+        box-shadow: none;
+        transform: none;
+        background: #eff6fb;
+      }
+
+      .upload-box.is-dragover {
+        border-color: var(--magalog-blue);
+        background: #eaf4fd;
+        box-shadow: none;
+        transform: none;
+      }
+
+      .upload-icon-shell {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        background: linear-gradient(180deg, #2185d0 0%, #1b74b6 100%);
+        box-shadow: none;
+      }
+
+      .upload-shortcut {
+        border-radius: 999px;
+        background: #eef5fb;
+        border: 1px solid #d7e5f2;
+        color: var(--magalog-blue);
+      }
+
+      .summary-card,
+      .db-summary-card {
+        background: #fff;
+      }
+
+      .summary-card strong,
+      .db-summary-card strong {
+        color: #153149;
+      }
+
+      .db-card .db-helper {
+        background: #f8fafc;
+        border: 1px solid #e1e7ed;
+        border-radius: 8px;
+        padding: 14px;
       }
 
       @media (min-width: 1180px) {
+        body {
+          padding-left: 73px;
+        }
+
+        .app-rail {
+          position: fixed;
+          top: 70px;
+          left: 0;
+          bottom: 0;
+          width: 72px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 16px;
+          padding: 18px 0 12px;
+          background: #fff;
+          border-right: 1px solid #dce4eb;
+          box-shadow: none;
+          z-index: 50;
+        }
+
         .page {
-          width: min(100% - 32px, 1480px);
+          width: min(100% - 32px, 1540px);
           display: grid;
-          grid-template-columns: 300px minmax(0, 1fr);
-          align-items: start;
           gap: 20px;
         }
 
-        .page > .task-switcher {
-          grid-column: 1;
-          position: sticky;
-          top: 84px;
-          margin-bottom: 0;
-        }
-
-        .page > section:not(.task-switcher) {
-          grid-column: 2;
-        }
-
         .task-switcher-grid {
-          grid-template-columns: 1fr !important;
+          grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
         }
 
         .hero {
-          grid-template-columns: minmax(0, 1.18fr) minmax(320px, 0.82fr);
+          grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
+        }
+
+      .workspace {
+        grid-template-columns: minmax(0, 1.22fr) minmax(380px, 0.78fr);
+      }
+
+      .workspace[data-task-screen='calculate'] {
+        grid-template-columns: 1fr;
+      }
+
+        .home-grid {
+          grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+        }
+
+        .home-step-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      /* Mobile-first layout override layer */
+      body {
+        padding-left: 0;
+      }
+
+      .topbar-inner,
+      .page,
+      .hero,
+      .workspace,
+      .results {
+        width: min(100% - 16px, 1540px);
+      }
+
+      .topbar-inner {
+        min-height: 64px;
+        padding: 10px 0;
+        display: grid;
+        grid-template-columns: 1fr;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand {
+        min-width: 0;
+      }
+
+      .brand-word {
+        font-size: 2.3rem;
+      }
+
+      .brand-subtitle {
+        font-size: 0.76rem;
+        line-height: 1.35;
+      }
+
+      .topbar-actions {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 8px;
+      }
+
+      .topbar-link,
+      .topbar-status {
+        padding: 7px 12px;
+        font-size: 0.8rem;
+      }
+
+      .topbar-user {
+        gap: 8px;
+        font-size: 0.86rem;
+      }
+
+      .topbar-avatar,
+      .topbar-icon {
+        width: 34px;
+        height: 34px;
+      }
+
+      .page {
+        padding: 16px 0 28px;
+        gap: 16px;
+      }
+
+      .task-switcher,
+      .hero-main,
+      .panel,
+      .preview-panel,
+      .home-card {
+        padding: 16px;
+      }
+
+      .hero,
+      .workspace,
+      .home-grid,
+      .db-grid,
+      .task-switcher-grid,
+      .form-grid,
+      .event-grid,
+      .summary-row,
+      .db-summary-grid,
+      .history-card-grid,
+      .hero-info-grid,
+      .home-step-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero,
+      .workspace {
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+
+      .task-switcher {
+        margin-bottom: 16px;
+      }
+
+      .panel-header,
+      .events-header,
+      .results-header,
+      .event-card-header,
+      .task-switcher-header {
+        display: grid;
+        gap: 12px;
+        align-items: stretch;
+      }
+
+      .task-card {
+        padding: 16px;
+      }
+
+      .task-card-head,
+      .title-with-help {
+        align-items: flex-start;
+      }
+
+      .button-primary,
+      .button-secondary,
+      .icon-button {
+        min-height: 42px;
+      }
+
+      .compact-field {
+        width: 100%;
+      }
+
+      .upload-box {
+        padding: 18px 16px;
+      }
+
+      .upload-actions,
+      .results-actions,
+      .page-actions,
+      .db-actions,
+      .home-actions,
+      .toggle-button-row {
+        display: grid;
+        grid-template-columns: 1fr;
+      }
+
+      .results-toolbar {
+        top: 68px;
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .results-actions-wrap {
+        justify-items: stretch;
+      }
+
+      .pagination-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .app-rail {
+        display: none !important;
+      }
+
+      .preview-frame {
+        min-height: 540px;
+      }
+
+      table {
+        min-width: 1080px;
+      }
+
+      th,
+      td {
+        padding: 10px 10px;
+        font-size: 0.84rem;
+      }
+
+      .db-operational-day {
+        flex-wrap: wrap;
+      }
+
+      @media (min-width: 760px) {
+        .topbar-inner,
+        .panel-header,
+        .events-header,
+        .results-header,
+        .event-card-header,
+        .task-switcher-header {
+          display: flex;
+          flex-direction: row;
+          align-items: flex-start;
+        }
+
+        .topbar-inner,
+        .page,
+        .hero,
+        .workspace,
+        .results {
+          width: min(100% - 24px, 1540px);
+        }
+
+        .topbar-inner {
+          grid-template-columns: none;
+          justify-content: space-between;
+        }
+
+        .topbar-actions {
+          width: auto;
+          justify-content: flex-end;
+          flex-wrap: wrap;
+          gap: 10px;
+        }
+
+        .task-switcher-grid,
+        .form-grid,
+        .db-grid,
+        .db-summary-grid,
+        .summary-row,
+        .hero-info-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .upload-head {
+          grid-template-columns: auto minmax(0, 1fr);
+          align-items: center;
+        }
+
+        .upload-actions,
+        .results-actions,
+        .page-actions,
+        .db-actions,
+        .home-actions,
+        .toggle-button-row {
+          display: flex;
+          flex-wrap: wrap;
+          grid-template-columns: none;
+        }
+
+        .results-toolbar {
+          top: 72px;
+          grid-template-columns: minmax(0, 1.2fr) auto;
+          align-items: end;
+        }
+
+        .results-actions-wrap {
+          justify-items: end;
+        }
+
+        .pagination-bar {
+          grid-template-columns: auto auto;
+          align-items: end;
+        }
+
+        .home-step-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .preview-frame {
+          min-height: 640px;
+        }
+      }
+
+      @media (min-width: 1100px) {
+        .topbar-inner,
+        .page,
+        .hero,
+        .workspace,
+        .results {
+          width: min(100% - 32px, 1540px);
+        }
+
+        .hero {
+          grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
         }
 
         .workspace {
           grid-template-columns: minmax(0, 1.22fr) minmax(380px, 0.78fr);
+        }
+
+        .workspace[data-task-screen='calculate'] {
+          grid-template-columns: 1fr;
+        }
+
+        .task-switcher-grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        }
+
+        .event-grid {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+
+        .summary-row,
+        .db-summary-grid,
+        .history-card-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .home-grid {
+          grid-template-columns: minmax(0, 1.15fr) minmax(360px, 0.85fr);
+        }
+
+        .compact-field-cd {
+          max-width: 180px;
+          justify-self: start;
+        }
+      }
+
+      @media (min-width: 1180px) {
+        body {
+          padding-left: 73px;
+        }
+
+        .app-rail {
+          display: flex !important;
+          position: fixed;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          width: 72px;
+          padding-top: 86px;
         }
       }
     </style>
@@ -1584,33 +2292,79 @@
     <header class="topbar">
       <div class="topbar-inner">
         <div class="brand">
-          <div class="brand-mark">M</div>
+          <div class="brand-logo" aria-hidden="true">
+            <span class="brand-wordmark">
+              <span class="brand-bars">
+                <span class="brand-bar brand-bar-yellow"></span>
+                <span class="brand-bar brand-bar-pink"></span>
+                <span class="brand-bar brand-bar-blue"></span>
+              </span>
+              <span class="brand-word">magalog</span>
+            </span>
+          </div>
           <div>
-            <p class="brand-title">Magalog</p>
-            <p class="brand-subtitle">Sistema interno de gestao de prazos</p>
+            <p class="brand-subtitle">Plataforma de logistica do Magazine Luiza</p>
           </div>
         </div>
         <div class="topbar-actions">
-          <div class="topbar-pill">CD-094</div>
-          <div class="topbar-pill">Ola, Adriano</div>
+          <button class="topbar-link" data-task-link="home" type="button">Inicio</button>
+          <div class="topbar-status">CD-094</div>
+          <div class="topbar-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+              <path d="M12 22c1.1 0 1.99-.9 1.99-2H10a2 2 0 0 0 2 2zm6-6V11c0-3.07-1.63-5.64-4.5-6.32V4a1.5 1.5 0 1 0-3 0v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z" />
+            </svg>
+          </div>
+          <div class="topbar-user">
+            <span class="topbar-avatar">A</span>
+            <span>Ola Adriano</span>
+          </div>
         </div>
       </div>
     </header>
 
+    <aside class="app-rail">
+      <button class="rail-item" data-nav-task="home" type="button">
+        <svg viewBox="0 0 24 24">
+          <path d="M3 18h18v2H3zm0-8h18v2H3zm0-8h18v2H3z" />
+        </svg>
+      </button>
+      <button class="rail-item" data-nav-task="calculate" type="button">
+        <svg viewBox="0 0 24 24">
+          <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+        </svg>
+      </button>
+      <button class="rail-item" data-nav-task="save" type="button">
+        <svg viewBox="0 0 24 24">
+          <path d="M19 3H5c-1.1 0-2 .9-2 2v14l4-4h12c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-2 8H7V9h10v2zm0-3H7V6h10v2z" />
+        </svg>
+      </button>
+      <button class="rail-item" data-nav-task="import" type="button">
+        <svg viewBox="0 0 24 24">
+          <path d="M19 7h-1V6a4 4 0 0 0-8 0v1H9a2 2 0 0 0-2 2v11h14V9a2 2 0 0 0-2-2zm-6 9.73V17a1 1 0 1 1-2 0v-.27a2 2 0 1 1 2 0zM16 7h-4V6a2 2 0 0 1 4 0v1z" />
+        </svg>
+      </button>
+      <button class="rail-item" data-nav-task="consult" type="button">
+        <svg viewBox="0 0 24 24">
+          <path d="M19 3H5c-1.1 0-2 .9-2 2v16l4-4h12c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-6 11H7v-2h6v2zm4-4H7V8h10v2z" />
+        </svg>
+      </button>
+      <div class="rail-footer">CD-94</div>
+    </aside>
+
     <main class="page">
-      <section class="task-switcher segment">
+      <section class="task-switcher segment" data-task-screen="home">
         <div class="task-switcher-header">
           <div>
-            <span class="section-tag">Fluxo de Trabalho</span>
+            <span class="section-tag">Inicio</span>
             <div class="title-with-help">
-              <h2 class="panel-title" style="margin-top: 14px">Escolha a tarefa</h2>
+              <h2 class="panel-title" style="margin-top: 14px">O que voce quer fazer agora?</h2>
               <span class="task-help" aria-label="Ajuda da etapa Escolha a tarefa" tabindex="0">
                 ?
-                <span class="task-help-tooltip">A navegacao foi separada por etapa para deixar o uso mais claro no desktop. Abra apenas a tarefa que deseja executar agora.</span>
+                <span class="task-help-tooltip">Comece escolhendo a tarefa principal. Cada tela foi separada por objetivo para reduzir a confusao operacional.</span>
               </span>
             </div>
             <p class="panel-subtitle">
-              A navegação foi separada por etapa para deixar o uso mais claro no desktop. Abra apenas a tarefa que deseja executar agora.
+              Escolha primeiro o objetivo do seu trabalho. O sistema vai te levar direto para a tela certa sem misturar consulta, calculo e gravacao no banco.
             </p>
           </div>
           <p id="db-status-note" class="table-note"></p>
@@ -1620,172 +2374,123 @@
           <button class="task-card is-active" data-task="calculate" type="button">
             <span class="mode-badge">Etapa 1</span>
             <div class="task-card-head">
-              <strong>Planejamento logistico</strong>
+              <strong>Calcular planejamento e prazo</strong>
               <span class="task-help" aria-label="Ajuda da etapa Planejamento logistico" tabindex="0">
                 ?
                 <span class="task-help-tooltip">Digite a rota ou processe a planilha do PCP para montar o plano real de carga, corte, entrega e frequencia.</span>
               </span>
             </div>
+            <p class="task-card-copy">Use quando precisar simular uma rota, conferir a regra de prazo ou processar uma planilha do PCP antes de publicar.</p>
+            <span class="task-card-foot">Abrir calculo operacional</span>
             <small>Digite a rota ou processe a planilha do PCP para montar o plano real de carga, corte, entrega e frequência.</small>
           </button>
 
           <button class="task-card" data-task="save" type="button">
             <span class="mode-badge">Etapa 2</span>
             <div class="task-card-head">
-              <strong>Definicao dos prazos</strong>
+              <strong>Salvar padrao vigente</strong>
               <span class="task-help" aria-label="Ajuda da etapa Definicao dos prazos" tabindex="0">
                 ?
                 <span class="task-help-tooltip">Salve o planejamento vigente e deixe o sistema recalcular e publicar o prazo padrao derivado dele.</span>
               </span>
             </div>
+            <p class="task-card-copy">Use quando o planejamento ja estiver validado e voce quiser transformar esse resultado no novo prazo padrao da rota.</p>
+            <span class="task-card-foot">Publicar no banco de vigencias</span>
             <small>Salve o planejamento vigente e deixe o sistema recalcular e publicar o prazo padrao derivado dele.</small>
           </button>
 
           <button class="task-card" data-task="import" type="button">
             <span class="mode-badge">Etapa 3</span>
             <div class="task-card-head">
-              <strong>Ajuste pontual do plano</strong>
+              <strong>Importar ajuste temporario</strong>
               <span class="task-help" aria-label="Ajuda da etapa Ajuste pontual do plano" tabindex="0">
                 ?
                 <span class="task-help-tooltip">Suba um plano temporario com vigencia definida para feriados, paralisacoes ou mudancas operacionais.</span>
               </span>
             </div>
+            <p class="task-card-copy">Use para feriados, paralisacoes, mudancas temporarias de carga ou qualquer excecao que tenha data de inicio e fim.</p>
+            <span class="task-card-foot">Aplicar vigencia pontual</span>
             <small>Suba um plano temporario com vigência definida para feriados, paralisações ou mudanças operacionais.</small>
           </button>
 
           <button class="task-card" data-task="consult" type="button">
             <span class="mode-badge">Etapa 4</span>
             <div class="task-card-head">
-              <strong>Consulta</strong>
+              <strong>Consultar passado e futuro</strong>
               <span class="task-help" aria-label="Ajuda da etapa Consulta" tabindex="0">
                 ?
                 <span class="task-help-tooltip">Consulte o plano e o prazo validos em qualquer data, recuperando passado, presente e futuro da rota.</span>
               </span>
             </div>
+            <p class="task-card-copy">Use para descobrir qual planejamento ou prazo estava vigente em uma data especifica e comparar com a versao anterior.</p>
+            <span class="task-card-foot">Abrir consulta historica</span>
             <small>Consulte o plano e o prazo válidos em qualquer data, recuperando passado, presente e futuro da rota.</small>
           </button>
         </div>
       </section>
 
-      <section class="hero" data-task-screen="calculate">
-        <div class="segment hero-main">
-          <span class="section-tag">Planejamento</span>
-          <h1>Gestor de prazos de entrega</h1>
-          <p class="lead">
-            Plataforma para simular e processar a oferta de prazo dinamico por rota, corte e frequencia logisticas,
-            seguindo o script operacional da Magalog.
-          </p>
-        </div>
-
-        <div class="segment hero-search">
-          <div>
-            <span class="section-tag">Resumo</span>
-            <div class="title-with-help">
-              <h3 style="margin: 14px 0 10px; color: var(--magalog-blue)">Como usar esta etapa</h3>
-              <span class="task-help" aria-label="Ajuda da etapa Como usar esta etapa" tabindex="0">
-                ?
-                <span class="task-help-tooltip">Escolha o modo de entrada, gere o resultado e use o filtro da tabela apenas depois do calculo, quando as linhas ja estiverem disponiveis.</span>
-              </span>
+      <section class="home-overview" data-task-screen="home">
+        <div class="home-grid">
+          <div class="segment home-card">
+            <span class="section-tag">Como funciona</span>
+            <h3 style="margin-top: 14px">Fluxo recomendado para o time</h3>
+            <div class="home-step-grid">
+              <div class="home-step">
+                <span>1</span>
+                <strong>Monte ou importe o planejamento</strong>
+                <p>Simule uma rota manualmente ou processe a planilha do PCP para entender carga, corte, entrega e prazo.</p>
+              </div>
+              <div class="home-step">
+                <span>2</span>
+                <strong>Valide o resultado</strong>
+                <p>Confira as janelas, os prazos e o HTML oficial antes de publicar qualquer alteracao no banco.</p>
+              </div>
+              <div class="home-step">
+                <span>3</span>
+                <strong>Grave como padrao ou excecao</strong>
+                <p>Salve no banco como vigencia padrao ou como ajuste temporario com data de inicio e fim.</p>
+              </div>
+              <div class="home-step">
+                <span>4</span>
+                <strong>Consulte e compare</strong>
+                <p>Use a consulta para investigar passado, futuro, mudancas de vigencia e diferencas entre versoes.</p>
+              </div>
             </div>
-            <p class="panel-subtitle" style="margin-bottom: 0">
-              Escolha o modo de entrada, gere o resultado e use o filtro da tabela apenas depois do cálculo, quando as linhas já estiverem disponíveis.
-            </p>
           </div>
-          <div class="hero-info-grid">
-            <div class="hero-info">
-              <strong>Entrada manual</strong>
-              <span>Simule uma rota antes de publicar a oferta.</span>
-            </div>
-            <div class="hero-info">
-              <strong>Processamento em lote</strong>
-              <span>Calcule centenas ou milhares de linhas via planilha.</span>
+
+          <div class="segment home-card">
+            <span class="section-tag">Atalhos</span>
+            <h3 style="margin-top: 14px">Escolha pelo objetivo do usuario</h3>
+            <ul class="home-list">
+              <li><strong>Quero calcular uma rota agora:</strong> entre em <code>Calcular planejamento e prazo</code>.</li>
+              <li><strong>Quero publicar um novo padrao:</strong> use <code>Salvar padrao vigente</code>.</li>
+              <li><strong>Quero tratar feriado ou excecao:</strong> use <code>Importar ajuste temporario</code>.</li>
+              <li><strong>Quero saber o que valia em uma data:</strong> entre em <code>Consultar passado e futuro</code>.</li>
+            </ul>
+            <div class="home-actions">
+              <button class="button-primary" data-task-link="calculate" type="button">Comecar pelo calculo</button>
+              <button class="button-secondary" data-task-link="consult" type="button">Ir para consulta</button>
             </div>
           </div>
         </div>
       </section>
 
+      <section class="hero" data-task-screen="calculate">
+        <div class="segment hero-main">
+          <span class="section-tag">Gestao de Prazos</span>
+          <h1>Gestao de prazos</h1>
+          <p class="lead">
+            Importe o planejamento logistico ou preencha os dados manualmente para calcular a oferta de prazo e gerar o HTML oficial.
+          </p>
+        </div>
+      </section>
+
       <section class="workspace" data-task-screen="calculate">
-        <div class="segment panel">
+        <div id="upload-panel" class="segment panel">
           <div class="panel-header">
             <div>
               <div class="title-with-help">
-                <h2 class="panel-title">Escolha o modo de entrada</h2>
-                <span class="task-help" aria-label="Ajuda da etapa Escolha o modo de entrada" tabindex="0">
-                  ?
-                  <span class="task-help-tooltip">Os formularios ficam recolhidos por padrao. Escolha abaixo se deseja digitar os dados ou importar uma planilha.</span>
-                </span>
-              </div>
-              <p class="panel-subtitle">
-                Os formulrios ficam recolhidos por padrao. Escolha abaixo se deseja digitar os dados ou importar uma planilha.
-              </p>
-            </div>
-          </div>
-
-          <div class="mode-grid">
-            <button class="mode-card is-active" data-mode="manual" type="button">
-              <span class="mode-badge">Manual</span>
-              <strong>Digitacao da rota</strong>
-              <small>Preencha a programacao logistica e simule a oferta por janela de corte.</small>
-            </button>
-
-            <button class="mode-card" data-mode="upload" type="button">
-              <span class="mode-badge">Importacao</span>
-              <strong>Planilha padrao</strong>
-              <small>Envie CSV ou XLSX do PCP para processar centenas ou milhares de linhas de uma vez.</small>
-            </button>
-          </div>
-        </div>
-
-        <div id="manual-panel" class="segment panel">
-          <div class="panel-header">
-            <div>
-              <div class="title-with-help">
-                <h2 class="panel-title">Simulacao manual da rota</h2>
-                <span class="task-help" aria-label="Ajuda da etapa Simulacao manual da rota" tabindex="0">
-                  ?
-                  <span class="task-help-tooltip">Preencha a rota e os eventos de carga para validar o prazo ofertado por janela.</span>
-                </span>
-              </div>
-              <p class="panel-subtitle">Preencha a rota e os eventos de carga para validar o prazo ofertado por janela.</p>
-            </div>
-            <button class="button-secondary" id="clear-route" type="button">Limpar</button>
-          </div>
-
-          <div class="form-grid">
-            <label>Modal <input id="modal" value="DESTINO LOJA" /></label>
-            <label>Geografia <input id="geography" value="Convencional" /></label>
-            <label>Localizacao Comercial <input id="commercialLocation" placeholder="1013 - MARACAJU" /></label>
-            <label>Localidade <input id="locality" /></label>
-            <label>CD <input id="cd" /></label>
-            <label>Rota / Destino <input id="routeDestination" /></label>
-            <label>Plano de Transporte <input id="transportPlan" placeholder="1884 - 81/ 141/ 1013 DOURADOS/ MARACAJU" /></label>
-            <label>Codigo do Alinhamento <input id="alignmentCode" placeholder="1884" /></label>
-            <label style="grid-column: 1 / -1">Nome do Alinhamento <input id="alignmentName" placeholder="81/ 141/ 1013 DOURADOS/ MARACAJU" /></label>
-          </div>
-
-          <div class="events-header">
-            <div>
-              <div class="title-with-help">
-                <h3 class="panel-title" style="margin-bottom: 6px">Eventos de carga</h3>
-                <span class="task-help" aria-label="Ajuda da etapa Eventos de carga" tabindex="0">
-                  ?
-                  <span class="task-help-tooltip">Cada evento representa dia de carga, corte final, entrega real e frequencia.</span>
-                </span>
-              </div>
-              <p class="panel-subtitle">Cada evento representa dia de carga, corte final, entrega real e frequencia.</p>
-            </div>
-            <button class="button-primary" id="add-event" type="button">Adicionar evento</button>
-          </div>
-
-          <div class="events-list" id="events-list"></div>
-          <button class="button-primary button-wide" id="calculate-manual" type="button">Calcular prazo da rota</button>
-        </div>
-
-        <div id="upload-panel" class="segment panel hidden">
-          <div class="panel-header">
-            <div>
-              <div class="title-with-help">
-                <h2 class="panel-title">Carga por planilha</h2>
+                <h2 class="panel-title">Importacao do planejamento</h2>
                 <span class="task-help" aria-label="Ajuda da etapa Carga por planilha" tabindex="0">
                   ?
                   <span class="task-help-tooltip">Envie a planilha padrao do PCP para gerar a tabela operacional e o HTML oficial.</span>
@@ -1835,13 +2540,86 @@
             <input id="spreadsheet-file" class="sr-only" type="file" accept=".csv,.xlsx,.xls" />
           </div>
 
-          <h3 class="panel-title" style="margin-bottom: 8px">Regras aplicadas</h3>
-          <ul class="bullet-list">
-            <li>Normalizacao por localizacao comercial, geografia e modal.</li>
-            <li>Escolha cronologica da proxima carga apos o corte.</li>
-            <li>Calculo de prazo CD, prazo TR e prazo cliente por dia da semana.</li>
-            <li>Geracao do HTML no template oficial para exportacao.</li>
-          </ul>
+        </div>
+
+        <div id="manual-panel" class="segment panel">
+          <div class="panel-header">
+            <div>
+              <div class="title-with-help">
+                <h2 class="panel-title">Modo manual</h2>
+                <span class="task-help" aria-label="Ajuda da etapa Simulacao manual da rota" tabindex="0">
+                  ?
+                  <span class="task-help-tooltip">Preencha a rota e os eventos de carga para validar o prazo ofertado por janela.</span>
+                </span>
+              </div>
+              <p class="panel-subtitle">Preencha a rota e os eventos de carga para validar o prazo ofertado por janela.</p>
+            </div>
+            <button class="button-secondary" id="clear-route" type="button">Limpar</button>
+          </div>
+
+          <div class="form-grid">
+            <label class="compact-field compact-field-cd">CD <input id="cd" inputmode="numeric" maxlength="4" /></label>
+            <label>
+              Modal
+              <div id="modal-selection" class="choice-group">
+                <label class="choice-chip" title="PESADOS P/P"><input type="checkbox" class="modal-option" value="RODO" /> <span>RODO</span></label>
+                <label class="choice-chip" title="LEVES P/P"><input type="checkbox" class="modal-option" value="COURIER" /> <span>COURIER</span></label>
+                <label class="choice-chip" title="P/P PESADOS &amp; RODO P"><input type="checkbox" class="modal-option" value="RODO/COURIER" /> <span>RODO+COURIER</span></label>
+                <label class="choice-chip" title="RETIRAS + ABASTECIMENTO"><input type="checkbox" class="modal-option" value="DESTINO LOJA" /> <span>DESTINO LOJA</span></label>
+                <label class="choice-chip" title="RLE + RET + RL3"><input type="checkbox" class="modal-option" value="RETIRA" /> <span>RETIRA</span></label>
+              </div>
+            </label>
+            <label>
+              Geografia
+              <span id="geography-text-wrap">
+                <input id="geography" value="Convencional" />
+              </span>
+              <div id="geography-store-wrap" class="choice-group hidden">
+                <label class="choice-chip"><input type="checkbox" class="geography-store-option" value="Convencional" /> <span>Convencional</span></label>
+                <label class="choice-chip"><input type="checkbox" class="geography-store-option" value="Shopping" /> <span>Shopping</span></label>
+                <label class="choice-chip"><input type="checkbox" class="geography-store-option" value="Virtual" /> <span>Virtual</span></label>
+                <label class="choice-chip"><input type="checkbox" class="geography-store-option" value="CD/ XD" /> <span>CD/ XD</span></label>
+              </div>
+            </label>
+            <label>Localizacao Comercial <input id="commercialLocation" placeholder="1013 - MARACAJU" /></label>
+            <label>Localidade (Opcional) <input id="locality" /></label>
+            <label>Rota (Opcional) <input id="routeDestination" /></label>
+          </div>
+
+          <div class="transport-config">
+            <div class="title-with-help">
+              <h3 class="panel-title" style="margin-bottom: 6px">Plano de transporte (Opcional)</h3>
+              <span class="task-help" aria-label="Ajuda do plano de transporte" tabindex="0">
+                ?
+                <span class="task-help-tooltip">Escolha semanal para usar o mesmo plano em todos os eventos ou diario para informar um plano diferente em cada dia de carregamento.</span>
+              </span>
+            </div>
+            <div class="toggle-button-row">
+              <button class="button-secondary toggle-button" id="weekly-transport-mode" data-transport-mode="weekly" type="button">Plano de Transporte Semanal</button>
+              <button class="button-secondary toggle-button" id="daily-transport-mode" data-transport-mode="daily" type="button">Plano de Transporte Diario</button>
+            </div>
+            <label id="weekly-transport-plan-wrap" class="hidden">
+              Plano de Transporte Semanal
+              <input id="weekly-transport-plan" placeholder="1884 - 81/141/1013 DOURADOS / MARACAJU" />
+            </label>
+          </div>
+
+          <div class="events-header">
+            <div>
+              <div class="title-with-help">
+                <h3 class="panel-title" style="margin-bottom: 6px">Eventos de carga</h3>
+                <span class="task-help" aria-label="Ajuda da etapa Eventos de carga" tabindex="0">
+                  ?
+                  <span class="task-help-tooltip">Cada evento representa dia de carga, corte final, entrega real e frequencia.</span>
+                </span>
+              </div>
+              <p class="panel-subtitle">Cada evento representa dia de carga, corte final, entrega real e frequencia.</p>
+            </div>
+            <button class="button-primary" id="add-event" type="button">Adicionar evento</button>
+          </div>
+
+          <div class="events-list" id="events-list"></div>
+          <button class="button-primary button-wide" id="calculate-manual" type="button">Calcular prazo da rota</button>
         </div>
 
         <div id="error-box" class="error-box hidden"></div>
@@ -2453,14 +3231,18 @@
             </select>
           </label>
           <label>
-            Frequencia
+            Frequencia do Evento
             <select class="event-frequency">
               <option value="SEMANAL">SEMANAL</option>
               <option value="QUINZENAL">QUINZENAL</option>
-              <option value="PROXIMA_SEMANA">PROXIMA_SEMANA</option>
-              <option value="PROXIMA_QUINZENA">PROXIMA_QUINZENA</option>
+              <option value="PROXIMA_SEMANA">PROXIMA SEMANA</option>
+              <option value="PROXIMA_QUINZENA">PROXIMA QUINZENA</option>
               <option value="D0">D0</option>
             </select>
+          </label>
+          <label class="event-transport-plan-wrap hidden">
+            Plano de Transporte do Dia
+            <input class="event-transport-plan" placeholder="Plano de transporte deste evento" />
           </label>
         </div>
       </div>
@@ -2495,6 +3277,19 @@
       const actionFeedback = document.getElementById('action-feedback');
       const manualPanel = document.getElementById('manual-panel');
       const uploadPanel = document.getElementById('upload-panel');
+      const modalOptions = [...document.querySelectorAll('.modal-option')];
+      const cdInput = document.getElementById('cd');
+      const geographyInput = document.getElementById('geography');
+      const geographyTextWrap = document.getElementById('geography-text-wrap');
+      const geographyStoreWrap = document.getElementById('geography-store-wrap');
+      const geographyStoreOptions = [...document.querySelectorAll('.geography-store-option')];
+      const commercialLocationInput = document.getElementById('commercialLocation');
+      const localityInput = document.getElementById('locality');
+      const routeDestinationInput = document.getElementById('routeDestination');
+      const weeklyTransportModeButton = document.getElementById('weekly-transport-mode');
+      const dailyTransportModeButton = document.getElementById('daily-transport-mode');
+      const weeklyTransportPlanWrap = document.getElementById('weekly-transport-plan-wrap');
+      const weeklyTransportPlanInput = document.getElementById('weekly-transport-plan');
       const uploadBox = document.getElementById('upload-box');
       const spreadsheetInput = document.getElementById('spreadsheet-file');
       const triggerUploadButton = document.getElementById('trigger-upload');
@@ -2563,6 +3358,7 @@
       const historyResultsShell = document.getElementById('history-results-shell');
       const historyResultsBody = document.getElementById('history-results-body');
       const taskButtons = [...document.querySelectorAll('[data-task]')];
+      const navTaskButtons = [...document.querySelectorAll('[data-nav-task]')];
       const taskLinkButtons = [...document.querySelectorAll('[data-task-link]')];
       const taskScreens = [...document.querySelectorAll('[data-task-screen]')];
       const modeButtons = [...document.querySelectorAll('[data-mode]')];
@@ -2590,7 +3386,7 @@
         { label: 'Domingo', key: 'domingo' },
       ];
       const DAY_LABELS_SHORT = ['SEG', 'TER', 'QUA', 'QUI', 'SEX', 'SAB', 'DOM'];
-      const APP_STATE_KEY = 'magalog-gestor-state-v6';
+      const APP_STATE_KEY = 'magalog-gestor-state-v7';
 
       let latestHtml = '';
       let latestHtmlTemplate = '';
@@ -2600,8 +3396,10 @@
       let pageSize = 50;
       let searchQuery = '';
       let actionFeedbackTimer = null;
-      let activeTask = 'calculate';
+      let activeTask = 'home';
       let activeMode = 'manual';
+      let transportPlanMode = null;
+      let routeDestinationAuto = true;
       let dragDepth = 0;
       let isUploadPanelCollapsed = false;
       let appStateSaveTimer = null;
@@ -2658,22 +3456,172 @@
         });
       }
 
+      function getSelectedModalValues() {
+        return modalOptions.filter((option) => option.checked).map((option) => option.value);
+      }
+
+      function setSelectedModalValues(value) {
+        const normalized = String(value || '').trim();
+        const exactMatch = modalOptions.find((option) => option.value === normalized);
+        const selected = normalized
+          .split('/')
+          .map((item) => item.trim())
+          .filter(Boolean);
+        const selectedValue = exactMatch ? exactMatch.value : selected[0] || '';
+        modalOptions.forEach((option) => {
+          option.checked = option.value === selectedValue;
+        });
+      }
+
+      function usesStructuredGeography() {
+        return modalOptions.some(
+          (option) => (option.value === 'DESTINO LOJA' || option.value === 'RETIRA') && option.checked,
+        );
+      }
+
+      function getGeographyValue() {
+        if (usesStructuredGeography()) {
+          return geographyStoreOptions
+            .filter((option) => option.checked)
+            .map((option) => option.value)
+            .join('/');
+        }
+        return geographyInput.value.trim();
+      }
+
+      function setGeographyValue(value) {
+        const normalized = String(value || '').trim();
+        const selected = normalized
+          .split('/')
+          .map((item) => item.trim())
+          .filter(Boolean);
+        const selectedValue = selected[0] || '';
+
+        geographyStoreOptions.forEach((option) => {
+          option.checked = option.value === selectedValue;
+        });
+
+        if (!normalized) {
+          geographyInput.value = 'Convencional';
+          return;
+        }
+
+        const matchesStoreChoice = selected.every((item) =>
+          geographyStoreOptions.some((option) => option.value === item),
+        );
+
+        if (matchesStoreChoice) {
+          geographyInput.value = selectedValue;
+          return;
+        }
+
+        geographyInput.value = normalized;
+      }
+
+      function syncGeographyInputMode() {
+        const structuredGeography = usesStructuredGeography();
+        geographyTextWrap.classList.toggle('hidden', structuredGeography);
+        geographyStoreWrap.classList.toggle('hidden', !structuredGeography);
+
+        if (structuredGeography) {
+          const currentValue = getGeographyValue() || geographyInput.value.trim() || 'Convencional';
+          const selected = currentValue
+            .split('/')
+            .map((item) => item.trim())
+            .filter(Boolean);
+          geographyStoreOptions.forEach((option) => {
+            option.checked = option.value === (selected[0] || '');
+          });
+          if (!selected.length && geographyStoreOptions.length) {
+            geographyStoreOptions[0].checked = true;
+          }
+        } else {
+          const storeValue = geographyStoreOptions
+            .filter((option) => option.checked)
+            .map((option) => option.value)
+            .join('');
+          if (storeValue && !geographyInput.value.trim()) {
+            geographyInput.value = storeValue;
+          }
+        }
+      }
+
+      function normalizeCdValue(value) {
+        const digitsOnly = String(value || '').replace(/\D/g, '');
+        if (!digitsOnly) {
+          return String(value || '').trim();
+        }
+        return digitsOnly.padStart(3, '0');
+      }
+
+      function buildAutoRouteValue() {
+        const cd = normalizeCdValue(cdInput.value);
+        const commercialLocation = commercialLocationInput.value.trim();
+        const geography = getGeographyValue();
+        if (!cd || !commercialLocation || !geography) {
+          return '';
+        }
+        return `${cd}-${commercialLocation} ${geography}`;
+      }
+
+      function syncRouteDestinationFromInputs(options = {}) {
+        const { force = false } = options;
+        const autoValue = buildAutoRouteValue();
+        if (!autoValue) {
+          if (force || routeDestinationAuto) {
+            routeDestinationInput.value = '';
+          }
+          return;
+        }
+
+        if (force || routeDestinationAuto || !routeDestinationInput.value.trim()) {
+          routeDestinationInput.value = autoValue;
+          routeDestinationAuto = true;
+        }
+      }
+
+      function applyTransportPlanMode(mode, options = {}) {
+        const { persist = false } = options;
+        transportPlanMode = mode || null;
+
+        weeklyTransportModeButton.classList.toggle('is-active', transportPlanMode === 'weekly');
+        dailyTransportModeButton.classList.toggle('is-active', transportPlanMode === 'daily');
+        weeklyTransportPlanWrap.classList.toggle('hidden', transportPlanMode !== 'weekly');
+
+        if (transportPlanMode !== 'weekly') {
+          weeklyTransportPlanInput.value = '';
+        }
+
+        document.querySelectorAll('.event-transport-plan-wrap').forEach((wrap) => {
+          wrap.classList.toggle('hidden', transportPlanMode !== 'daily');
+          const input = wrap.querySelector('.event-transport-plan');
+          if (input && transportPlanMode !== 'daily') {
+            input.value = '';
+          }
+        });
+
+        if (persist) {
+          scheduleSaveAppState();
+        }
+      }
+
       function getManualFormState() {
         return {
-          modal: document.getElementById('modal').value,
-          geography: document.getElementById('geography').value,
-          commercialLocation: document.getElementById('commercialLocation').value,
-          locality: document.getElementById('locality').value,
-          cd: document.getElementById('cd').value,
-          routeDestination: document.getElementById('routeDestination').value,
-          transportPlan: document.getElementById('transportPlan').value,
-          alignmentCode: document.getElementById('alignmentCode').value,
-          alignmentName: document.getElementById('alignmentName').value,
+          modal: getSelectedModalValues().join('/'),
+          geography: getGeographyValue(),
+          commercialLocation: commercialLocationInput.value,
+          locality: localityInput.value,
+          cd: cdInput.value,
+          routeDestination: routeDestinationInput.value,
+          routeDestinationAuto,
+          transportPlanMode,
+          weeklyTransportPlan: weeklyTransportPlanInput.value,
           events: [...document.querySelectorAll('.event-card')].map((card) => ({
             day: card.querySelector('.event-day').value,
             cutoffHour: card.querySelector('.event-cutoff').value,
             deliveryDay: card.querySelector('.event-delivery').value,
             frequency: card.querySelector('.event-frequency').value,
+            transportPlan: card.querySelector('.event-transport-plan')?.value || '',
           })),
         };
       }
@@ -2684,15 +3632,19 @@
           return;
         }
 
-        document.getElementById('modal').value = state.modal || 'DESTINO LOJA';
-        document.getElementById('geography').value = state.geography || 'Convencional';
-        document.getElementById('commercialLocation').value = state.commercialLocation || '';
-        document.getElementById('locality').value = state.locality || '';
-        document.getElementById('cd').value = state.cd || '';
-        document.getElementById('routeDestination').value = state.routeDestination || '';
-        document.getElementById('transportPlan').value = state.transportPlan || '';
-        document.getElementById('alignmentCode').value = state.alignmentCode || '';
-        document.getElementById('alignmentName').value = state.alignmentName || '';
+        setSelectedModalValues(state.modal || '');
+        setGeographyValue(state.geography || 'Convencional');
+        syncGeographyInputMode();
+        commercialLocationInput.value = state.commercialLocation || '';
+        localityInput.value = state.locality || '';
+        cdInput.value = state.cd || '';
+        routeDestinationInput.value = state.routeDestination || '';
+        routeDestinationAuto =
+          state.routeDestinationAuto !== undefined
+            ? Boolean(state.routeDestinationAuto)
+            : !state.routeDestination || state.routeDestination === buildAutoRouteValue();
+        applyTransportPlanMode(state.transportPlanMode || null);
+        weeklyTransportPlanInput.value = state.weeklyTransportPlan || '';
         eventsList.innerHTML = '';
 
         const events = Array.isArray(state.events) && state.events.length ? state.events : [{}];
@@ -2703,9 +3655,14 @@
           card.querySelector('.event-cutoff').value = eventState.cutoffHour || '18';
           card.querySelector('.event-delivery').value = eventState.deliveryDay || 'Terca-feira';
           card.querySelector('.event-frequency').value = eventState.frequency || 'SEMANAL';
+          const eventTransportPlanInput = card.querySelector('.event-transport-plan');
+          if (eventTransportPlanInput) {
+            eventTransportPlanInput.value = eventState.transportPlan || '';
+          }
         });
 
         refreshEventTitles();
+        syncRouteDestinationFromInputs();
       }
 
       function updateStickyOffsets() {
@@ -2840,6 +3797,7 @@
         const fragment = eventTemplate.content.cloneNode(true);
         eventsList.appendChild(fragment);
         refreshEventTitles();
+        applyTransportPlanMode(transportPlanMode);
       }
 
       function refreshEventTitles() {
@@ -2849,28 +3807,32 @@
       }
 
       function resetManualForm() {
-        document.getElementById('modal').value = 'DESTINO LOJA';
-        document.getElementById('geography').value = 'Convencional';
-        document.getElementById('commercialLocation').value = '';
-        document.getElementById('locality').value = '';
-        document.getElementById('cd').value = '';
-        document.getElementById('routeDestination').value = '';
-        document.getElementById('transportPlan').value = '';
-        document.getElementById('alignmentCode').value = '';
-        document.getElementById('alignmentName').value = '';
+        setSelectedModalValues('');
+        setGeographyValue('Convencional');
+        syncGeographyInputMode();
+        commercialLocationInput.value = '';
+        localityInput.value = '';
+        cdInput.value = '';
+        routeDestinationInput.value = '';
+        routeDestinationAuto = true;
+        applyTransportPlanMode(null);
         eventsList.innerHTML = '';
         addEventCard();
       }
 
       function setActiveTask(task, options = {}) {
         const { scroll = false, persist = false } = options;
-        const nextTask = taskScreens.some((screen) => screen.dataset.taskScreen === task) ? task : 'calculate';
+        const nextTask = taskScreens.some((screen) => screen.dataset.taskScreen === task) ? task : 'home';
         activeTask = nextTask;
 
         taskButtons.forEach((button) => {
           const isActive = button.dataset.task === nextTask;
           button.classList.toggle('is-active', isActive);
           button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+
+        navTaskButtons.forEach((button) => {
+          button.classList.toggle('is-active', button.dataset.navTask === nextTask);
         });
 
         taskScreens.forEach((screen) => {
@@ -2895,12 +3857,8 @@
           button.classList.toggle('is-active', isActive);
           button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
         });
-        manualPanel.classList.toggle('hidden', mode !== 'manual');
-        uploadPanel.classList.toggle('hidden', mode !== 'upload' || isUploadPanelCollapsed);
-        if (mode !== 'upload') {
-          setUploadBoxDragState(false);
-          dragDepth = 0;
-        }
+        manualPanel.classList.remove('hidden');
+        uploadPanel.classList.remove('hidden');
         updateStickyOffsets();
       }
 
@@ -4059,23 +5017,29 @@
       }
 
       function getManualPayload() {
+        const modal = getSelectedModalValues().join('/');
+        if (!modal) {
+          throw new Error('Selecione ao menos um modal para calcular o prazo.');
+        }
+
+        const weeklyTransportPlan = transportPlanMode === 'weekly' ? weeklyTransportPlanInput.value.trim() : '';
         return {
           routes: [
             {
-              modal: document.getElementById('modal').value,
-              geography: document.getElementById('geography').value,
-              commercialLocation: document.getElementById('commercialLocation').value,
-              locality: document.getElementById('locality').value,
-              cd: document.getElementById('cd').value,
-              routeDestination: document.getElementById('routeDestination').value,
-              transportPlan: document.getElementById('transportPlan').value,
-              alignmentCode: document.getElementById('alignmentCode').value,
-              alignmentName: document.getElementById('alignmentName').value,
+              modal,
+              geography: getGeographyValue(),
+              commercialLocation: commercialLocationInput.value,
+              locality: localityInput.value,
+              cd: cdInput.value,
+              routeDestination: routeDestinationInput.value,
+              transportPlan: weeklyTransportPlan,
               events: [...document.querySelectorAll('.event-card')].map((card) => ({
                 day: card.querySelector('.event-day').value,
                 cutoffHour: card.querySelector('.event-cutoff').value,
                 deliveryDay: card.querySelector('.event-delivery').value,
                 frequency: card.querySelector('.event-frequency').value,
+                transportPlan:
+                  transportPlanMode === 'daily' ? card.querySelector('.event-transport-plan')?.value || '' : '',
               })),
             },
           ],
@@ -4596,7 +5560,7 @@
           isUploadPanelCollapsed = Boolean(state.isUploadPanelCollapsed);
           restoreManualForm(state.manualForm);
           setUploadStatus(state.uploadStatus || 'Nenhum arquivo selecionado.');
-          setActiveTask(state.activeTask || 'calculate');
+          setActiveTask(state.activeTask || 'home');
           setActiveMode(state.activeMode === 'upload' ? 'upload' : 'manual');
 
           latestRows = Array.isArray(state.latestRows) ? state.latestRows : [];
@@ -4721,6 +5685,60 @@
       triggerUploadButton.addEventListener('click', (event) => {
         event.stopPropagation();
         spreadsheetInput.click();
+      });
+
+      [weeklyTransportModeButton, dailyTransportModeButton].forEach((button) => {
+        button.addEventListener('click', () => {
+          const nextMode = transportPlanMode === button.dataset.transportMode ? null : button.dataset.transportMode;
+          applyTransportPlanMode(nextMode, { persist: true });
+        });
+      });
+
+      [cdInput, geographyInput, commercialLocationInput].forEach((input) => {
+        input.addEventListener('input', () => {
+          syncRouteDestinationFromInputs();
+          scheduleSaveAppState();
+        });
+      });
+
+      geographyStoreOptions.forEach((option) => {
+        option.addEventListener('change', () => {
+          if (option.checked) {
+            geographyStoreOptions.forEach((otherOption) => {
+              if (otherOption !== option) {
+                otherOption.checked = false;
+              }
+            });
+          }
+          syncRouteDestinationFromInputs();
+          scheduleSaveAppState();
+        });
+      });
+
+      routeDestinationInput.addEventListener('input', () => {
+        const autoValue = buildAutoRouteValue();
+        const currentValue = routeDestinationInput.value.trim();
+        routeDestinationAuto = !currentValue || (autoValue && currentValue === autoValue);
+        scheduleSaveAppState();
+      });
+
+      modalOptions.forEach((option) => {
+        option.addEventListener('change', () => {
+          if (option.checked) {
+            modalOptions.forEach((otherOption) => {
+              if (otherOption !== option) {
+                otherOption.checked = false;
+              }
+            });
+          }
+          syncGeographyInputMode();
+          syncRouteDestinationFromInputs();
+          scheduleSaveAppState();
+        });
+      });
+
+      weeklyTransportPlanInput.addEventListener('input', () => {
+        scheduleSaveAppState();
       });
 
       uploadBox.addEventListener('click', () => {
@@ -4878,6 +5896,12 @@
         });
       });
 
+      navTaskButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          setActiveTask(button.dataset.navTask, { scroll: true, persist: true });
+        });
+      });
+
       taskLinkButtons.forEach((button) => {
         button.addEventListener('click', () => {
           setActiveTask(button.dataset.taskLink, { scroll: true, persist: true });
@@ -4944,7 +5968,7 @@
 
       pageSize = parseInt(pageSizeSelect.value, 10) || 50;
       if (!restoreAppState()) {
-        setActiveTask('calculate');
+        setActiveTask('home');
         setActiveMode('manual');
         resetManualForm();
         renderPaginatedViews();

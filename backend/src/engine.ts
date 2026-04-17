@@ -13,6 +13,7 @@ export interface RouteEventInput {
   cutoffHour: number | string;
   deliveryDay: string;
   frequency?: string;
+  transportPlan?: string;
 }
 
 export interface RouteInput {
