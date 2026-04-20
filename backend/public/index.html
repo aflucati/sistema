@@ -259,6 +259,29 @@
         cursor: not-allowed;
       }
 
+      .button-group {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+
+      .button-group .button-secondary {
+        flex: 1;
+        min-width: 100px;
+        white-space: nowrap;
+      }
+
+      @media (max-width: 768px) {
+        .button-group {
+          flex-direction: column;
+        }
+
+        .button-group .button-secondary {
+          width: 100%;
+        }
+      }
+
       .button-wide {
         width: 100%;
       }
@@ -2285,6 +2308,145 @@
           padding-top: 86px;
         }
       }
+
+      /* Modal de Feriados */
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+      }
+
+      .modal-overlay.is-active {
+        display: flex;
+      }
+
+      .modal-content {
+        background: white;
+        border-radius: 12px;
+        padding: 28px;
+        max-width: 500px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      }
+
+      .modal-header {
+        margin-bottom: 20px;
+        border-bottom: 1px solid #dbe2e8;
+        padding-bottom: 16px;
+      }
+
+      .modal-header h3 {
+        margin: 0;
+        color: #1f7acb;
+        font-size: 1.4rem;
+      }
+
+      .modal-header p {
+        margin: 8px 0 0;
+        color: #6d7c8a;
+        font-size: 0.9rem;
+      }
+
+      .modal-section {
+        margin-bottom: 24px;
+      }
+
+      .modal-section-title {
+        font-weight: 700;
+        color: #233240;
+        margin-bottom: 12px;
+        font-size: 0.95rem;
+      }
+
+      .modal-checkbox-group {
+        display: grid;
+        gap: 10px;
+      }
+
+      .modal-checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+        border: 1px solid #dbe2e8;
+        border-radius: 8px;
+        background: #f7f9fb;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .modal-checkbox-item:hover {
+        background: #eef5fa;
+        border-color: #1f7acb;
+      }
+
+      .modal-checkbox-item input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        cursor: pointer;
+        margin: 0;
+      }
+
+      .modal-checkbox-item label {
+        margin: 0;
+        flex: 1;
+        cursor: pointer;
+        font-weight: 500;
+      }
+
+      .modal-impacts {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .modal-impact-card {
+        border: 1px solid #dbe2e8;
+        border-radius: 8px;
+        padding: 12px;
+        background: #fbfdff;
+      }
+
+      .modal-impact-title {
+        font-weight: 700;
+        color: #1f7acb;
+        font-size: 0.85rem;
+        margin-bottom: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid #dbe2e8;
+      }
+
+      .modal-actions button {
+        flex: 1;
+      }
+
+      @media (max-width: 600px) {
+        .modal-content {
+          max-width: 95%;
+          padding: 20px;
+        }
+
+        .modal-impacts {
+          grid-template-columns: 1fr;
+        }
+      }
     </style>
   </head>
   <body>
@@ -2530,6 +2692,7 @@
               </div>
 
               <div class="upload-actions">
+                <button class="button-secondary" id="holidays-config-btn" type="button">⚙️ Configurar Feriados</button>
                 <button class="button-primary" id="trigger-upload" type="button">Selecionar arquivo</button>
                 <span id="upload-status" class="upload-status">Nenhum arquivo selecionado.</span>
               </div>
@@ -3187,7 +3350,13 @@
               </div>
               <p class="panel-subtitle">Visualizacao paginada do HTML oficial. O download exporta todas as linhas filtradas.</p>
             </div>
-            <button class="button-secondary" data-task-link="save" type="button">Salvar no banco</button>
+            <div class="button-group">
+              <button class="button-secondary" id="download-preview-html" type="button">⬇️ HTML</button>
+              <button class="button-secondary" id="export-csv-btn" type="button">⬇️ CSV</button>
+              <button class="button-secondary" id="export-xlsx-btn" type="button">⬇️ Excel</button>
+              <button class="button-secondary" id="copy-table-btn" type="button">📋 Copiar</button>
+              <button class="button-secondary" data-task-link="save" type="button">💾 Salvar no banco</button>
+            </div>
           </div>
           <p id="preview-meta" class="table-note"></p>
           <iframe id="preview-frame" class="preview-frame" sandbox="" title="Preview do HTML gerado"></iframe>
@@ -3195,7 +3364,76 @@
       </section>
     </main>
 
-    <template id="event-template">
+    <!-- Modal de Configuração de Feriados -->
+    <div id="holidays-modal" class="modal-overlay">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3>Configurar Feriados</h3>
+          <p>Marque os dias da semana que são feriados e defina o impacto na produção e entrega</p>
+        </div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Dias da Semana com Feriado</div>
+          <div class="modal-checkbox-group">
+            <label class="modal-checkbox-item">
+              <input type="checkbox" name="holiday" value="segunda" id="holiday-segunda" />
+              <label for="holiday-segunda">Segunda-feira</label>
+            </label>
+            <label class="modal-checkbox-item">
+              <input type="checkbox" name="holiday" value="terca" id="holiday-terca" />
+              <label for="holiday-terca">Terça-feira</label>
+            </label>
+            <label class="modal-checkbox-item">
+              <input type="checkbox" name="holiday" value="quarta" id="holiday-quarta" />
+              <label for="holiday-quarta">Quarta-feira</label>
+            </label>
+            <label class="modal-checkbox-item">
+              <input type="checkbox" name="holiday" value="quinta" id="holiday-quinta" />
+              <label for="holiday-quinta">Quinta-feira</label>
+            </label>
+            <label class="modal-checkbox-item">
+              <input type="checkbox" name="holiday" value="sexta" id="holiday-sexta" />
+              <label for="holiday-sexta">Sexta-feira</label>
+            </label>
+            <label class="modal-checkbox-item">
+              <input type="checkbox" name="holiday" value="sabado" id="holiday-sabado" />
+              <label for="holiday-sabado">Sábado</label>
+            </label>
+            <label class="modal-checkbox-item">
+              <input type="checkbox" name="holiday" value="domingo" id="holiday-domingo" />
+              <label for="holiday-domingo">Domingo</label>
+            </label>
+          </div>
+        </div>
+
+        <div class="modal-section">
+          <div class="modal-section-title">Impactos do Feriado</div>
+          <div class="modal-impacts">
+            <div class="modal-impact-card">
+              <div class="modal-impact-title">Produção CD</div>
+              <label class="modal-checkbox-item" style="margin: 0;">
+                <input type="checkbox" id="holiday-impact-cd" />
+                <label for="holiday-impact-cd">Afeta coleta/processamento</label>
+              </label>
+            </div>
+            <div class="modal-impact-card">
+              <div class="modal-impact-title">Dia da Entrega</div>
+              <label class="modal-checkbox-item" style="margin: 0;">
+                <input type="checkbox" id="holiday-impact-delivery" />
+                <label for="holiday-impact-delivery">Afeta dia de entrega</label>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-actions">
+          <button class="button-secondary" id="holidays-modal-close" type="button">Cancelar</button>
+          <button class="button-primary" id="holidays-modal-save" type="button">Salvar Configuração</button>
+        </div>
+      </div>
+    </div>
+
+    
       <div class="event-card">
         <div class="event-card-header">
           <strong class="event-title"></strong>
@@ -3274,6 +3512,10 @@
       const downloadXlsxButton = document.getElementById('download-xlsx');
       const downloadCsvButton = document.getElementById('download-csv');
       const copyResultsButton = document.getElementById('copy-results');
+      const downloadPreviewHtmlBtn = document.getElementById('download-preview-html');
+      const exportCsvBtn = document.getElementById('export-csv-btn');
+      const exportXlsxBtn = document.getElementById('export-xlsx-btn');
+      const copyTableBtn = document.getElementById('copy-table-btn');
       const actionFeedback = document.getElementById('action-feedback');
       const manualPanel = document.getElementById('manual-panel');
       const uploadPanel = document.getElementById('upload-panel');
@@ -5376,6 +5618,59 @@
         return [headerLine, ...bodyLines].join('\r\n');
       }
 
+      function exportPreviewAsCSV() {
+        const rows = filteredRows && filteredRows.length > 0 ? filteredRows : latestRows;
+        if (!rows.length) {
+          setActionFeedback('Nenhuma linha para exportar.', true);
+          return;
+        }
+
+        try {
+          const csvContent = buildDelimitedExport(rows, ',');
+          const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+          const link = document.createElement('a');
+          const url = URL.createObjectURL(blob);
+          link.href = url;
+          link.download = `preview_prazos_${new Date().toISOString().split('T')[0]}.csv`;
+          link.click();
+          URL.revokeObjectURL(url);
+          setActionFeedback(`CSV exportado com ${rows.length} linhas.`);
+        } catch (error) {
+          setActionFeedback('Erro ao exportar CSV: ' + error.message, true);
+        }
+      }
+
+      function exportPreviewAsXLSX() {
+        const rows = filteredRows && filteredRows.length > 0 ? filteredRows : latestRows;
+        if (!rows.length) {
+          setActionFeedback('Nenhuma linha para exportar.', true);
+          return;
+        }
+
+        try {
+          requestStructuredExport('xlsx');
+        } catch (error) {
+          setActionFeedback('Erro ao exportar Excel: ' + error.message, true);
+        }
+      }
+
+      function copyPreviewTable() {
+        const rows = filteredRows && filteredRows.length > 0 ? filteredRows : latestRows;
+        if (!rows.length) {
+          setActionFeedback('Nenhuma linha para copiar.', true);
+          return;
+        }
+
+        try {
+          const tableContent = buildDelimitedExport(rows, '\t');
+          copyTextToClipboard(tableContent).then(() => {
+            setActionFeedback(`Tabela copiada com ${rows.length} linhas.`);
+          });
+        } catch (error) {
+          setActionFeedback('Erro ao copiar tabela: ' + error.message, true);
+        }
+      }
+
       async function requestStructuredExport(format) {
         const rows = getExportRows();
         if (!rows.length) {
@@ -5682,6 +5977,35 @@
         copyExportRows();
       });
 
+      downloadPreviewHtmlBtn.addEventListener('click', () => {
+        const exportRows = getExportRows();
+        if (!exportRows.length) {
+          setActionFeedback('Nenhuma linha para exportar com o filtro atual.', true);
+          return;
+        }
+        const htmlContent = buildFilteredHtml(exportRows);
+        const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = url;
+        anchor.download = `preview_prazos_${new Date().toISOString().split('T')[0]}.html`;
+        anchor.click();
+        URL.revokeObjectURL(url);
+        setActionFeedback(`HTML exportado com ${exportRows.length} linhas.`);
+      });
+
+      exportCsvBtn.addEventListener('click', () => {
+        exportPreviewAsCSV();
+      });
+
+      exportXlsxBtn.addEventListener('click', () => {
+        exportPreviewAsXLSX();
+      });
+
+      copyTableBtn.addEventListener('click', () => {
+        copyPreviewTable();
+      });
+
       triggerUploadButton.addEventListener('click', (event) => {
         event.stopPropagation();
         spreadsheetInput.click();
@@ -5964,6 +6288,76 @@
       toggleValidityFields(validatedValiditySelect, validatedValidToWrap, validatedValidToInput);
       syncChangeTypeWithValidity(saveCurrentValiditySelect, saveCurrentChangeTypeSelect);
       syncChangeTypeWithValidity(validatedValiditySelect, validatedChangeTypeSelect);
+
+      // Gerenciamento de Feriados
+      const holidaysModal = document.getElementById('holidays-modal');
+      const holidaysConfigBtn = document.getElementById('holidays-config-btn');
+      const holidaysModalClose = document.getElementById('holidays-modal-close');
+      const holidaysModalSave = document.getElementById('holidays-modal-save');
+      const holidayCheckboxes = [...document.querySelectorAll('input[name="holiday"]')];
+      const holidayImpactCdCheckbox = document.getElementById('holiday-impact-cd');
+      const holidayImpactDeliveryCheckbox = document.getElementById('holiday-impact-delivery');
+
+      function getHolidaysConfig() {
+        const holidays = holidayCheckboxes.filter(cb => cb.checked).map(cb => cb.value);
+        return {
+          holidays,
+          impactsCd: holidayImpactCdCheckbox.checked,
+          impactsDelivery: holidayImpactDeliveryCheckbox.checked,
+        };
+      }
+
+      function saveHolidaysConfig() {
+        const config = getHolidaysConfig();
+        sessionStorage.setItem('magalog-holidays-config', JSON.stringify(config));
+      }
+
+      function loadHolidaysConfig() {
+        const stored = sessionStorage.getItem('magalog-holidays-config');
+        if (!stored) {
+          return;
+        }
+        try {
+          const config = JSON.parse(stored);
+          holidayCheckboxes.forEach(cb => {
+            cb.checked = (config.holidays || []).includes(cb.value);
+          });
+          holidayImpactCdCheckbox.checked = Boolean(config.impactsCd);
+          holidayImpactDeliveryCheckbox.checked = Boolean(config.impactsDelivery);
+        } catch (error) {
+          console.warn('Erro ao carregar configuração de feriados:', error);
+        }
+      }
+
+      function openHolidaysModal() {
+        loadHolidaysConfig();
+        holidaysModal.classList.add('is-active');
+      }
+
+      function closeHolidaysModal() {
+        holidaysModal.classList.remove('is-active');
+      }
+
+      holidaysConfigBtn.addEventListener('click', openHolidaysModal);
+
+      holidaysModalClose.addEventListener('click', closeHolidaysModal);
+
+      holidaysModalSave.addEventListener('click', () => {
+        saveHolidaysConfig();
+        closeHolidaysModal();
+        setActionFeedback('Configuração de feriados salva com sucesso.');
+      });
+
+      // Fechar modal ao clicar fora
+      holidaysModal.addEventListener('click', (event) => {
+        if (event.target === holidaysModal) {
+          closeHolidaysModal();
+        }
+      });
+
+      // Carregar configuração ao iniciar
+      loadHolidaysConfig();
+
       refreshDatabaseStatus();
 
       pageSize = parseInt(pageSizeSelect.value, 10) || 50;
