@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    --background: 210 20% 98%;
+    --foreground: 220 20% 15%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 20% 15%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 20% 15%;
+
+    --primary: 210 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 15% 95%;
+    --secondary-foreground: 220 20% 25%;
+
+    --muted: 210 15% 95%;
+    --muted-foreground: 220 10% 50%;
+
+    --accent: 210 20% 93%;
+    --accent-foreground: 220 20% 15%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 210 100% 50%;
+
+    --radius: 0.5rem;
+
+    --header-bg: 220 20% 15%;
+    --header-foreground: 0 0% 100%;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 15% 35%;
+    --sidebar-primary: 210 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 20% 96%;
+    --sidebar-accent-foreground: 220 20% 15%;
+    --sidebar-border: 220 13% 93%;
+    --sidebar-ring: 210 100% 50%;
+
+    --success: 142 71% 45%;
+    --success-foreground: 0 0% 100%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 100%;
+    --info: 210 100% 50%;
+    --info-foreground: 0 0% 100%;
+
+    --magalu-gradient: linear-gradient(
+      90deg,
+      #fbe53b 0%,
+      #ff4f01 17%,
+      #ff14b3 35%,
+      #8000ff 55%,
+      #00c1ff 80%,
+      #17f036 100%
+    );
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+}
+
+@layer components {
+  .magalu-gradient-bar {
+    height: 4px;
+    background: var(--magalu-gradient);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+  }
+
+  .page-container {
+    @apply px-4 py-6 md:px-6 lg:px-8 max-w-7xl mx-auto;
+  }
+
+  .page-title {
+    @apply text-xl md:text-2xl font-semibold text-foreground;
+  }
+
+  .page-subtitle {
+    @apply text-sm text-muted-foreground mt-1;
+  }
+
+  .card-task {
+    @apply bg-card rounded-lg border border-border p-5 transition-shadow hover:shadow-md cursor-pointer;
+  }
+
+  .section-title {
+    @apply text-base font-semibold text-foreground mb-3;
+  }
+
+  .chip {
+    @apply inline-flex items-center px-3 py-1.5 rounded-md text-sm font-medium border cursor-pointer transition-colors;
+  }
+
+  .chip-active {
+    @apply bg-primary text-primary-foreground border-primary;
+  }
+
+  .chip-inactive {
+    @apply bg-card text-foreground border-border hover:bg-accent;
+  }
+
+  .upload-zone {
+    @apply border-2 border-dashed border-border rounded-lg p-8 text-center transition-colors hover:border-primary/50 hover:bg-primary/5 cursor-pointer;
+  }
+
+  .data-table {
+    @apply w-full text-sm;
+  }
+
+  .data-table th {
+    @apply bg-muted text-muted-foreground font-medium text-left px-3 py-2.5 text-xs uppercase tracking-wider border-b;
+  }
+
+  .data-table td {
+    @apply px-3 py-2.5 border-b border-border;
+  }
+
+  .data-table tr:hover td {
+    @apply bg-accent/50;
+  }
+
+  .stat-card {
+    @apply bg-card rounded-lg border border-border p-4;
+  }
+
+  .stat-card-value {
+    @apply text-2xl font-bold text-foreground;
+  }
+
+  .stat-card-label {
+    @apply text-xs text-muted-foreground mt-1;
+  }
+}
